@@ -50,7 +50,7 @@
     qualifiedName:(nullable NSString *)qName
     attributes:(NSDictionary<NSString *, NSString *> *)attributeDict
 {
-     SLYTrace(@"startElem %@:%@", parser, elementName);
+     SLYTrace(@"startElem %@:%@ %@", parser, elementName, attributeDict);
 }
 
 - (void)parser:(NSXMLParser *)parser
