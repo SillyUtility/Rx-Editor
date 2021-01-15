@@ -23,6 +23,10 @@
 		2CF7BBC125B1193000F6BB81 /* RXESDefParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF7BBC025B1193000F6BB81 /* RXESDefParser.m */; };
 		2CF7BBD425B1682500F6BB81 /* SillyLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF7BBCD25B15CED00F6BB81 /* SillyLog.framework */; };
 		2CF7BBD525B1682500F6BB81 /* SillyLog.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF7BBCD25B15CED00F6BB81 /* SillyLog.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2CF7BBDC25B23BD000F6BB81 /* RXEScriptableApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF7BBDB25B23BD000F6BB81 /* RXEScriptableApp.m */; };
+		2CF7BBE125B23BF600F6BB81 /* RXEScriptSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF7BBE025B23BF600F6BB81 /* RXEScriptSuite.m */; };
+		2CF7BBE625B23C0B00F6BB81 /* RXEScriptClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF7BBE525B23C0B00F6BB81 /* RXEScriptClass.m */; };
+		2CF7BBEB25B23C1A00F6BB81 /* RXEScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF7BBEA25B23C1A00F6BB81 /* RXEScriptCommand.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +95,14 @@
 		2CF7BBBF25B1193000F6BB81 /* RXESDefParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RXESDefParser.h; sourceTree = "<group>"; };
 		2CF7BBC025B1193000F6BB81 /* RXESDefParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RXESDefParser.m; sourceTree = "<group>"; };
 		2CF7BBC825B15CED00F6BB81 /* SillyLog.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SillyLog.xcodeproj; path = ../Frameworks/SillyLog/SillyLog.xcodeproj; sourceTree = "<group>"; };
+		2CF7BBDA25B23BD000F6BB81 /* RXEScriptableApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RXEScriptableApp.h; sourceTree = "<group>"; };
+		2CF7BBDB25B23BD000F6BB81 /* RXEScriptableApp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RXEScriptableApp.m; sourceTree = "<group>"; };
+		2CF7BBDF25B23BF600F6BB81 /* RXEScriptSuite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RXEScriptSuite.h; sourceTree = "<group>"; };
+		2CF7BBE025B23BF600F6BB81 /* RXEScriptSuite.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RXEScriptSuite.m; sourceTree = "<group>"; };
+		2CF7BBE425B23C0B00F6BB81 /* RXEScriptClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RXEScriptClass.h; sourceTree = "<group>"; };
+		2CF7BBE525B23C0B00F6BB81 /* RXEScriptClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RXEScriptClass.m; sourceTree = "<group>"; };
+		2CF7BBE925B23C1A00F6BB81 /* RXEScriptCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RXEScriptCommand.h; sourceTree = "<group>"; };
+		2CF7BBEA25B23C1A00F6BB81 /* RXEScriptCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RXEScriptCommand.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +168,14 @@
 				2C2DE05525AA443500D70A58 /* RXEDocument.m */,
 				2CF7BBBF25B1193000F6BB81 /* RXESDefParser.h */,
 				2CF7BBC025B1193000F6BB81 /* RXESDefParser.m */,
+				2CF7BBDA25B23BD000F6BB81 /* RXEScriptableApp.h */,
+				2CF7BBDB25B23BD000F6BB81 /* RXEScriptableApp.m */,
+				2CF7BBDF25B23BF600F6BB81 /* RXEScriptSuite.h */,
+				2CF7BBE025B23BF600F6BB81 /* RXEScriptSuite.m */,
+				2CF7BBE425B23C0B00F6BB81 /* RXEScriptClass.h */,
+				2CF7BBE525B23C0B00F6BB81 /* RXEScriptClass.m */,
+				2CF7BBE925B23C1A00F6BB81 /* RXEScriptCommand.h */,
+				2CF7BBEA25B23C1A00F6BB81 /* RXEScriptCommand.m */,
 				2C2DE05725AA443600D70A58 /* Assets.xcassets */,
 				2C2DE05925AA443600D70A58 /* Main.storyboard */,
 				2C2DE05C25AA443600D70A58 /* Info.plist */,
@@ -352,10 +372,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CF7BBE125B23BF600F6BB81 /* RXEScriptSuite.m in Sources */,
 				2C2DE05625AA443500D70A58 /* RXEDocument.m in Sources */,
 				2CF7BBC125B1193000F6BB81 /* RXESDefParser.m in Sources */,
 				2C2DE05325AA443500D70A58 /* RXEViewController.m in Sources */,
 				2C2DE05E25AA443600D70A58 /* main.m in Sources */,
+				2CF7BBE625B23C0B00F6BB81 /* RXEScriptClass.m in Sources */,
+				2CF7BBDC25B23BD000F6BB81 /* RXEScriptableApp.m in Sources */,
+				2CF7BBEB25B23C1A00F6BB81 /* RXEScriptCommand.m in Sources */,
 				2C2DE05025AA443500D70A58 /* RXEAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
