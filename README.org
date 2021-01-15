@@ -1,0 +1,38 @@
+#+TITLE: Rx Editor
+#+DATE: 2021-01-14
+#+STARTUP: showall
+
+* About
+
+Rx Editor is a script editor with a interactive interpreter.
+
+* Scripting headers
+
+- OSAKit/OSAKit.h
+- ScriptingBridge/ScriptingBridge.h
+- Foundation/NSAppleEventDescriptor.h
+- Foundation/NSAppleEventManager.h
+- Foundation/NSAppleScript.h
+- Foundation/NSObjectScripting.h
+- Foundation/NSUserScriptTask.h
+- Foundation/NSScriptSuiteRegistry.h
+- Foundation/NSScriptClassDescription.h
+- Foundation/NSScriptCoercionHandler.h
+- Foundation/NSScriptCommand.h
+- Foundation/NSScriptCommandDescription.h
+- Foundation/NSScriptExecutionContext.h
+- Foundation/NSScriptKeyValueCoding.h
+- Foundation/NSScriptObjectSpecifiers.h
+- Foundation/NSScriptStandardSuiteCommands.h
+- Foundation/NSScriptSuiteRegistry.h
+- Foundation/NSScriptWhoseTests.h
+- CoreServices/AE/AE.h
+- Carbon/OpenScripting/OpenScripting.h
+- Carbon/HIToolbox/AEInteraction.h
+- AppKit/NSAppleScriptExtensions.h
+- AppKit/NSApplicationScripting.h
+- AppKit/NSDocumentScripting.h
+- AppKit/NSTextStorageScripting.h
+- AppKit/NSWindowScripting.h
+- AppleScriptKit/ASKPluginObject.h
+- AppleScriptObjC/AppleScriptObjC.h

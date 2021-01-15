@@ -8,7 +8,10 @@
 #import <ScriptingBridge/ScriptingBridge.h>
 #import <objc/runtime.h>
 
+#import <Carbon/Carbon.h>
+
 #import "RXEDocument.h"
+#import "RXESDefParser.h"
 
 @interface RXEDocument ()
 
@@ -54,6 +57,27 @@
         NSAppleEventDescriptor *desc = [NSAppleEventDescriptor descriptorWithBundleIdentifier:@"com.apple.finder"];
         NSLog(@"appdesc %@", desc);
         NSLog(@"appdesc.numberOfItems %@", @(desc.numberOfItems));
+
+
+//        NSScriptSuiteRegistry *reg = NSScriptSuiteRegistry.new;
+//        [reg loadSuitesFromBundle:[NSBundle bundleWithIdentifier:@"com.apple.finder"]];
+//        NSLog(@"finder suites %@", [reg suiteNames]);
+//        NSLog(@"finder core suite classes %@", [reg classDescriptionsInSuite:@"NSCoreSuite"]);
+
+        //NSLog(@"%@", NSScriptSuiteRegistry.sharedScriptSuiteRegistry.suiteNames);
+
+
+        OSAError err;
+        CFDataRef sdefData;
+        NSBundle *bundle;
+
+        bundle = [NSBundle bundleWithIdentifier:@"com.apple.finder"];
+        err = OSACopyScriptingDefinitionFromURL((__bridge CFURLRef)bundle.bundleURL, 0, &sdefData);
+
+        NSLog(@"data %@", (__bridge id)sdefData);
+
+        RXESDefParser *parser = [[RXESDefParser alloc] initWithData:(__bridge id)sdefData];
+        [parser parse];
     }
     return self;
 }
