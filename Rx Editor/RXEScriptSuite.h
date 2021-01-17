@@ -11,7 +11,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface RXEScriptSuite : NSObject
-
+- (instancetype)initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
+@property (readonly) NSString *name;
+@property (readonly) NSString *code;
+@property (readonly) NSString *suiteDescription;
+@property (readonly) NSString *hidden;
 @end
 
 NS_ASSUME_NONNULL_END

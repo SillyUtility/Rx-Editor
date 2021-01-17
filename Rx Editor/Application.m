@@ -11,12 +11,14 @@
 #import <SillyLog/SillyLog.h>
 
 #import "RXESDefParser.h"
+#import "RXEScriptableApp.h"
 
 #import "Application.h"
 
 @implementation Application {
-    NSBundle *_bundle;
     id _app;
+    NSBundle *_bundle;
+    RXEScriptableApp *_scriptableApp;
 }
 
 - (instancetype)initWithIdentifier:(NSString *)ident
@@ -54,19 +56,21 @@
         SLYError(@"Unable to read scripting definition for %@ ", ident);
         return nil;
     }
-    [self parseScriptingDefinitionData:scriptingDefinitionData];
+
+    _scriptableApp = [[RXEScriptableApp alloc]
+        initWithName:_name
+        scriptingDefinition:scriptingDefinitionData
+    ];
+
+    [self exportScriptableAttributes];
 
     return self;
 }
 
-- (void)parseScriptingDefinitionData:(CFDataRef)scdata
+- (void)exportScriptableAttributes
 {
-    NSData *data;
-    RXESDefParser *parser;
-
-    data = (__bridge NSData *)scdata;
-    parser = [[RXESDefParser alloc] initWithData:data];
-    [parser parse];
+    SLYTrace(@"_scriptableApp %@", _scriptableApp);
+    SLYTrace(@"_scriptableApp.suites %@", _scriptableApp.suites);
 }
 
 @end

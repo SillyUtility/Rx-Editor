@@ -7,6 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RXEScriptableApp.h"
+#import "RXEScriptSuite.h"
+#import "RXEScriptClass.h"
+#import "RXEScriptCommand.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithData:(NSData *)xmlData;
 - (BOOL)parse;
+
+@property NSArray<RXEScriptSuite *> *suites;
 
 @end
 

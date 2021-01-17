@@ -8,12 +8,21 @@
 
 #import <SillyLog/SillyLog.h>
 #import "RXESDefParser.h"
+#import "RXEScriptableApp.h"
+#import "RXEScriptSuite.h"
+#import "RXEScriptClass.h"
+#import "RXEScriptCommand.h"
+
+NSString * const RXESDefDictionaryKey = @"dictionary";
+NSString * const RXESDefSuiteKey = @"suite";
 
 @interface RXESDefParser ()
 @end
 
 @implementation RXESDefParser {
     NSXMLParser *_parser;
+    NSMutableArray *_stack;
+    NSMutableArray *_suites;
 }
 
 - (instancetype)initWithData:(NSData *)xmlData
@@ -23,6 +32,8 @@
 
     _parser = [[NSXMLParser alloc] initWithData:xmlData];
     _parser.delegate = self;
+    _stack = NSMutableArray.array;
+    _suites = NSMutableArray.array;
 
     return self;
 }
@@ -51,6 +62,12 @@
     attributes:(NSDictionary<NSString *, NSString *> *)attributeDict
 {
      SLYTrace(@"startElem %@:%@ %@", parser, elementName, attributeDict);
+
+     if ([elementName isEqualToString:RXESDefSuiteKey]) {
+        RXEScriptSuite *suite = [[RXEScriptSuite alloc]
+            initWithAttributes:attributeDict];
+        [_stack addObject:suite];
+     }
 }
 
 - (void)parser:(NSXMLParser *)parser
@@ -59,6 +76,12 @@
     qualifiedName:(nullable NSString *)qName
 {
     SLYTrace(@"endElem %@:%@", parser, elementName);
+
+    if ([elementName isEqualToString:RXESDefSuiteKey]) {
+        id last = _stack.lastObject;
+        [_suites addObject:last];
+        [_stack removeLastObject];
+    }
 }
 
 - (void)parser:(NSXMLParser *)parser

@@ -7,7 +7,28 @@
 //
 
 #import "RXEScriptableApp.h"
+#import "RXESDefParser.h"
 
 @implementation RXEScriptableApp
+
+- (instancetype)initWithName:(NSString *)name
+    scriptingDefinition:(CFDataRef)scdata
+{
+    NSData *data;
+    RXESDefParser *parser;
+
+    if (!(self = [super init]))
+        return self;
+
+    _appName = name;
+    
+    data = (__bridge NSData *)scdata;
+    parser = [[RXESDefParser alloc] initWithData:data];
+    [parser parse];
+
+    _suites = parser.suites;
+
+    return self;
+}
 
 @end

@@ -172,18 +172,8 @@
 				2C2DE05225AA443500D70A58 /* RXEViewController.m */,
 				2C2DE05425AA443500D70A58 /* RXEDocument.h */,
 				2C2DE05525AA443500D70A58 /* RXEDocument.m */,
-				2CF7BBBF25B1193000F6BB81 /* RXESDefParser.h */,
-				2CF7BBC025B1193000F6BB81 /* RXESDefParser.m */,
-				2CF7BBDA25B23BD000F6BB81 /* RXEScriptableApp.h */,
-				2CF7BBDB25B23BD000F6BB81 /* RXEScriptableApp.m */,
-				2CF7BBDF25B23BF600F6BB81 /* RXEScriptSuite.h */,
-				2CF7BBE025B23BF600F6BB81 /* RXEScriptSuite.m */,
-				2CF7BBE425B23C0B00F6BB81 /* RXEScriptClass.h */,
-				2CF7BBE525B23C0B00F6BB81 /* RXEScriptClass.m */,
-				2CF7BBE925B23C1A00F6BB81 /* RXEScriptCommand.h */,
-				2CF7BBEA25B23C1A00F6BB81 /* RXEScriptCommand.m */,
-				2CF7BBF725B3891200F6BB81 /* Application.h */,
-				2CF7BBF825B3891300F6BB81 /* Application.m */,
+				2CF7BC0025B4CC0800F6BB81 /* Scriptable Definition */,
+				2CF7BC0225B4CC4100F6BB81 /* Runtime */,
 				2C2DE05725AA443600D70A58 /* Assets.xcassets */,
 				2C2DE05925AA443600D70A58 /* Main.storyboard */,
 				2C2DE05C25AA443600D70A58 /* Info.plist */,
@@ -231,6 +221,32 @@
 				2CF7BBCD25B15CED00F6BB81 /* SillyLog.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		2CF7BC0025B4CC0800F6BB81 /* Scriptable Definition */ = {
+			isa = PBXGroup;
+			children = (
+				2CF7BBBF25B1193000F6BB81 /* RXESDefParser.h */,
+				2CF7BBC025B1193000F6BB81 /* RXESDefParser.m */,
+				2CF7BBDA25B23BD000F6BB81 /* RXEScriptableApp.h */,
+				2CF7BBDB25B23BD000F6BB81 /* RXEScriptableApp.m */,
+				2CF7BBDF25B23BF600F6BB81 /* RXEScriptSuite.h */,
+				2CF7BBE025B23BF600F6BB81 /* RXEScriptSuite.m */,
+				2CF7BBE425B23C0B00F6BB81 /* RXEScriptClass.h */,
+				2CF7BBE525B23C0B00F6BB81 /* RXEScriptClass.m */,
+				2CF7BBE925B23C1A00F6BB81 /* RXEScriptCommand.h */,
+				2CF7BBEA25B23C1A00F6BB81 /* RXEScriptCommand.m */,
+			);
+			name = "Scriptable Definition";
+			sourceTree = "<group>";
+		};
+		2CF7BC0225B4CC4100F6BB81 /* Runtime */ = {
+			isa = PBXGroup;
+			children = (
+				2CF7BBF725B3891200F6BB81 /* Application.h */,
+				2CF7BBF825B3891300F6BB81 /* Application.m */,
+			);
+			name = Runtime;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
