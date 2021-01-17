@@ -6,26 +6,36 @@
 //
 
 #import <ScriptingBridge/ScriptingBridge.h>
-#import <objc/runtime.h>
-
+#import <JavaScriptCore/JavaScriptCore.h>
 #import <Carbon/Carbon.h>
+#import <objc/runtime.h>
+#import <SillyLog/SillyLog.h>
 
 #import "RXEDocument.h"
 #import "RXESDefParser.h"
+
+#import "Application.h"
 
 @interface RXEDocument ()
 
 @end
 
-@implementation RXEDocument
+@implementation RXEDocument {
+    JSContext *_context;
+}
 
 - (instancetype)init
 {
-    self = [super init];
-    if (self) {
-        // Add your subclass-specific initialization here.
+    SLYTraceCall();
 
-    }
+    if (!(self = [super init]))
+        return self;
+
+    _context = [[JSContext alloc] init];
+    _context.name = @"RXEDocument Context";
+    _context[@"Application"] = Application.class;
+    SLYTrace(@"_context %@", _context);
+
     return self;
 }
 

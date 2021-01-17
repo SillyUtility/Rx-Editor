@@ -27,6 +27,8 @@
 		2CF7BBE125B23BF600F6BB81 /* RXEScriptSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF7BBE025B23BF600F6BB81 /* RXEScriptSuite.m */; };
 		2CF7BBE625B23C0B00F6BB81 /* RXEScriptClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF7BBE525B23C0B00F6BB81 /* RXEScriptClass.m */; };
 		2CF7BBEB25B23C1A00F6BB81 /* RXEScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF7BBEA25B23C1A00F6BB81 /* RXEScriptCommand.m */; };
+		2CF7BBEF25B2689800F6BB81 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF7BBEE25B2689800F6BB81 /* JavaScriptCore.framework */; };
+		2CF7BBF925B3891300F6BB81 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF7BBF825B3891300F6BB81 /* Application.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +105,9 @@
 		2CF7BBE525B23C0B00F6BB81 /* RXEScriptClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RXEScriptClass.m; sourceTree = "<group>"; };
 		2CF7BBE925B23C1A00F6BB81 /* RXEScriptCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RXEScriptCommand.h; sourceTree = "<group>"; };
 		2CF7BBEA25B23C1A00F6BB81 /* RXEScriptCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RXEScriptCommand.m; sourceTree = "<group>"; };
+		2CF7BBEE25B2689800F6BB81 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		2CF7BBF725B3891200F6BB81 /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
+		2CF7BBF825B3891300F6BB81 /* Application.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +117,7 @@
 			files = (
 				2C2DE0B725AA5D9E00D70A58 /* Cocoa.framework in Frameworks */,
 				2CF7BBBB25B1161200F6BB81 /* Carbon.framework in Frameworks */,
+				2CF7BBEF25B2689800F6BB81 /* JavaScriptCore.framework in Frameworks */,
 				2C7A305A25AE76AE0045BEBB /* OSAKit.framework in Frameworks */,
 				2CF7BBD425B1682500F6BB81 /* SillyLog.framework in Frameworks */,
 				2C2DE0B225AA5D5100D70A58 /* ScriptingBridge.framework in Frameworks */,
@@ -176,6 +182,8 @@
 				2CF7BBE525B23C0B00F6BB81 /* RXEScriptClass.m */,
 				2CF7BBE925B23C1A00F6BB81 /* RXEScriptCommand.h */,
 				2CF7BBEA25B23C1A00F6BB81 /* RXEScriptCommand.m */,
+				2CF7BBF725B3891200F6BB81 /* Application.h */,
+				2CF7BBF825B3891300F6BB81 /* Application.m */,
 				2C2DE05725AA443600D70A58 /* Assets.xcassets */,
 				2C2DE05925AA443600D70A58 /* Main.storyboard */,
 				2C2DE05C25AA443600D70A58 /* Info.plist */,
@@ -207,6 +215,7 @@
 		2C2DE0B025AA5D5100D70A58 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2CF7BBEE25B2689800F6BB81 /* JavaScriptCore.framework */,
 				2CF7BBC825B15CED00F6BB81 /* SillyLog.xcodeproj */,
 				2CF7BBBA25B1161200F6BB81 /* Carbon.framework */,
 				2C7A305925AE76AE0045BEBB /* OSAKit.framework */,
@@ -380,6 +389,7 @@
 				2CF7BBE625B23C0B00F6BB81 /* RXEScriptClass.m in Sources */,
 				2CF7BBDC25B23BD000F6BB81 /* RXEScriptableApp.m in Sources */,
 				2CF7BBEB25B23C1A00F6BB81 /* RXEScriptCommand.m in Sources */,
+				2CF7BBF925B3891300F6BB81 /* Application.m in Sources */,
 				2C2DE05025AA443500D70A58 /* RXEAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
