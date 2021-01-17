@@ -21,6 +21,7 @@
 
 - (instancetype)initWithIdentifier:(NSString *)ident
 {
+    NSURL *url;
     OSAError err;
     CFDataRef scriptingDefinitionData;
 
@@ -29,16 +30,18 @@
     if (!(self = [super init]))
         return self;
 
-    _bundle = [NSBundle bundleWithIdentifier:ident];
+    url = [NSWorkspace.sharedWorkspace
+        URLForApplicationWithBundleIdentifier:ident];
+    _bundle = [NSBundle bundleWithURL:url];
     if (!_bundle) {
-        // TODO: indicate app not found
+        SLYError(@"Application %@ not found", ident);
         return nil;
     }
     _name = _bundle.infoDictionary[(__bridge NSString *)kCFBundleNameKey];
 
     _app = [SBApplication applicationWithBundleIdentifier:ident];
     if (!_app) {
-        // TODO: indicate scriptable app not found
+        SLYError(@"Application %@ not scriptable", ident);
         return nil;
     }
 
@@ -48,7 +51,7 @@
         &scriptingDefinitionData
     );
     if (err != noErr) {
-        // TODO: report unable to copy scripting definition
+        SLYError(@"Unable to read scripting definition for %@ ", ident);
         return nil;
     }
     [self parseScriptingDefinitionData:scriptingDefinitionData];
@@ -63,6 +66,7 @@
 
     data = (__bridge NSData *)scdata;
     parser = [[RXESDefParser alloc] initWithData:data];
+    [parser parse];
 }
 
 @end

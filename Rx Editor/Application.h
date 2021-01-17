@@ -6,7 +6,7 @@
 //  Copyright © 2021 Silly Utility LLC. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
 #import <JavaScriptCore/JavaScriptCore.h>
 
 NS_ASSUME_NONNULL_BEGIN
