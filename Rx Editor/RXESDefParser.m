@@ -27,12 +27,24 @@ NSString * const RXESDefSuiteKey = @"suite";
 
 - (instancetype)initWithData:(NSData *)xmlData
 {
+    NSXMLDocument *xmlDoc;
+    NSError *err;
+
     if (!(self = [super init]))
         return self;
 
-    // TODO: process document with NSXMLDocumentXInclude
+    // process any xi:include directives with NSXMLDocumentXInclude
+    xmlDoc = [[NSXMLDocument alloc]
+        initWithData:xmlData
+        options:NSXMLDocumentXInclude
+        error:&err
+    ];
+    if (err) {
+        SLYError(@"%@", err);
+        return nil;
+    }
 
-    _parser = [[NSXMLParser alloc] initWithData:xmlData];
+    _parser = [[NSXMLParser alloc] initWithData:xmlDoc.XMLData];
     _parser.delegate = self;
     _stack = NSMutableArray.array;
     _suites = NSMutableArray.array;
