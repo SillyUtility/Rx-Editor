@@ -30,6 +30,8 @@ NSString * const RXESDefSuiteKey = @"suite";
     if (!(self = [super init]))
         return self;
 
+    // TODO: process document with NSXMLDocumentXInclude
+
     _parser = [[NSXMLParser alloc] initWithData:xmlData];
     _parser.delegate = self;
     _stack = NSMutableArray.array;
