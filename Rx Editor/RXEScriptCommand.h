@@ -11,7 +11,18 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface RXEScriptCommand : NSObject
+@end
 
+@interface RXEScriptEvent : NSObject
+@end
+
+@interface RXEScriptDirectParameter : NSObject
+@end
+
+@interface RXEScriptParameter : NSObject
+@end
+
+@interface RXEScriptResult : NSObject
 @end
 
 NS_ASSUME_NONNULL_END
