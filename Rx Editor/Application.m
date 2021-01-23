@@ -12,6 +12,10 @@
 
 #import "RXESDefParser.h"
 #import "RXEScriptableApp.h"
+#import "RXEScriptSuite.h"
+#import "RXEScriptClass.h"
+#import "RXEScriptCommand.h"
+#import "RXEScriptTypes.h"
 
 #import "Application.h"
 
@@ -71,6 +75,8 @@
 {
     SLYTrace(@"_scriptableApp %@", _scriptableApp);
     SLYTrace(@"_scriptableApp.suites %@", _scriptableApp.suites);
+    for (id suite in _scriptableApp.suites)
+        SLYTrace(@" classes %@", [suite classes]);
 }
 
 @end

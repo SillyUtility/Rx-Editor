@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class RXEScriptClass, RXEScriptClassExt, RXEScriptCommand;
 
 @interface RXEScriptSuite : NSObject
-- (instancetype)initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 @property (readonly) NSString *name;
 @property (readonly) NSString *code;
 @property (readonly) NSString *suiteDescription;
@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) NSArray<RXEScriptClass *> *classes;
 @property (readonly) NSArray<RXEScriptClassExt *> *classExts;
 @property (readonly) NSArray<RXEScriptCommand *> *commands;
+- (void)addClass:(RXEScriptClass *)klass;
 @end
 
 @interface RXEScriptDocumentation : NSObject
@@ -28,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface RXEScriptXRef : NSObject
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 @property NSString *target;
 @property NSString *hidden;
 @end

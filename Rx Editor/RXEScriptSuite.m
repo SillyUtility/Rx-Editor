@@ -7,8 +7,13 @@
 //
 
 #import "RXEScriptSuite.h"
+#import "RXEScriptClass.h"
+#import "RXEScriptCommand.h"
+#import "RXEScriptTypes.h"
 
-@implementation RXEScriptSuite
+@implementation RXEScriptSuite {
+    NSMutableArray *_classes;
+}
 
 - (instancetype)initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
 {
@@ -20,7 +25,14 @@
     _suiteDescription = attributes[@"description"];
     _hidden = attributes[@"hidden"];
 
+    _classes = NSMutableArray.array;
+
     return self;
+}
+
+- (void)addClass:(RXEScriptClass *)klass
+{
+    [_classes addObject:klass];
 }
 
 - (NSString *)description

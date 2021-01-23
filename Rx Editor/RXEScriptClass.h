@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface RXEScriptClass : NSObject
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 @property NSString *name;
 @property NSString *classID;
 @property NSString *code;

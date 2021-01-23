@@ -14,7 +14,29 @@
 #import "RXEScriptCommand.h"
 
 NSString * const RXESDefDictionaryKey = @"dictionary";
+NSString * const RXESDefDocumentationKey = @"documentation";
+NSString * const RXESDefHTMLKey = @"html";
+NSString * const RXESDefXRefKey = @"xref";
+NSString * const RXESDefAccessGroupKey = @"access-group";
+NSString * const RXESDefCocoaKey = @"cocoa";
 NSString * const RXESDefSuiteKey = @"suite";
+NSString * const RXESDefSynonymKey = @"synonym";
+NSString * const RXESDefTypeKey = @"type";
+NSString * const RXESDefCommandKey = @"command";
+NSString * const RXESDefEventKey = @"event";
+NSString * const RXESDefDirectParameterKey = @"direct-parameter";
+NSString * const RXESDefResultKey = @"result";
+NSString * const RXESDefParameterKey = @"parameter";
+NSString * const RXESDefClassKey = @"class";
+NSString * const RXESDefElementKey = @"element";
+NSString * const RXESDefAccessorTypeKey = @"accessor-type";
+NSString * const RXESDefPropertyKey = @"property";
+NSString * const RXESDefRespondsToKey = @"responds-to";
+NSString * const RXESDefClassExtKey = @"class-extension";
+NSString * const RXESDefValueTypeKey = @"value-type";
+NSString * const RXESDefRecordTypeKey = @"record-type";
+NSString * const RXESDefEnumerationKey = @"enumeration";
+NSString * const RXESDefEnumeratorKey = @"enumerator";
 
 @interface RXESDefParser ()
 @end
@@ -75,13 +97,17 @@ NSString * const RXESDefSuiteKey = @"suite";
     qualifiedName:(nullable NSString *)qName
     attributes:(NSDictionary<NSString *, NSString *> *)attributeDict
 {
-     SLYTrace(@"startElem %@:%@ %@", parser, elementName, attributeDict);
+    SLYTrace(@"startElem %@:%@ %@", parser, elementName, attributeDict);
 
-     if ([elementName isEqualToString:RXESDefSuiteKey]) {
+    if ([elementName isEqualToString:RXESDefSuiteKey]) {
         RXEScriptSuite *suite = [[RXEScriptSuite alloc]
             initWithAttributes:attributeDict];
         [_stack addObject:suite];
-     }
+    } else if ([elementName isEqualToString:RXESDefClassKey]) {
+        RXEScriptClass *klass = [[RXEScriptClass alloc]
+            initWithAttributes:attributeDict];
+        [_stack addObject:klass];
+    }
 }
 
 - (void)parser:(NSXMLParser *)parser
@@ -95,6 +121,10 @@ NSString * const RXESDefSuiteKey = @"suite";
         id last = _stack.lastObject;
         [_suites addObject:last];
         [_stack removeLastObject];
+    } else if ([elementName isEqualToString:RXESDefClassKey]) {
+        id klass = _stack.lastObject;
+        [_stack removeLastObject];
+        [_stack.lastObject addClass:klass];
     }
 }
 
