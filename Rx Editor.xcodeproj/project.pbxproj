@@ -29,6 +29,7 @@
 		2CF7BBEB25B23C1A00F6BB81 /* RXEScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF7BBEA25B23C1A00F6BB81 /* RXEScriptCommand.m */; };
 		2CF7BBEF25B2689800F6BB81 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF7BBEE25B2689800F6BB81 /* JavaScriptCore.framework */; };
 		2CF7BBF925B3891300F6BB81 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF7BBF825B3891300F6BB81 /* Application.m */; };
+		2CF7BC0725BB729300F6BB81 /* RXEScriptTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF7BC0625BB729300F6BB81 /* RXEScriptTypes.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +109,8 @@
 		2CF7BBEE25B2689800F6BB81 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		2CF7BBF725B3891200F6BB81 /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		2CF7BBF825B3891300F6BB81 /* Application.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Application.m; sourceTree = "<group>"; };
+		2CF7BC0525BB729300F6BB81 /* RXEScriptTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RXEScriptTypes.h; sourceTree = "<group>"; };
+		2CF7BC0625BB729300F6BB81 /* RXEScriptTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RXEScriptTypes.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,6 +239,8 @@
 				2CF7BBE525B23C0B00F6BB81 /* RXEScriptClass.m */,
 				2CF7BBE925B23C1A00F6BB81 /* RXEScriptCommand.h */,
 				2CF7BBEA25B23C1A00F6BB81 /* RXEScriptCommand.m */,
+				2CF7BC0525BB729300F6BB81 /* RXEScriptTypes.h */,
+				2CF7BC0625BB729300F6BB81 /* RXEScriptTypes.m */,
 			);
 			name = "Scriptable Definition";
 			sourceTree = "<group>";
@@ -407,6 +412,7 @@
 				2CF7BBEB25B23C1A00F6BB81 /* RXEScriptCommand.m in Sources */,
 				2CF7BBF925B3891300F6BB81 /* Application.m in Sources */,
 				2C2DE05025AA443500D70A58 /* RXEAppDelegate.m in Sources */,
+				2CF7BC0725BB729300F6BB81 /* RXEScriptTypes.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

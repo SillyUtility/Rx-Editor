@@ -23,4 +23,35 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) NSArray<RXEScriptCommand *> *commands;
 @end
 
+@interface RXEScriptDocumentation : NSObject
+@property NSArray<NSString *> *htmlFragments;
+@end
+
+@interface RXEScriptXRef : NSObject
+@property NSString *target;
+@property NSString *hidden;
+@end
+
+@interface RXEScriptAccessGroup : NSObject
+@property NSString *identifier;
+@property NSString *access;
+@end
+
+@interface RXEScriptCocoaImp : NSObject
+@property NSString *name;
+@property NSString *cocoaClass;
+@property NSString *key;
+@property NSString *method;
+@property NSString *insertAtBeginning;
+@property NSString *booleanValue;
+@property NSString *integerValue;
+@property NSString *stringValue;
+@end
+
+@interface RXEScriptSynonym : NSObject
+@property NSString *name;
+@property NSString *code;
+@property NSString *hidden;
+@end
+
 NS_ASSUME_NONNULL_END
