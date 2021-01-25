@@ -12,7 +12,16 @@
 #import "RXEScriptTypes.h"
 
 @implementation RXEScriptSuite {
+    RXEScriptCocoaImp *_cocoaImp;
+    NSMutableArray *_accessGroups;
     NSMutableArray *_classes;
+    NSMutableArray *_classExts;
+    NSMutableArray *_commands;
+    NSMutableArray *_enumerations;
+    NSMutableArray *_events;
+    NSMutableArray *_recordTypes;
+    NSMutableArray *_valueTypes;
+    NSMutableArray *_docs;
 }
 
 - (instancetype)initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
@@ -25,14 +34,68 @@
     _suiteDescription = attributes[@"description"];
     _hidden = attributes[@"hidden"];
 
+    _cocoaImp = nil;
+    _accessGroups = NSMutableArray.array;
     _classes = NSMutableArray.array;
+    _classExts = NSMutableArray.array;
+    _commands = NSMutableArray.array;
+    _enumerations = NSMutableArray.array;
+    _events = NSMutableArray.array;
+    _recordTypes = NSMutableArray.array;
+    _valueTypes = NSMutableArray.array;
+    _docs = NSMutableArray.array;
 
     return self;
+}
+
+- (void)addCocoaImp:(RXEScriptCocoaImp *)cocoaImp
+{
+    _cocoaImp = cocoaImp;
+}
+
+- (void)addAccessGroup:(RXEScriptAccessGroup *)accessGroup
+{
+    [_accessGroups addObject:accessGroup];
 }
 
 - (void)addClass:(RXEScriptClass *)klass
 {
     [_classes addObject:klass];
+}
+
+- (void)addClassExt:(RXEScriptClassExt *)classExt
+{
+    [_classExts addObject:classExt];
+}
+
+- (void)addCommand:(RXEScriptCommand *)command
+{
+    [_commands addObject:command];
+}
+
+- (void)addEnumeration:(RXEScriptEnumeration *)enumeration
+{
+    [_enumerations addObject:enumeration];
+}
+
+- (void)addEvent:(RXEScriptEvent *)event
+{
+    [_events addObject:event];
+}
+
+- (void)addRecordType:(RXEScriptRecordType *)recordType
+{
+    [_recordTypes addObject:recordType];
+}
+
+- (void)addValueType:(RXEScriptValueType *)valueType
+{
+    [_valueTypes addObject:valueType];
+}
+
+- (void)addDocumentation:(RXEScriptDocumentation *)doc
+{
+    [_docs addObject:doc];
 }
 
 - (NSString *)description
