@@ -49,7 +49,13 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface RXEScriptDocumentation : NSObject
+
+- init;
+
 @property NSArray<NSString *> *htmlFragments;
+
+- (void)addHTML:(NSString *)html;
+
 @end
 
 @interface RXEScriptXRef : NSObject
@@ -62,11 +68,18 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface RXEScriptAccessGroup : NSObject
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
+
 @property NSString *identifier;
 @property NSString *access;
+
 @end
 
 @interface RXEScriptCocoaImp : NSObject
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
+
 @property NSString *name;
 @property NSString *cocoaClass;
 @property NSString *key;
@@ -75,12 +88,21 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *booleanValue;
 @property NSString *integerValue;
 @property NSString *stringValue;
+
 @end
 
 @interface RXEScriptSynonym : NSObject
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
+
 @property NSString *name;
 @property NSString *code;
 @property NSString *hidden;
+
+@property (readonly) RXEScriptCocoaImp *cocoaImp;
+
+- (void)addCocoaImp:(RXEScriptCocoaImp *)cocoaImp;
+
 @end
 
 NS_ASSUME_NONNULL_END

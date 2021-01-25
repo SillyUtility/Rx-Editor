@@ -109,3 +109,100 @@
 }
 
 @end
+
+@implementation RXEScriptDocumentation {
+    NSMutableArray<NSString *> *_htmlFragments;
+}
+
+- init
+{
+    if (!(self = [super init]))
+        return self;
+
+    _htmlFragments = NSMutableArray.array;
+
+    return self;
+}
+
+- (void)addHTML:(NSString *)html
+{
+    [_htmlFragments addObject:html];
+}
+
+@end
+
+@implementation RXEScriptXRef
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
+{
+    if (!(self = [super init]))
+        return self;
+
+    _target = attributes[@"target"];
+    _hidden = attributes[@"hidden"];
+
+    return self;
+}
+
+@end
+
+@implementation RXEScriptAccessGroup
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
+{
+    if (!(self = [super init]))
+        return self;
+
+    _identifier = attributes[@"identifier"];
+    _access = attributes[@"access"];
+
+    return self;
+}
+
+@end
+
+@implementation RXEScriptCocoaImp
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
+{
+    if (!(self = [super init]))
+        return self;
+
+    _name = attributes[@"name"];
+    _cocoaClass = attributes[@"class"];
+    _key = attributes[@"key"];
+    _method = attributes[@"method"];
+    _insertAtBeginning = attributes[@"insert-at-beginning"];
+    _booleanValue = attributes[@"boolean-value"];
+    _integerValue = attributes[@"integer-value"];
+    _stringValue = attributes[@"string-value"];
+
+    return self;
+}
+
+@end
+
+@implementation RXEScriptSynonym {
+    RXEScriptCocoaImp *_cocoaImp;
+}
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
+{
+    if (!(self = [super init]))
+        return self;
+
+    _name = attributes[@"name"];
+    _code = attributes[@"code"];
+    _hidden = attributes[@"hidden"];
+
+    _cocoaImp = nil;
+    
+    return self;
+}
+
+- (void)addCocoaImp:(RXEScriptCocoaImp *)cocoaImp
+{
+    _cocoaImp = cocoaImp;
+}
+
+@end
