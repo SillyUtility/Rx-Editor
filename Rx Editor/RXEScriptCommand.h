@@ -26,9 +26,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly) RXEScriptCocoaImp *cocoaImp;
 @property (readonly) NSArray<RXEScriptAccessGroup *> *accessGroups;
+@property (readonly) NSArray<RXEScriptSynonym *> *synonyms;
+@property (readonly) RXEScriptDirectParameter *directParameter;
+@property (readonly) NSArray<RXEScriptParameter *> *parameters;
+@property (readonly) RXEScriptResult *result;
+@property (readonly) NSArray<RXEScriptXRef *> *xrefs;
+@property (readonly) NSArray<RXEScriptDocumentation *> *docs;
 
-// I think synonym, direct-parameter, parameter, and result are pairs.
-// Each can have a documentation element imediately following it.
+- (void)addCocoaImp:(RXEScriptCocoaImp *)cocoaImp;
+- (void)addAccessGroup:(RXEScriptAccessGroup *)accessGroup;
+- (void)addSynonym:(RXEScriptSynonym *)synonym;
+- (void)addDirectParameter:(RXEScriptDirectParameter *)directParameter;
+- (void)addParameter:(RXEScriptParameter *)parameter;
+- (void)addResult:(RXEScriptResult *)result;
+- (void)addXRef:(RXEScriptXRef *)xref;
+- (void)addDocumentation:(RXEScriptDocumentation *)doc;
 
 @end
 
