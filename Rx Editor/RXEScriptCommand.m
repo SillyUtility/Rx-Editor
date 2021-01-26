@@ -10,4 +10,14 @@
 
 @implementation RXEScriptCommand
 
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
+{
+    if (!(self = [super init]))
+        return self;
+
+    // ...
+
+    return self;
+}
+
 @end
