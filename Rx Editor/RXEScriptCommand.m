@@ -8,7 +8,7 @@
 
 #import "RXEScriptCommand.h"
 
-@implementation RXEScriptCommand {
+@implementation RXEScriptVerb {
     RXEScriptCocoaImp *_cocoaImp;
     NSMutableArray<RXEScriptAccessGroup *> *_accessGroups;
     NSMutableArray<RXEScriptSynonym *> *_synonyms;
@@ -47,11 +47,6 @@
     _cocoaImp = cocoaImp;
 }
 
-- (void)addAccessGroup:(RXEScriptAccessGroup *)accessGroup
-{
-    [_accessGroups addObject:accessGroup];
-}
-
 - (void)addSynonym:(RXEScriptSynonym *)synonym
 {
     [_synonyms addObject:synonym];
@@ -80,6 +75,27 @@
 - (void)addDocumentation:(RXEScriptDocumentation *)doc
 {
     [_docs addObject:doc];
+}
+
+@end
+
+@implementation RXEScriptCommand {
+    NSMutableArray<RXEScriptAccessGroup *> *_accessGroups;
+}
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
+{
+    if (!(self = [super initWithAttributes:attributes]))
+        return self;
+
+    _accessGroups = NSMutableArray.array;
+
+    return self;
+}
+
+- (void)addAccessGroup:(RXEScriptAccessGroup *)accessGroup
+{
+    [_accessGroups addObject:accessGroup];
 }
 
 @end

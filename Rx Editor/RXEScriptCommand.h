@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
     RXEScriptDocumentation, RXEScriptDirectParameter,
     RXEScriptParameter, RXEScriptResult, RXEScriptXRef;
 
-@interface RXEScriptCommand : NSObject
+@interface RXEScriptVerb : NSObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 
@@ -25,7 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) NSString *hidden;
 
 @property (readonly) RXEScriptCocoaImp *cocoaImp;
-@property (readonly) NSArray<RXEScriptAccessGroup *> *accessGroups;
 @property (readonly) NSArray<RXEScriptSynonym *> *synonyms;
 @property (readonly) RXEScriptDirectParameter *directParameter;
 @property (readonly) NSArray<RXEScriptParameter *> *parameters;
@@ -34,7 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) NSArray<RXEScriptDocumentation *> *docs;
 
 - (void)addCocoaImp:(RXEScriptCocoaImp *)cocoaImp;
-- (void)addAccessGroup:(RXEScriptAccessGroup *)accessGroup;
 - (void)addSynonym:(RXEScriptSynonym *)synonym;
 - (void)addDirectParameter:(RXEScriptDirectParameter *)directParameter;
 - (void)addParameter:(RXEScriptParameter *)parameter;
@@ -44,7 +42,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface RXEScriptEvent : NSObject
+@interface RXEScriptCommand : RXEScriptVerb
+
+@property (readonly) NSArray<RXEScriptAccessGroup *> *accessGroups;
+
+- (void)addAccessGroup:(RXEScriptAccessGroup *)accessGroup;
+
+@end
+
+@interface RXEScriptEvent : RXEScriptVerb
 @end
 
 @interface RXEScriptDirectParameter : NSObject
