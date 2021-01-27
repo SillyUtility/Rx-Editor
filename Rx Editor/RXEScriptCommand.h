@@ -12,7 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class RXEScriptCocoaImp, RXEScriptAccessGroup, RXEScriptSynonym,
     RXEScriptDocumentation, RXEScriptDirectParameter,
-    RXEScriptParameter, RXEScriptResult, RXEScriptXRef;
+    RXEScriptParameter, RXEScriptResult, RXEScriptXRef,
+    RXEScriptType;
 
 @interface RXEScriptVerb : NSObject
 
@@ -54,6 +55,20 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface RXEScriptDirectParameter : NSObject
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
+
+@property (readonly) NSString *type;
+@property (readonly) NSString *optional;
+@property (readonly) NSString *requiresAccess;
+@property (readonly) NSString *commentary;
+
+@property (readonly) NSArray<RXEScriptType *> *types;
+@property (readonly) NSArray<RXEScriptDocumentation *> *docs;
+
+- (void)addType:(RXEScriptType *)type;
+- (void)addDocumentation:(RXEScriptDocumentation *)doc;
+
 @end
 
 @interface RXEScriptParameter : NSObject

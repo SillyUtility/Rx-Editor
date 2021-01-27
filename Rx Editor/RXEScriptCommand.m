@@ -97,3 +97,33 @@
 }
 
 @end
+
+@implementation RXEScriptDirectParameter {
+    NSMutableArray<RXEScriptType *> *_types;
+    NSMutableArray<RXEScriptDocumentation *> *_docs;
+}
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
+{
+    if (!(self = [super init]))
+        return self;
+
+    _type = attributes[@"type"];
+    _optional = attributes[@"optional"];
+    _requiresAccess = attributes[@"requires-access"];
+    _commentary = attributes[@"description"];
+
+    return self;
+}
+
+- (void)addType:(RXEScriptType *)type
+{
+    [_types addObject:type];
+}
+
+- (void)addDocumentation:(RXEScriptDocumentation *)doc
+{
+    [_docs addObject:doc];
+}
+
+@end
