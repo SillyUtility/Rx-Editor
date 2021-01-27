@@ -10,7 +10,6 @@
 
 @implementation RXEScriptVerb {
     RXEScriptCocoaImp *_cocoaImp;
-    NSMutableArray<RXEScriptAccessGroup *> *_accessGroups;
     NSMutableArray<RXEScriptSynonym *> *_synonyms;
     RXEScriptDirectParameter *_directParameter;
     NSMutableArray<RXEScriptParameter *> *_parameters;
@@ -31,7 +30,6 @@
     _hidden = attributes[@"hidden"];
 
     _cocoaImp = nil;
-    _accessGroups = NSMutableArray.array;
     _synonyms = NSMutableArray.array;
     _directParameter = nil;
     _parameters = NSMutableArray.array;
