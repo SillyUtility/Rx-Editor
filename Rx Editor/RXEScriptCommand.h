@@ -72,6 +72,25 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface RXEScriptParameter : NSObject
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
+
+@property (readonly) NSString *name;
+@property (readonly) NSString *code;
+@property (readonly) NSString *hidden;
+@property (readonly) NSString *type;
+@property (readonly) NSString *optional;
+@property (readonly) NSString *requiresAccess;
+@property (readonly) NSString *commentary;
+
+@property (readonly) RXEScriptCocoaImp *cocoaImp;
+@property (readonly) NSArray<RXEScriptType *> *types;
+@property (readonly) NSArray<RXEScriptDocumentation *> *docs;
+
+- (void)addCocoaImp:(RXEScriptCocoaImp *)cocoaImp;
+- (void)addType:(RXEScriptType *)type;
+- (void)addDocumentation:(RXEScriptDocumentation *)doc;
+
 @end
 
 @interface RXEScriptResult : NSObject
