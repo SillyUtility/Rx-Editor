@@ -94,6 +94,18 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface RXEScriptResult : NSObject
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
+
+@property (readonly) NSString *type;
+@property (readonly) NSString *commentary;
+
+@property (readonly) NSArray<RXEScriptType *> *types;
+@property (readonly) NSArray<RXEScriptDocumentation *> *docs;
+
+- (void)addType:(RXEScriptType *)type;
+- (void)addDocumentation:(RXEScriptDocumentation *)doc;
+
 @end
 
 NS_ASSUME_NONNULL_END
