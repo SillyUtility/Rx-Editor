@@ -74,12 +74,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 @interface RXEScriptEnumeration : NSObject
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
+
 @property NSString *name;
 @property NSString *identifier;
 @property NSString *code;
 @property NSString *hidden;
 @property NSString *commentary;
 @property NSString *inLine;
+
+@property (readonly) NSArray<RXEScriptEnumerator *> *enumerators;
+@property (readonly) NSArray<RXEScriptDocumentation *> *docs;
+@property (readonly) NSArray<RXEScriptXRef *> *xrefs;
+
+- (void)addEnumerator:(RXEScriptEnumerator *)enumerator;
+- (void)addDocumentation:(RXEScriptDocumentation *)doc;
+- (void)addXRef:(RXEScriptXRef *)xref;
+
 @end
 
 

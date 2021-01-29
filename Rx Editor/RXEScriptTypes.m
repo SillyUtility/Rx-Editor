@@ -114,3 +114,41 @@
 }
 
 @end
+
+@implementation RXEScriptEnumeration {
+    NSMutableArray<RXEScriptEnumerator *> *_enumerators;
+    NSMutableArray<RXEScriptDocumentation *> *_docs;
+    NSMutableArray<RXEScriptXRef *> *_xrefs;
+}
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
+{
+    if (!(self = [super init]))
+        return self;
+
+    _name = attributes[@"name"];
+    _identifier = attributes[@"id"];
+    _code = attributes[@"code"];
+    _hidden = attributes[@"hidden"];
+    _commentary = attributes[@"description"];
+    _inLine = attributes[@"inline"];
+
+    return self;
+}
+
+- (void)addEnumerator:(RXEScriptEnumerator *)enumerator
+{
+    [_enumerators addObject:enumerator];
+}
+
+- (void)addDocumentation:(RXEScriptDocumentation *)doc
+{
+    [_docs addObject:doc];
+}
+
+- (void)addXRef:(RXEScriptXRef *)xref
+{
+    [_xrefs addObject:xref];
+}
+
+@end
