@@ -116,13 +116,27 @@ NS_ASSUME_NONNULL_BEGIN
 
 // aka responds-to
 @interface RXEScriptClassCommand : NSObject
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
+
 @property NSString *command;
 @property NSString *hidden;
 @property NSString *name;
+
+@property (readonly) RXEScriptCocoaImp *cocoaImp;
+@property (readonly) NSArray<RXEScriptAccessGroup *> *accessGroups;
+
+- (void)addCocoaImp:(RXEScriptCocoaImp *)cocoaImp;
+- (void)addAccessGroups:(RXEScriptAccessGroup *)accessGroup;
+
 @end
 
 @interface RXEScriptAccessor : NSObject
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
+
 @property NSString *style;
+
 @end
 
 NS_ASSUME_NONNULL_END

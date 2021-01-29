@@ -208,3 +208,46 @@
 }
 
 @end
+
+@implementation RXEScriptClassCommand {
+    RXEScriptCocoaImp *_cocoaImp;
+    NSMutableArray<RXEScriptAccessGroup *> *_accessGroups;
+}
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
+{
+    if (!(self = [super init]))
+        return self;
+
+    _command = attributes[@"command"];
+    _hidden = attributes[@"hidden"];
+    _name = attributes[@"name"];
+
+    return self;
+}
+
+- (void)addCocoaImp:(RXEScriptCocoaImp *)cocoaImp
+{
+    _cocoaImp = cocoaImp;
+}
+
+- (void)addAccessGroups:(RXEScriptAccessGroup *)accessGroup
+{
+    [_accessGroups addObject:accessGroup];
+}
+
+@end
+
+@implementation RXEScriptAccessor
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
+{
+    if (!(self = [super init]))
+        return self;
+
+    _style = attributes[@"style"];
+
+    return self;
+}
+
+@end
