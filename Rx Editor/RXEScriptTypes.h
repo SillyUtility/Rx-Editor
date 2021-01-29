@@ -50,12 +50,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 @interface RXEScriptRecordType : NSObject
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
+
 @property NSString *name;
 @property NSString *identifier;
 @property NSString *code;
 @property NSString *hidden;
 @property NSString *plural;
 @property NSString *commentary;
+
+@property (readonly) NSArray<RXEScriptSynonym *> *synonyms;
+@property (readonly) NSArray<RXEScriptProperty *> *properties;
+@property (readonly) NSArray<RXEScriptDocumentation *> *docs;
+@property (readonly) NSArray<RXEScriptXRef *> *xrefs;
+
+- (void)addSynonym:(RXEScriptSynonym *)synonym;
+- (void)addProperty:(RXEScriptProperty *)property;
+- (void)addDocumentation:(RXEScriptDocumentation *)doc;
+- (void)addXRef:(RXEScriptXRef *)xref;
+
 @end
 
 
