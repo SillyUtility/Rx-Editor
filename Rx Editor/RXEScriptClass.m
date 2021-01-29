@@ -8,7 +8,16 @@
 
 #import "RXEScriptClass.h"
 
-@implementation RXEScriptClass
+@implementation RXEScriptClass {
+    RXEScriptCocoaImp *_cocoaImp;
+    NSMutableArray<RXEScriptAccessGroup *> *_accessGroups;
+    NSMutableArray<RXEScriptElement *> *_elements;
+    NSMutableArray<RXEScriptProperty *> *_properties;
+    NSMutableArray<RXEScriptClassCommand *> *_classCommands;
+    NSMutableArray<RXEScriptSynonym *> *_synonyms;
+    NSMutableArray<RXEScriptDocumentation *> *_docs;
+    NSMutableArray<RXEScriptXRef *> *_xrefs;
+}
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
 {
@@ -24,6 +33,46 @@
     _commentary = attributes[@"description"];
 
     return self;
+}
+
+- (void)add:(RXEScriptCocoaImp *)cocoaImp
+{
+    _cocoaImp = cocoaImp;
+}
+
+- (void)addAccessGroups:(RXEScriptAccessGroup *)accessGroup
+{
+    [_accessGroups addObject:accessGroup];
+}
+
+- (void)addElement:(RXEScriptElement *)element
+{
+    [_elements addObject:element];
+}
+
+- (void)addProperty:(RXEScriptProperty *)property
+{
+    [_properties addObject:property];
+}
+
+- (void)addClassCommand:(RXEScriptClassCommand *)classCommand
+{
+    [_classCommands addObject:classCommand];
+}
+
+- (void)addSynonym:(RXEScriptSynonym *)synonym
+{
+    [_synonyms addObject:synonym];
+}
+
+- (void)addDocumentation:(RXEScriptDocumentation *)doc
+{
+    [_docs addObject:doc];
+}
+
+- (void)addXRef:(RXEScriptXRef *)xref
+{
+    [_xrefs addObject:xref];
 }
 
 - (NSString *)description
