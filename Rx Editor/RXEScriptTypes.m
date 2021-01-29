@@ -152,3 +152,33 @@
 }
 
 @end
+
+@implementation RXEScriptEnumerator {
+    NSMutableArray<RXEScriptSynonym *> *_synonyms;
+    NSMutableArray<RXEScriptDocumentation *> *_docs;
+}
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
+{
+    if (!(self = [super init]))
+        return self;
+
+    _name = attributes[@"name"];
+    _code = attributes[@"code"];
+    _hidden = attributes[@"hidden"];
+    _commentary = attributes[@"description"];
+
+    return self;
+}
+
+- (void)addSynonym:(RXEScriptSynonym *)synonym
+{
+    [_synonyms addObject:synonym];
+}
+
+- (void)addDocumentation:(RXEScriptDocumentation *)doc
+{
+    [_docs addObject:doc];
+}
+
+@end
