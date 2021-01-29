@@ -13,18 +13,18 @@
 
 @implementation RXEScriptSuite {
     RXEScriptCocoaImp *_cocoaImp;
-    NSMutableArray *_accessGroups;
-    NSMutableArray *_classes;
-    NSMutableArray *_classExts;
-    NSMutableArray *_commands;
-    NSMutableArray *_enumerations;
-    NSMutableArray *_events;
-    NSMutableArray *_recordTypes;
-    NSMutableArray *_valueTypes;
-    NSMutableArray *_docs;
+    NSMutableArray<RXEScriptAccessGroup *> *_accessGroups;
+    NSMutableArray<RXEScriptClass *> *_classes;
+    NSMutableArray<RXEScriptClassExt *> *_classExts;
+    NSMutableArray<RXEScriptCommand *> *_commands;
+    NSMutableArray<RXEScriptEnumeration *> *_enumerations;
+    NSMutableArray<RXEScriptEvent *> *_events;
+    NSMutableArray<RXEScriptRecordType *> *_recordTypes;
+    NSMutableArray<RXEScriptValueType *> *_valueTypes;
+    NSMutableArray<RXEScriptDocumentation *> *_docs;
 }
 
-- (instancetype)initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
 {
     if (!(self = [super init]))
         return self;

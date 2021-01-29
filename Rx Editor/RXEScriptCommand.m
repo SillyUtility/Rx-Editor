@@ -113,6 +113,9 @@
     _requiresAccess = attributes[@"requires-access"];
     _commentary = attributes[@"description"];
 
+    _types = NSMutableArray.array;
+    _docs = NSMutableArray.array;
+
     return self;
 }
 
@@ -147,6 +150,10 @@
     _requiresAccess = attributes[@"requires-access"];
     _commentary = attributes[@"description"];
 
+    _cocoaImp = nil;
+    _types = NSMutableArray.array;
+    _docs = NSMutableArray.array;
+
     return self;
 }
 
@@ -179,6 +186,9 @@
 
     _type = attributes[@"type"];
     _commentary = attributes[@"description"];
+
+    _types = NSMutableArray.array;
+    _docs = NSMutableArray.array;
 
     return self;
 }

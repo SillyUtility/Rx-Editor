@@ -28,6 +28,15 @@
     _hidden = attributes[@"hidden"];
     _commentary = attributes[@"description"];
 
+    _cocoaImp = nil;
+    _accessGroups = NSMutableArray.array;
+    _elements = NSMutableArray.array;
+    _properties = NSMutableArray.array;
+    _classCommands = NSMutableArray.array;
+    _synonyms = NSMutableArray.array;
+    _docs = NSMutableArray.array;
+    _xrefs = NSMutableArray.array;
+
     return self;
 }
 
@@ -87,6 +96,8 @@
     _plural = attributes[@"plural"];
     _inherits = attributes[@"inherits"];
 
+    _types = NSMutableArray.array;
+
     return self;
 }
 
@@ -138,6 +149,10 @@
     _hidden = attributes[@"hidden"];
     _commentary = attributes[@"description"];
 
+    _cocoaImp = nil;
+    _accessGroups = NSMutableArray.array;
+    _accessors = NSMutableArray.array;
+
     return self;
 }
 
@@ -178,6 +193,12 @@
     _access = attributes[@"access"];
     _inProperties = attributes[@"in-properties"];
     _commentary = attributes[@"description"];
+
+    _cocoaImp = nil;
+    _accessGroups = NSMutableArray.array;
+    _types = NSMutableArray.array;
+    _synonyms = NSMutableArray.array;
+    _docs = NSMutableArray.array;
 
     return self;
 }
@@ -222,6 +243,9 @@
     _command = attributes[@"command"];
     _hidden = attributes[@"hidden"];
     _name = attributes[@"name"];
+
+    _cocoaImp = nil;
+    _accessGroups = NSMutableArray.array;
 
     return self;
 }

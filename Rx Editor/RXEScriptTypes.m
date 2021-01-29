@@ -51,6 +51,10 @@
     _plural = attributes[@"plural"];
     _commentary = attributes[@"description"];
 
+    _synonyms = NSMutableArray.array;
+    _docs = NSMutableArray.array;
+    _xrefs = NSMutableArray.array;
+
     return self;
 }
 
@@ -89,6 +93,11 @@
     _hidden = attributes[@"hidden"];
     _plural = attributes[@"plural"];
     _commentary = attributes[@"description"];
+
+    _synonyms = NSMutableArray.array;
+    _properties = NSMutableArray.array;
+    _docs = NSMutableArray.array;
+    _xrefs = NSMutableArray.array;
 
     return self;
 }
@@ -133,6 +142,10 @@
     _commentary = attributes[@"description"];
     _inLine = attributes[@"inline"];
 
+    _enumerators = NSMutableArray.array;
+    _docs = NSMutableArray.array;
+    _xrefs = NSMutableArray.array;
+
     return self;
 }
 
@@ -167,6 +180,9 @@
     _code = attributes[@"code"];
     _hidden = attributes[@"hidden"];
     _commentary = attributes[@"description"];
+
+    _synonyms = NSMutableArray.array;
+    _docs = NSMutableArray.array;
 
     return self;
 }
