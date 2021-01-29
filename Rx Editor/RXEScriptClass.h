@@ -82,7 +82,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface RXEScriptProperty : NSObject
+@interface RXEScriptPropBase : NSObject
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
+
 @property NSString *name;
 @property NSString *code;
 @property NSString *hidden;
@@ -90,6 +93,25 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *access;
 @property NSString *inProperties;
 @property NSString *commentary;
+
+@property (readonly) RXEScriptCocoaImp *cocoaImp;
+@property (readonly) NSArray<RXEScriptAccessGroup *> *accessGroups;
+@property (readonly) NSArray<RXEScriptType *> *types;
+@property (readonly) NSArray<RXEScriptSynonym *> *synonyms;
+@property (readonly) NSArray<RXEScriptDocumentation *> *docs;
+
+- (void)addCocoaImp:(RXEScriptCocoaImp *)cocoaImp;
+- (void)addAccessGroups:(RXEScriptAccessGroup *)accessGroup;
+- (void)addType:(RXEScriptType *)type;
+- (void)addSynonym:(RXEScriptSynonym *)synonym;
+- (void)addDocumentation:(RXEScriptDocumentation *)doc;
+
+@end
+
+@interface RXEScriptContents : RXEScriptPropBase
+@end
+
+@interface RXEScriptProperty : RXEScriptPropBase
 @end
 
 // aka responds-to

@@ -157,3 +157,54 @@
 }
 
 @end
+
+@implementation RXEScriptPropBase {
+    RXEScriptCocoaImp *_cocoaImp;
+    NSMutableArray<RXEScriptAccessGroup *> *_accessGroups;
+    NSMutableArray<RXEScriptType *> *_types;
+    NSMutableArray<RXEScriptSynonym *> *_synonyms;
+    NSMutableArray<RXEScriptDocumentation *> *_docs;
+}
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
+{
+    if (!(self = [super init]))
+        return self;
+
+    _name = attributes[@"name"];
+    _code = attributes[@"code"];
+    _hidden = attributes[@"hidden"];
+    _type = attributes[@"type"];
+    _access = attributes[@"access"];
+    _inProperties = attributes[@"in-properties"];
+    _commentary = attributes[@"description"];
+
+    return self;
+}
+
+- (void)addCocoaImp:(RXEScriptCocoaImp *)cocoaImp
+{
+    _cocoaImp = cocoaImp;
+}
+
+- (void)addAccessGroups:(RXEScriptAccessGroup *)accessGroup
+{
+    [_accessGroups addObject:accessGroup];
+}
+
+- (void)addType:(RXEScriptType *)type
+{
+    [_types addObject:type];
+}
+
+- (void)addSynonym:(RXEScriptSynonym *)synonym
+{
+    [_synonyms addObject:synonym];
+}
+
+- (void)addDocumentation:(RXEScriptDocumentation *)doc
+{
+    [_docs addObject:doc];
+}
+
+@end
