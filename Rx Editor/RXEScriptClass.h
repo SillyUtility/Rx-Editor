@@ -14,16 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
     RXEScriptElement, RXEScriptProperty, RXEScriptClassCommand,
     RXEScriptSynonym, RXEScriptDocumentation, RXEScriptXRef;
 
-@interface RXEScriptClass : NSObject
+@interface RXEScriptClassContent : NSObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 
-@property NSString *name;
 @property NSString *identifier;
-@property NSString *code;
 @property NSString *hidden;
-@property NSString *plural;
-@property NSString *inherits;
 @property NSString *commentary;
 
 @property (readonly) RXEScriptCocoaImp *cocoaImp;
@@ -35,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) NSArray<RXEScriptDocumentation *> *docs;
 @property (readonly) NSArray<RXEScriptXRef *> *xrefs;
 
-- (void)add:(RXEScriptCocoaImp *)cocoaImp;
+- (void)addCocoaImp:(RXEScriptCocoaImp *)cocoaImp;
 - (void)addAccessGroups:(RXEScriptAccessGroup *)accessGroup;
 - (void)addElement:(RXEScriptElement *)elements;
 - (void)addProperty:(RXEScriptProperty *)property;
@@ -46,12 +42,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface RXEScriptClassExt : NSObject
-@property NSString *identifier;
+@interface RXEScriptClass : RXEScriptClassContent
+
+@property NSString *name;
+@property NSString *code;
+@property NSString *plural;
+@property NSString *inherits;
+
+@property (readonly) NSArray<RXEScriptType *> *types;
+
+- (void)addType:(RXEScriptType *)type;
+
+@end
+
+@interface RXEScriptClassExt : RXEScriptClassContent
+
 @property NSString *extends;
-@property NSString *hidden;
 @property NSString *title;
-@property NSString *commentary;
+
 @end
 
 @interface RXEScriptElement : NSObject

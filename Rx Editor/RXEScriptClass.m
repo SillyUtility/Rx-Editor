@@ -8,7 +8,7 @@
 
 #import "RXEScriptClass.h"
 
-@implementation RXEScriptClass {
+@implementation RXEScriptClassContent {
     RXEScriptCocoaImp *_cocoaImp;
     NSMutableArray<RXEScriptAccessGroup *> *_accessGroups;
     NSMutableArray<RXEScriptElement *> *_elements;
@@ -24,18 +24,14 @@
     if (!(self = [super init]))
         return self;
 
-    _name = attributes[@"name"];
     _identifier = attributes[@"id"];
-    _code = attributes[@"code"];
     _hidden = attributes[@"hidden"];
-    _plural = attributes[@"plural"];
-    _inherits = attributes[@"inherits"];
     _commentary = attributes[@"description"];
 
     return self;
 }
 
-- (void)add:(RXEScriptCocoaImp *)cocoaImp
+- (void)addCocoaImp:(RXEScriptCocoaImp *)cocoaImp
 {
     _cocoaImp = cocoaImp;
 }
@@ -75,6 +71,30 @@
     [_xrefs addObject:xref];
 }
 
+@end
+
+@implementation RXEScriptClass {
+    NSMutableArray<RXEScriptType *> *_types;
+}
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
+{
+    if (!(self = [super initWithAttributes:attributes]))
+        return self;
+
+    _name = attributes[@"name"];
+    _code = attributes[@"code"];
+    _plural = attributes[@"plural"];
+    _inherits = attributes[@"inherits"];
+
+    return self;
+}
+
+- (void)addType:(RXEScriptType *)type
+{
+    [_types addObject:type];
+}
+
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<%@: %p %@ '%@'>",
@@ -83,6 +103,21 @@
         self.name,
         self.code
     ];
+}
+
+@end
+
+@implementation RXEScriptClassExt
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
+{
+    if (!(self = [super initWithAttributes:attributes]))
+        return self;
+
+    _extends = attributes[@"extends"];
+    _title = attributes[@"title"];
+
+    return self;
 }
 
 @end
