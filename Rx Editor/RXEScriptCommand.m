@@ -24,9 +24,9 @@
         return self;
 
     _name = attributes[@"name"];
-    _commandID = attributes[@"id"];
+    _identifier = attributes[@"id"];
     _code = attributes[@"code"];
-    _commandDescription = attributes[@"description"];
+    _commentary = attributes[@"description"];
     _hidden = attributes[@"hidden"];
 
     _cocoaImp = nil;

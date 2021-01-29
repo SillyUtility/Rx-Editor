@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly) NSString *name;
 @property (readonly) NSString *code;
-@property (readonly) NSString *suiteDescription;
+@property (readonly) NSString *commentary;
 @property (readonly) NSString *hidden;
 
 @property (readonly) RXEScriptCocoaImp *cocoaImp;

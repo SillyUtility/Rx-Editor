@@ -11,8 +11,7 @@
 
 @implementation RXEScriptableApp
 
-- (instancetype)initWithName:(NSString *)name
-    scriptingDefinition:(CFDataRef)scdata
+- initWithName:(NSString *)name scriptingDefinition:(CFDataRef)scdata
 {
     NSData *data;
     RXESDefParser *parser;

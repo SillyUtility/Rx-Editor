@@ -20,9 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 
 @property (readonly) NSString *name;
-@property (readonly) NSString *commandID;
+@property (readonly) NSString *identifier;
 @property (readonly) NSString *code;
-@property (readonly) NSString *commandDescription;
+@property (readonly) NSString *commentary;
 @property (readonly) NSString *hidden;
 
 @property (readonly) RXEScriptCocoaImp *cocoaImp;

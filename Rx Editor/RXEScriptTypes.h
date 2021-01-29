@@ -26,30 +26,30 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RXEScriptValueType : NSObject
 @property NSString *name;
-@property NSString *valueTypeID;
+@property NSString *identifier;
 @property NSString *code;
 @property NSString *hidden;
 @property NSString *plural;
-@property NSString *valueTypeDescription;
+@property NSString *commentary;
 @end
 
 
 @interface RXEScriptRecordType : NSObject
 @property NSString *name;
-@property NSString *recordTypeID;
+@property NSString *identifier;
 @property NSString *code;
 @property NSString *hidden;
 @property NSString *plural;
-@property NSString *recordTypeDescription;
+@property NSString *commentary;
 @end
 
 
 @interface RXEScriptEnumeration : NSObject
 @property NSString *name;
-@property NSString *enumerationID;
+@property NSString *identifier;
 @property NSString *code;
 @property NSString *hidden;
-@property NSString *enumerationDescription;
+@property NSString *commentary;
 @property NSString *inLine;
 @end
 
@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *name;
 @property NSString *code;
 @property NSString *hidden;
-@property NSString *enumeratorDescription;
+@property NSString *commentary;
 @end
 
 

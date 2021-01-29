@@ -13,27 +13,27 @@ NS_ASSUME_NONNULL_BEGIN
 @interface RXEScriptClass : NSObject
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 @property NSString *name;
-@property NSString *classID;
+@property NSString *identifier;
 @property NSString *code;
 @property NSString *hidden;
 @property NSString *plural;
 @property NSString *inherits;
-@property NSString *classDescription;
+@property NSString *commentary;
 @end
 
 @interface RXEScriptClassExt : NSObject
-@property NSString *extID;
+@property NSString *identifier;
 @property NSString *extends;
 @property NSString *hidden;
 @property NSString *title;
-@property NSString *extDescription;
+@property NSString *commentary;
 @end
 
 @interface RXEScriptElement : NSObject
 @property NSString *type;
 @property NSString *access;
 @property NSString *hidden;
-@property NSString *elementDescription;
+@property NSString *commentary;
 @end
 
 @interface RXEScriptProperty : NSObject
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *type;
 @property NSString *access;
 @property NSString *inProperties;
-@property NSString *propertyDescription;
+@property NSString *commentary;
 @end
 
 // aka responds-to

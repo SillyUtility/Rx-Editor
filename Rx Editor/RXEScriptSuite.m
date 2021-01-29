@@ -31,7 +31,7 @@
 
     _name = attributes[@"name"];
     _code = attributes[@"code"];
-    _suiteDescription = attributes[@"description"];
+    _commentary = attributes[@"description"];
     _hidden = attributes[@"hidden"];
 
     _cocoaImp = nil;

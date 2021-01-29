@@ -16,12 +16,12 @@
         return self;
 
     _name = attributes[@"name"];
-    _classID = attributes[@"id"];
+    _identifier = attributes[@"id"];
     _code = attributes[@"code"];
     _hidden = attributes[@"hidden"];
     _plural = attributes[@"plural"];
     _inherits = attributes[@"inherits"];
-    _classDescription = attributes[@"description"];
+    _commentary = attributes[@"description"];
 
     return self;
 }
