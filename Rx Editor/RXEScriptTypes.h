@@ -10,6 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class RXEScriptSynonym, RXEScriptProperty, RXEScriptEnumerator,
+    RXEScriptDocumentation, RXEScriptXRef;
+
 @interface RXEScriptType : NSObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
@@ -25,12 +28,24 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface RXEScriptValueType : NSObject
-@property NSString *name;
-@property NSString *identifier;
-@property NSString *code;
-@property NSString *hidden;
-@property NSString *plural;
-@property NSString *commentary;
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
+
+@property (readonly) NSString *name;
+@property (readonly) NSString *identifier;
+@property (readonly) NSString *code;
+@property (readonly) NSString *hidden;
+@property (readonly) NSString *plural;
+@property (readonly) NSString *commentary;
+
+@property (readonly) NSArray<RXEScriptSynonym *> *synonyms;
+@property (readonly) NSArray<RXEScriptDocumentation *> *docs;
+@property (readonly) NSArray<RXEScriptXRef *> *xrefs;
+
+- (void)addSynonym:(RXEScriptSynonym *)synonym;
+- (void)addDocumentation:(RXEScriptDocumentation *)doc;
+- (void)addXRef:(RXEScriptXRef *)xref;
+
 @end
 
 

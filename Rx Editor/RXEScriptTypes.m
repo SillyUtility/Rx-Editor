@@ -32,3 +32,41 @@
 }
 
 @end
+
+@implementation RXEScriptValueType {
+    NSMutableArray<RXEScriptSynonym *> *_synonyms;
+    NSMutableArray<RXEScriptDocumentation *> *_docs;
+    NSMutableArray<RXEScriptXRef *> *_xrefs;
+}
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
+{
+    if (!(self = [super init]))
+        return self;
+
+    _name = attributes[@"name"];
+    _identifier = attributes[@"id"];
+    _code = attributes[@"code"];
+    _hidden = attributes[@"hidden"];
+    _plural = attributes[@"plural"];
+    _commentary = attributes[@"description"];
+
+    return self;
+}
+
+- (void)addSynonym:(RXEScriptSynonym *)synonym
+{
+    [_synonyms addObject:synonym];
+}
+
+- (void)addDocumentation:(RXEScriptDocumentation *)doc
+{
+    [_docs addObject:doc];
+}
+
+- (void)addXRef:(RXEScriptXRef *)xref
+{
+    [_xrefs addObject:xref];
+}
+
+@end
