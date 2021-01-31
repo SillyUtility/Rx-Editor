@@ -45,6 +45,7 @@ NSString * const RXESDefEnumeratorKey = @"enumerator";
     NSXMLParser *_parser;
     NSMutableArray *_stack;
     NSMutableArray *_suites;
+    NSMutableArray<RXEScriptDocumentation *> *_docs;
 }
 
 - (instancetype)initWithData:(NSData *)xmlData
@@ -70,6 +71,7 @@ NSString * const RXESDefEnumeratorKey = @"enumerator";
     _parser.delegate = self;
     _stack = NSMutableArray.array;
     _suites = NSMutableArray.array;
+    _docs = NSMutableArray.array;
 
     return self;
 }
@@ -99,7 +101,12 @@ NSString * const RXESDefEnumeratorKey = @"enumerator";
 {
     SLYTrace(@"startElem %@:%@ %@", parser, elementName, attributeDict);
 
-    if ([elementName isEqualToString:RXESDefSuiteKey]) {
+    if ([elementName isEqualToString:RXESDefDocumentationKey]) {
+        RXEScriptDocumentation *doc = [[RXEScriptDocumentation alloc] init];
+        [_stack addObject:doc];
+    } else if ([elementName isEqualToString:RXESDefHTMLKey]) {
+        // noop
+    } else if ([elementName isEqualToString:RXESDefSuiteKey]) {
         RXEScriptSuite *suite = [[RXEScriptSuite alloc]
             initWithAttributes:attributeDict];
         [_stack addObject:suite];
@@ -117,10 +124,19 @@ NSString * const RXESDefEnumeratorKey = @"enumerator";
 {
     SLYTrace(@"endElem %@:%@", parser, elementName);
 
-    if ([elementName isEqualToString:RXESDefSuiteKey]) {
-        id last = _stack.lastObject;
-        [_suites addObject:last];
+    if ([elementName isEqualToString:RXESDefDocumentationKey]) {
+        id doc = _stack.lastObject;
         [_stack removeLastObject];
+        if (_stack.count == 0)
+            [_docs addObject:doc];
+        else
+            [_stack.lastObject addDocumentation:doc];
+    } else if ([elementName isEqualToString:RXESDefHTMLKey]) {
+        // noop
+    } else if ([elementName isEqualToString:RXESDefSuiteKey]) {
+        id suite = _stack.lastObject;
+        [_stack removeLastObject];
+        [_suites addObject:suite];
     } else if ([elementName isEqualToString:RXESDefClassKey]) {
         id klass = _stack.lastObject;
         [_stack removeLastObject];
@@ -132,6 +148,10 @@ NSString * const RXESDefEnumeratorKey = @"enumerator";
     foundCharacters:(NSString *)string
 {
     SLYTrace(@"chars %@:%@", parser, string);
+
+    id last = _stack.lastObject;
+    if ([last respondsToSelector:@selector(addHTML:)])
+        [last addHTML:string];
 }
 
 - (void)parser:(NSXMLParser *)parser
