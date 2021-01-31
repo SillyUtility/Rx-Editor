@@ -98,6 +98,9 @@
 
 @end
 
+@implementation RXEScriptEvent
+@end
+
 @implementation RXEScriptDirectParameter {
     NSMutableArray<RXEScriptType *> *_types;
     NSMutableArray<RXEScriptDocumentation *> *_docs;

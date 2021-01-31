@@ -230,6 +230,12 @@
 
 @end
 
+@implementation RXEScriptContents
+@end
+
+@implementation RXEScriptProperty
+@end
+
 @implementation RXEScriptClassCommand {
     RXEScriptCocoaImp *_cocoaImp;
     NSMutableArray<RXEScriptAccessGroup *> *_accessGroups;
