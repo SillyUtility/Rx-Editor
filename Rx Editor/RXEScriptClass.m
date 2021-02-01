@@ -12,6 +12,7 @@
     RXEScriptCocoaImp *_cocoaImp;
     NSMutableArray<RXEScriptAccessGroup *> *_accessGroups;
     NSMutableArray<RXEScriptElement *> *_elements;
+    NSMutableArray<RXEScriptContents *> *_contents;
     NSMutableArray<RXEScriptProperty *> *_properties;
     NSMutableArray<RXEScriptClassCommand *> *_classCommands;
     NSMutableArray<RXEScriptSynonym *> *_synonyms;
@@ -53,6 +54,11 @@
 - (void)addElement:(RXEScriptElement *)element
 {
     [_elements addObject:element];
+}
+
+- (void)addContents:(RXEScriptContents *)contents
+{
+    [_contents addObject:contents];
 }
 
 - (void)addProperty:(RXEScriptProperty *)property

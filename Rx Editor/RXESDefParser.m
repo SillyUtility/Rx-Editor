@@ -13,6 +13,7 @@
 #import "RXEScriptClass.h"
 #import "RXEScriptCommand.h"
 #import "RXEScriptTypes.h"
+#import "NSMutableArray+Additions.h"
 
 NSString * const RXESDefDictionaryKey = @"dictionary";
 NSString * const RXESDefDocumentationKey = @"documentation";
@@ -31,7 +32,7 @@ NSString * const RXESDefParameterKey = @"parameter";
 NSString * const RXESDefClassKey = @"class";
 NSString * const RXESDefContentsKey = @"contents";
 NSString * const RXESDefElementKey = @"element";
-NSString * const RXESDefAccessorTypeKey = @"accessor-type";
+NSString * const RXESDefAccessorKey = @"accessor";
 NSString * const RXESDefPropertyKey = @"property";
 NSString * const RXESDefRespondsToKey = @"responds-to";
 NSString * const RXESDefClassExtKey = @"class-extension";
@@ -104,53 +105,53 @@ NSString * const RXESDefEnumeratorKey = @"enumerator";
     SLYTrace(@"startElem %@:%@ %@", parser, elementName, attributes);
 
     if ([elementName isEqualToString:RXESDefDocumentationKey]) {
-        [_stack addObject:[[RXEScriptDocumentation alloc] init]];
+        [_stack push:[[RXEScriptDocumentation alloc] init]];
     } else if ([elementName isEqualToString:RXESDefHTMLKey]) {
         // noop
     } else if ([elementName isEqualToString:RXESDefXRefKey]) {
-        [_stack addObject:[[RXEScriptXRef alloc] initWithAttributes:attributes]];
+        [_stack push:[[RXEScriptXRef alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefAccessGroupKey]) {
-        [_stack addObject:[[RXEScriptAccessGroup alloc] initWithAttributes:attributes]];
+        [_stack push:[[RXEScriptAccessGroup alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefCocoaKey]) {
-        [_stack addObject:[[RXEScriptCocoaImp alloc] initWithAttributes:attributes]];
+        [_stack push:[[RXEScriptCocoaImp alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefSuiteKey]) {
-        [_stack addObject:[[RXEScriptSuite alloc] initWithAttributes:attributes]];
+        [_stack push:[[RXEScriptSuite alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefSynonymKey]) {
-        [_stack addObject:[[RXEScriptSynonym alloc] initWithAttributes:attributes]];
+        [_stack push:[[RXEScriptSynonym alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefTypeKey]) {
-        [_stack addObject:[[RXEScriptType alloc] initWithAttributes:attributes]];
+        [_stack push:[[RXEScriptType alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefCommandKey]) {
-        [_stack addObject:[[RXEScriptCommand alloc] initWithAttributes:attributes]];
+        [_stack push:[[RXEScriptCommand alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefEventKey]) {
-        [_stack addObject:[[RXEScriptEvent alloc] initWithAttributes:attributes]];
+        [_stack push:[[RXEScriptEvent alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefDirectParameterKey]) {
-        [_stack addObject:[[RXEScriptDirectParameter alloc] initWithAttributes:attributes]];
+        [_stack push:[[RXEScriptDirectParameter alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefResultKey]) {
-        [_stack addObject:[[RXEScriptResult alloc] initWithAttributes:attributes]];
+        [_stack push:[[RXEScriptResult alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefParameterKey]) {
-        [_stack addObject:[[RXEScriptParameter alloc] initWithAttributes:attributes]];
+        [_stack push:[[RXEScriptParameter alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefClassKey]) {
-        [_stack addObject:[[RXEScriptClass alloc] initWithAttributes:attributes]];
+        [_stack push:[[RXEScriptClass alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefContentsKey]) {
-        [_stack addObject:[[RXEScriptContents alloc] initWithAttributes:attributes]];
+        [_stack push:[[RXEScriptContents alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefElementKey]) {
-        [_stack addObject:[[RXEScriptElement alloc] initWithAttributes:attributes]];
-    } else if ([elementName isEqualToString:RXESDefAccessorTypeKey]) {
-        [_stack addObject:[[RXEScriptAccessor alloc] initWithAttributes:attributes]];
+        [_stack push:[[RXEScriptElement alloc] initWithAttributes:attributes]];
+    } else if ([elementName isEqualToString:RXESDefAccessorKey]) {
+        [_stack push:[[RXEScriptAccessor alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefPropertyKey]) {
-        [_stack addObject:[[RXEScriptProperty alloc] initWithAttributes:attributes]];
+        [_stack push:[[RXEScriptProperty alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefRespondsToKey]) {
-        [_stack addObject:[[RXEScriptClassCommand alloc] initWithAttributes:attributes]];
+        [_stack push:[[RXEScriptClassCommand alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefClassExtKey]) {
-        [_stack addObject:[[RXEScriptClassExt alloc] initWithAttributes:attributes]];
+        [_stack push:[[RXEScriptClassExt alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefValueTypeKey]) {
-        [_stack addObject:[[RXEScriptValueType alloc] initWithAttributes:attributes]];
+        [_stack push:[[RXEScriptValueType alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefRecordTypeKey]) {
-        [_stack addObject:[[RXEScriptRecordType alloc] initWithAttributes:attributes]];
+        [_stack push:[[RXEScriptRecordType alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefEnumerationKey]) {
-        [_stack addObject:[[RXEScriptEnumeration alloc] initWithAttributes:attributes]];
+        [_stack push:[[RXEScriptEnumeration alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefEnumeratorKey]) {
-        [_stack addObject:[[RXEScriptEnumerator alloc] initWithAttributes:attributes]];
+        [_stack push:[[RXEScriptEnumerator alloc] initWithAttributes:attributes]];
     }
 }
 
@@ -162,22 +163,57 @@ NSString * const RXESDefEnumeratorKey = @"enumerator";
     SLYTrace(@"endElem %@:%@", parser, elementName);
 
     if ([elementName isEqualToString:RXESDefDocumentationKey]) {
-        id doc = _stack.lastObject;
-        [_stack removeLastObject];
+        id doc = _stack.pop;
         if (_stack.count == 0)
             [_docs addObject:doc];
         else
             [_stack.lastObject addDocumentation:doc];
     } else if ([elementName isEqualToString:RXESDefHTMLKey]) {
         // noop
+    } else if ([elementName isEqualToString:RXESDefXRefKey]) {
+        [_stack.lastObject addXRef:_stack.pop];
+    } else if ([elementName isEqualToString:RXESDefAccessGroupKey]) {
+        [_stack.lastObject addAccessGroup:_stack.pop];
+    } else if ([elementName isEqualToString:RXESDefCocoaKey]) {
+        [_stack.lastObject addCocoaImp:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefSuiteKey]) {
-        id suite = _stack.lastObject;
-        [_stack removeLastObject];
-        [_suites addObject:suite];
+        [_suites addObject:_stack.pop];
+    } else if ([elementName isEqualToString:RXESDefSynonymKey]) {
+        [_stack.lastObject addSynonym:_stack.pop];
+    } else if ([elementName isEqualToString:RXESDefTypeKey]) {
+        [_stack.lastObject addType:_stack.pop];
+    } else if ([elementName isEqualToString:RXESDefCommandKey]) {
+        [_stack.lastObject addCommand:_stack.pop];
+    } else if ([elementName isEqualToString:RXESDefEventKey]) {
+        [_stack.lastObject addEvent:_stack.pop];
+    } else if ([elementName isEqualToString:RXESDefDirectParameterKey]) {
+        [_stack.lastObject addDirectParameter:_stack.pop];
+    } else if ([elementName isEqualToString:RXESDefResultKey]) {
+        [_stack.lastObject addResult:_stack.pop];
+    } else if ([elementName isEqualToString:RXESDefParameterKey]) {
+        [_stack.lastObject addParameter:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefClassKey]) {
-        id klass = _stack.lastObject;
-        [_stack removeLastObject];
-        [_stack.lastObject addClass:klass];
+        [_stack.lastObject addClass:_stack.pop];
+    } else if ([elementName isEqualToString:RXESDefContentsKey]) {
+        [_stack.lastObject addContents:_stack.pop];
+    } else if ([elementName isEqualToString:RXESDefElementKey]) {
+        [_stack.lastObject addElement:_stack.pop];
+    } else if ([elementName isEqualToString:RXESDefAccessorKey]) {
+        [_stack.lastObject addAccessor:_stack.pop];
+    } else if ([elementName isEqualToString:RXESDefPropertyKey]) {
+        [_stack.lastObject addProperty:_stack.pop];
+    } else if ([elementName isEqualToString:RXESDefRespondsToKey]) {
+        [_stack.lastObject addClassCommand:_stack.pop];
+    } else if ([elementName isEqualToString:RXESDefClassExtKey]) {
+        [_stack.lastObject addClassExt:_stack.pop];
+    } else if ([elementName isEqualToString:RXESDefValueTypeKey]) {
+        [_stack.lastObject addValueType:_stack.pop];
+    } else if ([elementName isEqualToString:RXESDefRecordTypeKey]) {
+        [_stack.lastObject addRecordType:_stack.pop];
+    } else if ([elementName isEqualToString:RXESDefEnumerationKey]) {
+        [_stack.lastObject addEnumeration:_stack.pop];
+    } else if ([elementName isEqualToString:RXESDefEnumeratorKey]) {
+        [_stack.lastObject addEnumerator:_stack.pop];
     }
 }
 

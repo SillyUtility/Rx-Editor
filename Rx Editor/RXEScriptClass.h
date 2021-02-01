@@ -11,9 +11,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class RXEScriptCocoaImp, RXEScriptAccessGroup, RXEScriptType,
-    RXEScriptElement, RXEScriptProperty, RXEScriptClassCommand,
-    RXEScriptSynonym, RXEScriptAccessor, RXEScriptDocumentation,
-    RXEScriptXRef;
+    RXEScriptElement, RXEScriptContents, RXEScriptProperty,
+    RXEScriptClassCommand, RXEScriptSynonym, RXEScriptAccessor,
+    RXEScriptDocumentation, RXEScriptXRef;
 
 @interface RXEScriptClassContent : NSObject
 
@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) RXEScriptCocoaImp *cocoaImp;
 @property (readonly) NSArray<RXEScriptAccessGroup *> *accessGroups;
 @property (readonly) NSArray<RXEScriptElement *> *elements;
+@property (readonly) NSArray<RXEScriptContents *> *contents;
 @property (readonly) NSArray<RXEScriptProperty *> *properties;
 @property (readonly) NSArray<RXEScriptClassCommand *> *classCommands;
 @property (readonly) NSArray<RXEScriptSynonym *> *synonyms;
@@ -34,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)addCocoaImp:(RXEScriptCocoaImp *)cocoaImp;
 - (void)addAccessGroups:(RXEScriptAccessGroup *)accessGroup;
-- (void)addElement:(RXEScriptElement *)elements;
+- (void)addElement:(RXEScriptElement *)element;
+- (void)addContents:(RXEScriptContents *)contents;
 - (void)addProperty:(RXEScriptProperty *)property;
 - (void)addClassCommand:(RXEScriptClassCommand *)classCommand;
 - (void)addSynonym:(RXEScriptSynonym *)synonym;
