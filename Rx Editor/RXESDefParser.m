@@ -50,7 +50,7 @@ NSString * const RXESDefEnumeratorKey = @"enumerator";
     NSMutableArray<RXEScriptDocumentation *> *_docs;
 }
 
-- (instancetype)initWithData:(NSData *)xmlData
+- initWithData:(NSData *)xmlData
 {
     NSXMLDocument *xmlDoc;
     NSError *err;

@@ -12,7 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol ApplicationExports <JSExport>
-- (instancetype)initWithIdentifier:(NSString *)ident;
+- initWithIdentifier:(NSString *)ident;
 @property (nullable, readonly, copy) NSString *name;
 @end
 

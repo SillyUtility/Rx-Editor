@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RXESDefParser : NSObject <NSXMLParserDelegate>
 
-- (instancetype)initWithData:(NSData *)xmlData;
+- initWithData:(NSData *)xmlData;
 - (BOOL)parse;
 
 @property NSArray<RXEScriptSuite *> *suites;

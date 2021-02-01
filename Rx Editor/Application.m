@@ -25,7 +25,7 @@
     RXEScriptableApp *_scriptableApp;
 }
 
-- (instancetype)initWithIdentifier:(NSString *)ident
+- initWithIdentifier:(NSString *)ident
 {
     NSURL *url;
     OSAError err;

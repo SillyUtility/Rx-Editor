@@ -24,7 +24,7 @@
     JSContext *_context;
 }
 
-- (instancetype)init
+- init
 {
     SLYTraceCall();
 
