@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RXEScriptSuite.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
     RXEScriptParameter, RXEScriptResult, RXEScriptXRef,
     RXEScriptType;
 
-@interface RXEScriptVerb : NSObject
+@interface RXEScriptVerb : RXEScriptBaseObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 
@@ -54,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface RXEScriptEvent : RXEScriptVerb
 @end
 
-@interface RXEScriptDirectParameter : NSObject
+@interface RXEScriptDirectParameter : RXEScriptBaseObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 
@@ -71,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface RXEScriptParameter : NSObject
+@interface RXEScriptParameter : RXEScriptBaseObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 
@@ -93,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface RXEScriptResult : NSObject
+@interface RXEScriptResult : RXEScriptBaseObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 

@@ -6,10 +6,49 @@
 //  Copyright © 2021 Silly Utility LLC. All rights reserved.
 //
 
+#import <SillyLog/SillyLog.h>
+
 #import "RXEScriptSuite.h"
 #import "RXEScriptClass.h"
 #import "RXEScriptCommand.h"
 #import "RXEScriptTypes.h"
+
+@implementation RXEScriptBaseObject
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
+{
+    NSString *selName;
+    char *t1, *t2, *t3, *t4;
+    char sig[32];
+
+    if ([self respondsToSelector:aSelector])
+        return [super methodSignatureForSelector:aSelector];
+
+    selName = NSStringFromSelector(aSelector);
+    if ([selName hasPrefix:@"add"]) {
+        t1 = @encode(void);
+        t2 = @encode(id);
+        t3 = @encode(SEL);
+        t4 = @encode(id);
+        sprintf(sig, "%s%s%s%s", t1, t2, t3, t4);
+        return [NSMethodSignature signatureWithObjCTypes:(const char *)sig];
+    }
+
+    return [super methodSignatureForSelector:aSelector];
+}
+
+- (void)forwardInvocation:(NSInvocation *)anInvocation
+{
+    SEL sel;
+    NSString *selName;
+
+    sel = [anInvocation selector];
+    selName = NSStringFromSelector(sel);
+
+    SLYWarn(@"%@ doesn't respond to %@", self, selName);
+}
+
+@end
 
 @implementation RXEScriptSuite {
     RXEScriptCocoaImp *_cocoaImp;

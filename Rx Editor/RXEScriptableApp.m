@@ -6,6 +6,8 @@
 //  Copyright © 2021 Silly Utility LLC. All rights reserved.
 //
 
+#import <SillyLog/SillyLog.h>
+
 #import "RXEScriptableApp.h"
 #import "RXESDefParser.h"
 

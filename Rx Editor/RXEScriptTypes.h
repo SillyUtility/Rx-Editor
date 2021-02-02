@@ -7,13 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RXEScriptSuite.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class RXEScriptCocoaImp, RXEScriptSynonym, RXEScriptProperty,
     RXEScriptEnumerator, RXEScriptDocumentation, RXEScriptXRef;
 
-@interface RXEScriptType : NSObject
+@interface RXEScriptType : RXEScriptBaseObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 
@@ -27,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface RXEScriptValueType : NSObject
+@interface RXEScriptValueType : RXEScriptBaseObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 
@@ -50,8 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
-@interface RXEScriptRecordType : NSObject
+@interface RXEScriptRecordType : RXEScriptBaseObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 
@@ -76,8 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
-@interface RXEScriptEnumeration : NSObject
+@interface RXEScriptEnumeration : RXEScriptBaseObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 
@@ -100,8 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
-@interface RXEScriptEnumerator : NSObject
+@interface RXEScriptEnumerator : RXEScriptBaseObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 
@@ -119,6 +117,5 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addDocumentation:(RXEScriptDocumentation *)doc;
 
 @end
-
 
 NS_ASSUME_NONNULL_END

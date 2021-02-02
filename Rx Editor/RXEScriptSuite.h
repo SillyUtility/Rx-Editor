@@ -15,7 +15,10 @@ NS_ASSUME_NONNULL_BEGIN
     RXEScriptValueType, RXEScriptCocoaImp, RXEScriptAccessGroup,
     RXEScriptDocumentation;
 
-@interface RXEScriptSuite : NSObject
+@interface RXEScriptBaseObject : NSObject
+@end
+
+@interface RXEScriptSuite : RXEScriptBaseObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 
@@ -48,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface RXEScriptDocumentation : NSObject
+@interface RXEScriptDocumentation : RXEScriptBaseObject
 
 - init;
 
@@ -58,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface RXEScriptXRef : NSObject
+@interface RXEScriptXRef : RXEScriptBaseObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 
@@ -67,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface RXEScriptAccessGroup : NSObject
+@interface RXEScriptAccessGroup : RXEScriptBaseObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 
@@ -76,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface RXEScriptCocoaImp : NSObject
+@interface RXEScriptCocoaImp : RXEScriptBaseObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 
@@ -91,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface RXEScriptSynonym : NSObject
+@interface RXEScriptSynonym : RXEScriptBaseObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 
