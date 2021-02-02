@@ -171,49 +171,49 @@ NSString * const RXESDefEnumeratorKey = @"enumerator";
     } else if ([elementName isEqualToString:RXESDefHTMLKey]) {
         // noop
     } else if ([elementName isEqualToString:RXESDefXRefKey]) {
-        [_stack.lastObject addXRef:_stack.pop];
+        [_stack.ancestor addXRef:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefAccessGroupKey]) {
-        [_stack.lastObject addAccessGroup:_stack.pop];
+        [_stack.ancestor addAccessGroup:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefCocoaKey]) {
-        [_stack.lastObject addCocoaImp:_stack.pop];
+        [_stack.ancestor addCocoaImp:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefSuiteKey]) {
         [_suites addObject:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefSynonymKey]) {
-        [_stack.lastObject addSynonym:_stack.pop];
+        [_stack.ancestor addSynonym:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefTypeKey]) {
-        [_stack.lastObject addType:_stack.pop];
+        [_stack.ancestor addType:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefCommandKey]) {
-        [_stack.lastObject addCommand:_stack.pop];
+        [_stack.ancestor addCommand:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefEventKey]) {
-        [_stack.lastObject addEvent:_stack.pop];
+        [_stack.ancestor addEvent:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefDirectParameterKey]) {
-        [_stack.lastObject addDirectParameter:_stack.pop];
+        [_stack.ancestor addDirectParameter:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefResultKey]) {
-        [_stack.lastObject addResult:_stack.pop];
+        [_stack.ancestor addResult:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefParameterKey]) {
-        [_stack.lastObject addParameter:_stack.pop];
+        [_stack.ancestor addParameter:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefClassKey]) {
-        [_stack.lastObject addClass:_stack.pop];
+        [_stack.ancestor addClass:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefContentsKey]) {
-        [_stack.lastObject addContents:_stack.pop];
+        [_stack.ancestor addContents:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefElementKey]) {
-        [_stack.lastObject addElement:_stack.pop];
+        [_stack.ancestor addElement:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefAccessorKey]) {
-        [_stack.lastObject addAccessor:_stack.pop];
+        [_stack.ancestor addAccessor:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefPropertyKey]) {
-        [_stack.lastObject addProperty:_stack.pop];
+        [_stack.ancestor addProperty:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefRespondsToKey]) {
-        [_stack.lastObject addClassCommand:_stack.pop];
+        [_stack.ancestor addClassCommand:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefClassExtKey]) {
-        [_stack.lastObject addClassExt:_stack.pop];
+        [_stack.ancestor addClassExt:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefValueTypeKey]) {
-        [_stack.lastObject addValueType:_stack.pop];
+        [_stack.ancestor addValueType:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefRecordTypeKey]) {
-        [_stack.lastObject addRecordType:_stack.pop];
+        [_stack.ancestor addRecordType:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefEnumerationKey]) {
-        [_stack.lastObject addEnumeration:_stack.pop];
+        [_stack.ancestor addEnumeration:_stack.pop];
     } else if ([elementName isEqualToString:RXESDefEnumeratorKey]) {
-        [_stack.lastObject addEnumerator:_stack.pop];
+        [_stack.ancestor addEnumerator:_stack.pop];
     }
 }
 

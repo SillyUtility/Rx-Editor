@@ -58,6 +58,11 @@
     return self;
 }
 
+- (void)addCocoaImp:(RXEScriptCocoaImp *)cocoaImp
+{
+    _cocoaImp = cocoaImp;
+}
+
 - (void)addSynonym:(RXEScriptSynonym *)synonym
 {
     [_synonyms addObject:synonym];
@@ -100,6 +105,11 @@
     _xrefs = NSMutableArray.array;
 
     return self;
+}
+
+- (void)addCocoaImp:(RXEScriptCocoaImp *)cocoaImp
+{
+    _cocoaImp = cocoaImp;
 }
 
 - (void)addSynonym:(RXEScriptSynonym *)synonym
@@ -149,6 +159,11 @@
     return self;
 }
 
+- (void)addCocoaImp:(RXEScriptCocoaImp *)cocoaImp
+{
+    _cocoaImp = cocoaImp;
+}
+
 - (void)addEnumerator:(RXEScriptEnumerator *)enumerator
 {
     [_enumerators addObject:enumerator];
@@ -185,6 +200,11 @@
     _docs = NSMutableArray.array;
 
     return self;
+}
+
+- (void)addCocoaImp:(RXEScriptCocoaImp *)cocoaImp
+{
+    _cocoaImp = cocoaImp;
 }
 
 - (void)addSynonym:(RXEScriptSynonym *)synonym

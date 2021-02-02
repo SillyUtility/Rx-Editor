@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSMutableArray<ObjectType> (Additions)
 - (void)push:(ObjectType)anObject;
 - (ObjectType)pop;
+- (ObjectType)ancestor;
 @end
 
 NS_ASSUME_NONNULL_END

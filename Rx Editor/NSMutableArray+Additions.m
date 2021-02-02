@@ -22,4 +22,11 @@
     return last;
 }
 
+- (id)ancestor
+{
+    if (self.count < 2)
+        return nil;
+    return [self objectAtIndex:self.count - 2];
+}
+
 @end

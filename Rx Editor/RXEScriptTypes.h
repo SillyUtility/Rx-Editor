@@ -10,8 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class RXEScriptSynonym, RXEScriptProperty, RXEScriptEnumerator,
-    RXEScriptDocumentation, RXEScriptXRef;
+@class RXEScriptCocoaImp, RXEScriptSynonym, RXEScriptProperty,
+    RXEScriptEnumerator, RXEScriptDocumentation, RXEScriptXRef;
 
 @interface RXEScriptType : NSObject
 
@@ -38,10 +38,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) NSString *plural;
 @property (readonly) NSString *commentary;
 
+@property (readonly) RXEScriptCocoaImp *cocoaImp;
 @property (readonly) NSArray<RXEScriptSynonym *> *synonyms;
 @property (readonly) NSArray<RXEScriptDocumentation *> *docs;
 @property (readonly) NSArray<RXEScriptXRef *> *xrefs;
 
+- (void)addCocoaImp:(RXEScriptCocoaImp *)cocoaImp;
 - (void)addSynonym:(RXEScriptSynonym *)synonym;
 - (void)addDocumentation:(RXEScriptDocumentation *)doc;
 - (void)addXRef:(RXEScriptXRef *)xref;
@@ -60,11 +62,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *plural;
 @property NSString *commentary;
 
+@property (readonly) RXEScriptCocoaImp *cocoaImp;
 @property (readonly) NSArray<RXEScriptSynonym *> *synonyms;
 @property (readonly) NSArray<RXEScriptProperty *> *properties;
 @property (readonly) NSArray<RXEScriptDocumentation *> *docs;
 @property (readonly) NSArray<RXEScriptXRef *> *xrefs;
 
+- (void)addCocoaImp:(RXEScriptCocoaImp *)cocoaImp;
 - (void)addSynonym:(RXEScriptSynonym *)synonym;
 - (void)addProperty:(RXEScriptProperty *)property;
 - (void)addDocumentation:(RXEScriptDocumentation *)doc;
@@ -84,10 +88,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *commentary;
 @property NSString *inLine;
 
+@property (readonly) RXEScriptCocoaImp *cocoaImp;
 @property (readonly) NSArray<RXEScriptEnumerator *> *enumerators;
 @property (readonly) NSArray<RXEScriptDocumentation *> *docs;
 @property (readonly) NSArray<RXEScriptXRef *> *xrefs;
 
+- (void)addCocoaImp:(RXEScriptCocoaImp *)cocoaImp;
 - (void)addEnumerator:(RXEScriptEnumerator *)enumerator;
 - (void)addDocumentation:(RXEScriptDocumentation *)doc;
 - (void)addXRef:(RXEScriptXRef *)xref;
@@ -104,9 +110,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *hidden;
 @property NSString *commentary;
 
+@property (readonly) RXEScriptCocoaImp *cocoaImp;
 @property (readonly) NSArray<RXEScriptSynonym *> *synonyms;
 @property (readonly) NSArray<RXEScriptDocumentation *> *docs;
 
+- (void)addCocoaImp:(RXEScriptCocoaImp *)cocoaImp;
 - (void)addSynonym:(RXEScriptSynonym *)synonym;
 - (void)addDocumentation:(RXEScriptDocumentation *)doc;
 
