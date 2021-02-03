@@ -13,6 +13,7 @@
 
 #import "RXEDocument.h"
 #import "RXESDefParser.h"
+#import "RXERuntimeController.h"
 
 #import "Application.h"
 
@@ -21,7 +22,7 @@
 @end
 
 @implementation RXEDocument {
-    JSContext *_context;
+    RXERuntimeController *_runtimeController;
 }
 
 - init
@@ -31,10 +32,8 @@
     if (!(self = [super init]))
         return self;
 
-    _context = [[JSContext alloc] init];
-    _context.name = @"RXEDocument Context";
-    _context[@"Application"] = Application.class;
-    SLYTrace(@"_context %@", _context);
+    _runtimeController = [[RXERuntimeController alloc] init];
+    _runtimeController.JSContext.name = @"RXEDocument Context";
 
     return self;
 }

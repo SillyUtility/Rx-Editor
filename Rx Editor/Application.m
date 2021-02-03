@@ -7,6 +7,7 @@
 //
 
 #import <ScriptingBridge/ScriptingBridge.h>
+#import <JavaScriptCore/JavaScriptCore.h>
 #import <Carbon/Carbon.h>
 #import <SillyLog/SillyLog.h>
 
@@ -17,6 +18,7 @@
 #import "RXEScriptCommand.h"
 #import "RXEScriptTypes.h"
 
+#import "RXERuntimeController.h"
 #import "Application.h"
 
 @implementation Application {
@@ -66,17 +68,14 @@
         scriptingDefinition:scriptingDefinitionData
     ];
 
-    [self exportScriptableAttributes];
+    SLYTrace(@"currentContext %@", JSContext.currentContext);
+    [RXERuntimeController
+        exportScriptableApp:_scriptableApp
+        appInstance:self
+        context:JSContext.currentContext
+    ];
 
     return self;
-}
-
-- (void)exportScriptableAttributes
-{
-    SLYTrace(@"_scriptableApp %@", _scriptableApp);
-    SLYTrace(@"_scriptableApp.suites %@", _scriptableApp.suites);
-    for (id suite in _scriptableApp.suites)
-        SLYTrace(@" classes %@", [suite classes]);
 }
 
 @end
