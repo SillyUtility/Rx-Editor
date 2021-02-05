@@ -77,6 +77,7 @@
     ];
 
     // TODO: replace self with new instance of constructed AppName class
+    self = AppClass.new;
 
     return self;
 }

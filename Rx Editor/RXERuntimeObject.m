@@ -24,6 +24,16 @@ void setObject_Property(id self, SEL _cmd, id obj)
 
 }
 
+NSString *getString_Property(id self, SEL _cmd)
+{
+    return @"";
+}
+
+void setString_Property(id self, SEL _cmd, NSString *str)
+{
+
+}
+
 int getInt_Property(id self, SEL _cmd)
 {
     return 0;

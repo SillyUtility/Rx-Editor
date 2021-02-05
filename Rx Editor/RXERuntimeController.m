@@ -16,6 +16,7 @@
 #import "RXEScriptClass.h"
 #import "RXEScriptCommand.h"
 #import "RXEScriptTypes.h"
+#import "RXEUtilities.h"
 #import "Application.h"
 
 @implementation RXERuntimeController {
@@ -59,6 +60,10 @@
         [self exportSuite:suite appClass:AppClass context:ctx];
 
     // TODO: register classes & protocols
+    objc_registerClassPair(AppClass);
+    objc_registerProtocol(RXEGetExportProtocolForClass(AppClass));
+
+    ctx[sapp.appClassName] = AppClass;
 
     return AppClass;
 }
@@ -68,14 +73,20 @@
     context:(JSContext *)ctx
 {
     Class AppClass;
+    Protocol *ExportProtocol;
+    NSString *className;
     const char *appClassName;
 
-    appClassName = sapp.appClassName.UTF8String;
+    className = sapp.appClassName;
+    appClassName = className.UTF8String;
     AppClass = objc_allocateClassPair(
         RXERuntimeObject.class,
         appClassName,
         0
     );
+
+    ExportProtocol = RXEExportProtocolForClassName(className);
+    class_addProtocol(AppClass, ExportProtocol);
 
     return AppClass;
 }
@@ -99,6 +110,14 @@
 {
     if ([class.name isEqualToString:@"application"]) {
         SLYTrace(@"construct the application class");
+        RXEScriptProperty *prop = [[RXEScriptProperty alloc] initWithAttributes:@{
+            @"name": @"version",
+            @"code": @"vers",
+            @"type": @"text",
+            @"access": @"r",
+            @"description": @"the version of the Finder",
+        }];
+        RXERuntimeClassExportProperty(appClass, prop);
     }
 }
 

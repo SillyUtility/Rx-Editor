@@ -11,6 +11,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class RXEScriptProperty;
+
 @interface RXEUtilities : NSObject
 
 @end
@@ -20,5 +22,8 @@ NSString *RXEPropertyNameFromString(NSString *str);
 NSString *RXEMethodNameFromString(NSString *str);
 
 Protocol *RXEExportProtocolForClassName(NSString *className);
+Protocol *RXEGetExportProtocolForClass(Class class);
+
+void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property);
 
 NS_ASSUME_NONNULL_END

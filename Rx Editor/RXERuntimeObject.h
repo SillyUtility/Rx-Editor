@@ -17,6 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 id getObject_Property(id self, SEL _cmd);
 void setObject_Property(id self, SEL _cmd, id obj);
 
+NSString *getString_Property(id self, SEL _cmd);
+void setString_Property(id self, SEL _cmd, NSString *str);
+
 int getInt_Property(id self, SEL _cmd);
 void setInt_Property(id self, SEL _cmd, int i);
 

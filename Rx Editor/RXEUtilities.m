@@ -10,6 +10,12 @@
 #import <SillyLog/SillyLog.h>
 
 #import "RXEUtilities.h"
+#import "RXERuntimeObject.h"
+#import "RXEScriptableApp.h"
+#import "RXEScriptSuite.h"
+#import "RXEScriptClass.h"
+#import "RXEScriptCommand.h"
+#import "RXEScriptTypes.h"
 
 @implementation RXEUtilities
 
@@ -87,4 +93,61 @@ Protocol *RXEExportProtocolForClassName(NSString *className)
     protocol_addProtocol(ExportProtocol, JSExportProtocol);
 
     return ExportProtocol;
+}
+
+Protocol *RXEGetExportProtocolForClass(Class class)
+{
+    Protocol *ExportProtocol;
+    const char *exportProtocolName;
+    Protocol * __unsafe_unretained _Nonnull *protoList;
+    unsigned int outc;
+
+    exportProtocolName = [NSString stringWithFormat:@"%sExports", class_getName(class)].UTF8String;
+    //ExportProtocol = objc_getProtocol(exportProtocolName);
+
+    protoList = class_copyProtocolList(class, &outc);
+    for (unsigned int i = 0; i < outc; i++) {
+        const char *protoName = protocol_getName(protoList[i]);
+        if (strcmp(protoName, exportProtocolName) == 0) {
+            ExportProtocol = protoList[i];
+            break;
+        }
+    }
+
+    return ExportProtocol;
+}
+
+void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
+{
+    BOOL success;
+    Protocol *proto;
+    SEL getSel, setSel;
+    IMP getImp, setImp;
+    const char *propName, *propVar,
+        *getName, *setName, *getType,
+        *setType;
+
+    propName = property.name.UTF8String;
+    propVar = [NSString stringWithFormat:@"_%@", property.name].UTF8String;
+    getName = strdup(propName);
+    setName = [NSString stringWithFormat:@"set%@:", property.name.capitalizedString].UTF8String;
+    getType = "@@:";
+    setType = "v@:@";
+
+    const objc_property_attribute_t pattrs[] = {
+        { "T", @encode(NSString *) },
+        { "V", propVar },
+    };
+    success = class_addProperty(class, propName, pattrs, 2);
+
+    proto = RXEGetExportProtocolForClass(class);
+    protocol_addProperty(proto, propName, pattrs, 2, YES, YES);
+
+    getSel = sel_registerName(getName);
+    getImp = (IMP)getString_Property;
+    success = class_addMethod(class, getSel, getImp, getType);
+
+    setSel = sel_registerName(setName);
+    setImp = (IMP)setString_Property;
+    success = class_addMethod(class, setSel, setImp, setType);
 }
