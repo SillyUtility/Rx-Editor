@@ -6,6 +6,8 @@
 //  Copyright © 2021 Silly Utility LLC. All rights reserved.
 //
 
+#import <JavaScriptCore/JavaScriptCore.h>
+#import <SillyLog/SillyLog.h>
 
 #import "RXEUtilities.h"
 
@@ -70,4 +72,19 @@ NSString *RXEMethodNameFromString(NSString *str)
 {
     NSString *name;
     return name;
+}
+
+Protocol *RXEExportProtocolForClassName(NSString *className)
+{
+    Protocol *ExportProtocol;
+    Protocol *JSExportProtocol;
+    const char *exportProtocolName;
+
+    exportProtocolName = [className stringByAppendingString:@"Exports"].UTF8String;
+    ExportProtocol = objc_allocateProtocol(exportProtocolName);
+
+    JSExportProtocol = objc_getProtocol("JSExport");
+    protocol_addProtocol(ExportProtocol, JSExportProtocol);
+
+    return ExportProtocol;
 }

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <objc/runtime.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,5 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 NSString *RXEClassNameFromString(NSString *str);
 NSString *RXEPropertyNameFromString(NSString *str);
 NSString *RXEMethodNameFromString(NSString *str);
+
+Protocol *RXEExportProtocolForClassName(NSString *className);
 
 NS_ASSUME_NONNULL_END

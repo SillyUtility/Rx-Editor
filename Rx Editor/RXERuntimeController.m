@@ -58,7 +58,7 @@
     for (id suite in sapp.suites)
         [self exportSuite:suite appClass:AppClass context:ctx];
 
-    // TODO: register class
+    // TODO: register classes & protocols
 
     return AppClass;
 }
