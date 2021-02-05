@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)exportFundamentalClasses;
 
-+ (void)exportScriptableApp:(RXEScriptableApp *)sapp
++ (Class)exportScriptableApp:(RXEScriptableApp *)sapp
     appInstance:(Application *)app
     context:(JSContext *)ctx;
 

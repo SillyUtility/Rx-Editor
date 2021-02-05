@@ -45,38 +45,47 @@
     _context[@"Application"] = Application.class;
 }
 
-+ (void)exportScriptableApp:(RXEScriptableApp *)sapp
++ (Class)exportScriptableApp:(RXEScriptableApp *)sapp
     appInstance:(Application *)app
     context:(JSContext *)ctx
 {
     SLYTrace(@"_scriptableApp %@", sapp);
 
-    [self exportAppClass:sapp appInstance:app context:ctx];
+    Class AppClass;
+
+    AppClass = [self exportAppClass:sapp appInstance:app context:ctx];
 
     for (id suite in sapp.suites)
-        [self exportSuite:suite appInstance:app context:ctx];
+        [self exportSuite:suite appClass:AppClass context:ctx];
+
+    // TODO: register class
+
+    return AppClass;
 }
 
-+ (void)exportAppClass:(RXEScriptableApp *)sapp
++ (Class)exportAppClass:(RXEScriptableApp *)sapp
     appInstance:(Application *)app
     context:(JSContext *)ctx
 {
     Class AppClass;
     const char *appClassName;
 
-    appClassName = sapp.appName.UTF8String;
+    appClassName = sapp.appClassName.UTF8String;
     AppClass = objc_allocateClassPair(
         RXERuntimeObject.class,
         appClassName,
         0
     );
+
+    return AppClass;
 }
 
 + (void)exportSuite:(RXEScriptSuite *)suite
-    appInstance:(Application *)app
+    appClass:(Class)appClass
     context:(JSContext *)ctx
 {
-
+    for (id class in suite.classes)
+        [self exportClass:class appClass:appClass ctx:ctx];
 }
 
 + (void)exportCommand
@@ -85,10 +94,12 @@
 }
 
 + (void)exportClass:(RXEScriptClass *)class
-    appInstance:(Application *)app
+    appClass:(Class)appClass
     ctx:(JSContext *)ctx
 {
-
+    if ([class.name isEqualToString:@"application"]) {
+        SLYTrace(@"construct the application class");
+    }
 }
 
 @end

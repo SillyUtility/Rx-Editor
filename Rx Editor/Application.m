@@ -32,6 +32,7 @@
     NSURL *url;
     OSAError err;
     CFDataRef scriptingDefinitionData;
+    Class AppClass;
 
     SLYTraceCall();
 
@@ -69,7 +70,7 @@
     ];
 
     SLYTrace(@"currentContext %@", JSContext.currentContext);
-    [RXERuntimeController
+    AppClass = [RXERuntimeController
         exportScriptableApp:_scriptableApp
         appInstance:self
         context:JSContext.currentContext
