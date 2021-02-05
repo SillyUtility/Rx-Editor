@@ -7,4 +7,7 @@
    <FileRef
       location = "group:../Frameworks/SillyLog/SillyLog.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:ObjCRuntimeFun/ObjCRuntimeFun.xcodeproj">
+   </FileRef>
 </Workspace>

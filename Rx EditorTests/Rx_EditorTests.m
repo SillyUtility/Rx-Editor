@@ -6,6 +6,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "RXEUtilities.h"
 
 @interface Rx_EditorTests : XCTestCase
 
@@ -13,24 +14,34 @@
 
 @implementation Rx_EditorTests
 
-- (void)setUp {
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-}
+- (void)testRXEClassNameFromString
+{
+    NSString *className;
+    NSString *expect;
 
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-}
+    className = RXEClassNameFromString(@"Finder");
+    expect = @"Finder";
+    XCTAssert([className isEqualToString:expect],
+         @"expected %@, got %@", expect, className
+    );
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
-}
+    className = RXEClassNameFromString(@"Script Editor");
+    expect = @"ScriptEditor";
+    XCTAssert([className isEqualToString:expect],
+         @"expected %@, got %@", expect, className
+    );
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
+    className = RXEClassNameFromString(@"  Shit2 app! ");
+    expect = @"Shit2App";
+    XCTAssert([className isEqualToString:expect],
+        @"expected %@, got %@", expect, className
+    );
+
+    className = RXEClassNameFromString(@"Sweet β");
+    expect = @"SweetB";
+    XCTAssert([className isEqualToString:expect],
+         @"expected %@, got %@", expect, className
+    );
 }
 
 @end

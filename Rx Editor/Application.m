@@ -75,6 +75,8 @@
         context:JSContext.currentContext
     ];
 
+    // TODO: replace self with new instance of constructed AppName class
+
     return self;
 }
 

@@ -10,6 +10,7 @@
 
 #import "RXEScriptableApp.h"
 #import "RXESDefParser.h"
+#import "RXEUtilities.h"
 
 @implementation RXEScriptableApp
 
@@ -30,6 +31,11 @@
     _suites = parser.suites;
 
     return self;
+}
+
+- (NSString *)appClassName
+{
+    return RXEClassNameFromString(self.appName);
 }
 
 @end

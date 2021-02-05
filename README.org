@@ -13,6 +13,7 @@ Rx Editor is a script editor with a interactive interpreter.
 - NSXMLDocumentXInclude requires macOS 10.12
 - ScriptingBridge requires macOS 10.5
 - OSAKit some requires macOS 10.6, some macOS 10.10
+- stringByApplyingTransform:reverse: requires macOS 10.11
 
 * Scripting headers
 

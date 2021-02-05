@@ -7,9 +7,12 @@
 //
 
 #import <JavaScriptCore/JavaScriptCore.h>
+#import <objc/runtime.h>
 #import <SillyLog/SillyLog.h>
 #import "RXERuntimeController.h"
+#import "RXERuntimeObject.h"
 #import "RXEScriptableApp.h"
+#import "RXEScriptSuite.h"
 #import "RXEScriptClass.h"
 #import "RXEScriptCommand.h"
 #import "RXEScriptTypes.h"
@@ -47,9 +50,45 @@
     context:(JSContext *)ctx
 {
     SLYTrace(@"_scriptableApp %@", sapp);
-    SLYTrace(@"_scriptableApp.suites %@", sapp.suites);
+
+    [self exportAppClass:sapp appInstance:app context:ctx];
+
     for (id suite in sapp.suites)
-        SLYTrace(@" classes %@", [suite classes]);
+        [self exportSuite:suite appInstance:app context:ctx];
+}
+
++ (void)exportAppClass:(RXEScriptableApp *)sapp
+    appInstance:(Application *)app
+    context:(JSContext *)ctx
+{
+    Class AppClass;
+    const char *appClassName;
+
+    appClassName = sapp.appName.UTF8String;
+    AppClass = objc_allocateClassPair(
+        RXERuntimeObject.class,
+        appClassName,
+        0
+    );
+}
+
++ (void)exportSuite:(RXEScriptSuite *)suite
+    appInstance:(Application *)app
+    context:(JSContext *)ctx
+{
+
+}
+
++ (void)exportCommand
+{
+
+}
+
++ (void)exportClass:(RXEScriptClass *)class
+    appInstance:(Application *)app
+    ctx:(JSContext *)ctx
+{
+
 }
 
 @end

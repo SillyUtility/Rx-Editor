@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface RXEScriptableApp : NSObject
 - initWithName:(NSString *)name scriptingDefinition:(CFDataRef)scdata;
 @property (nullable, readonly, copy) NSString *appName;
+@property (readonly) NSString *appClassName;
 @property (readonly) NSArray<RXEScriptSuite *> *suites;
 @end
 

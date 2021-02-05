@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2C08832725C8A62F00370B89 /* NSMutableArray+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C08832625C8A62F00370B89 /* NSMutableArray+Additions.m */; };
 		2C08832F25CA2E2000370B89 /* RXERuntimeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C08832E25CA2E2000370B89 /* RXERuntimeController.m */; };
+		2C08833525CA734100370B89 /* RXERuntimeObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C08833425CA734100370B89 /* RXERuntimeObject.m */; };
+		2C08834E25CC8FDC00370B89 /* RXEUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C08834D25CC8FDC00370B89 /* RXEUtilities.m */; };
 		2C2DE05025AA443500D70A58 /* RXEAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2DE04F25AA443500D70A58 /* RXEAppDelegate.m */; };
 		2C2DE05325AA443500D70A58 /* RXEViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2DE05225AA443500D70A58 /* RXEViewController.m */; };
 		2C2DE05625AA443500D70A58 /* RXEDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2DE05525AA443500D70A58 /* RXEDocument.m */; };
@@ -77,6 +79,12 @@
 		2C08832625C8A62F00370B89 /* NSMutableArray+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Additions.m"; sourceTree = "<group>"; };
 		2C08832D25CA2E2000370B89 /* RXERuntimeController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RXERuntimeController.h; sourceTree = "<group>"; };
 		2C08832E25CA2E2000370B89 /* RXERuntimeController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RXERuntimeController.m; sourceTree = "<group>"; };
+		2C08833325CA734100370B89 /* RXERuntimeObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RXERuntimeObject.h; sourceTree = "<group>"; };
+		2C08833425CA734100370B89 /* RXERuntimeObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RXERuntimeObject.m; sourceTree = "<group>"; };
+		2C08834C25CC8FDC00370B89 /* RXEUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RXEUtilities.h; sourceTree = "<group>"; };
+		2C08834D25CC8FDC00370B89 /* RXEUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RXEUtilities.m; sourceTree = "<group>"; };
+		2C08835425CCABFD00370B89 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
+		2C08835525CCB2B800370B89 /* libicucore.A.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.A.tbd; path = usr/lib/libicucore.A.tbd; sourceTree = SDKROOT; };
 		2C2DE04B25AA443500D70A58 /* Rx Editor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rx Editor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C2DE04E25AA443500D70A58 /* RXEAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RXEAppDelegate.h; sourceTree = "<group>"; };
 		2C2DE04F25AA443500D70A58 /* RXEAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RXEAppDelegate.m; sourceTree = "<group>"; };
@@ -159,6 +167,15 @@
 			name = Additions;
 			sourceTree = "<group>";
 		};
+		2C08835125CC8FE500370B89 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				2C08834C25CC8FDC00370B89 /* RXEUtilities.h */,
+				2C08834D25CC8FDC00370B89 /* RXEUtilities.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		2C2DE04225AA443500D70A58 = {
 			isa = PBXGroup;
 			children = (
@@ -193,6 +210,7 @@
 				2CF7BC0025B4CC0800F6BB81 /* Scriptable Definition */,
 				2CF7BC0225B4CC4100F6BB81 /* Runtime */,
 				2C08833225CA38EF00370B89 /* Additions */,
+				2C08835125CC8FE500370B89 /* Utilities */,
 				2C2DE05725AA443600D70A58 /* Assets.xcassets */,
 				2C2DE05925AA443600D70A58 /* Main.storyboard */,
 				2C2DE05C25AA443600D70A58 /* Info.plist */,
@@ -224,6 +242,8 @@
 		2C2DE0B025AA5D5100D70A58 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2C08835525CCB2B800370B89 /* libicucore.A.tbd */,
+				2C08835425CCABFD00370B89 /* libicucore.tbd */,
 				2CF7BBEE25B2689800F6BB81 /* JavaScriptCore.framework */,
 				2CF7BBC825B15CED00F6BB81 /* SillyLog.xcodeproj */,
 				2CF7BBBA25B1161200F6BB81 /* Carbon.framework */,
@@ -266,6 +286,8 @@
 			children = (
 				2C08832D25CA2E2000370B89 /* RXERuntimeController.h */,
 				2C08832E25CA2E2000370B89 /* RXERuntimeController.m */,
+				2C08833325CA734100370B89 /* RXERuntimeObject.h */,
+				2C08833425CA734100370B89 /* RXERuntimeObject.m */,
 				2CF7BBF725B3891200F6BB81 /* Application.h */,
 				2CF7BBF825B3891300F6BB81 /* Application.m */,
 			);
@@ -423,8 +445,10 @@
 				2CF7BBE125B23BF600F6BB81 /* RXEScriptSuite.m in Sources */,
 				2C2DE05625AA443500D70A58 /* RXEDocument.m in Sources */,
 				2CF7BBC125B1193000F6BB81 /* RXESDefParser.m in Sources */,
+				2C08834E25CC8FDC00370B89 /* RXEUtilities.m in Sources */,
 				2C2DE05325AA443500D70A58 /* RXEViewController.m in Sources */,
 				2C2DE05E25AA443600D70A58 /* main.m in Sources */,
+				2C08833525CA734100370B89 /* RXERuntimeObject.m in Sources */,
 				2C08832F25CA2E2000370B89 /* RXERuntimeController.m in Sources */,
 				2C08832725C8A62F00370B89 /* NSMutableArray+Additions.m in Sources */,
 				2CF7BBE625B23C0B00F6BB81 /* RXEScriptClass.m in Sources */,
