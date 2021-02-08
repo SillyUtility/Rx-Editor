@@ -9,6 +9,8 @@
 #import <AppKit/AppKit.h>
 #import <JavaScriptCore/JavaScriptCore.h>
 
+#import "RXERuntimeObject.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol ApplicationExports <JSExport>
@@ -16,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, readonly, copy) NSString *name;
 @end
 
-@interface Application : NSObject <ApplicationExports>
+@interface Application : RXERuntimeObject <ApplicationExports>
 @property (nullable, readonly, copy) NSString *name;
 @end
 

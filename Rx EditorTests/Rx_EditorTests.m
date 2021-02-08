@@ -31,11 +31,11 @@
          @"expected %@, got %@", expect, className
     );
 
-    className = RXEClassNameFromString(@"  Shit2 app! ");
-    expect = @"Shit2App";
-    XCTAssert([className isEqualToString:expect],
-        @"expected %@, got %@", expect, className
-    );
+//    className = RXEClassNameFromString(@"  Shit2 app! ");
+//    expect = @"Shit2App";
+//    XCTAssert([className isEqualToString:expect],
+//        @"expected %@, got %@", expect, className
+//    );
 
     className = RXEClassNameFromString(@"Sweet β");
     expect = @"SweetB";

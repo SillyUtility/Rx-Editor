@@ -83,8 +83,6 @@
 		2C08833425CA734100370B89 /* RXERuntimeObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RXERuntimeObject.m; sourceTree = "<group>"; };
 		2C08834C25CC8FDC00370B89 /* RXEUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RXEUtilities.h; sourceTree = "<group>"; };
 		2C08834D25CC8FDC00370B89 /* RXEUtilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RXEUtilities.m; sourceTree = "<group>"; };
-		2C08835425CCABFD00370B89 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
-		2C08835525CCB2B800370B89 /* libicucore.A.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.A.tbd; path = usr/lib/libicucore.A.tbd; sourceTree = SDKROOT; };
 		2C2DE04B25AA443500D70A58 /* Rx Editor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rx Editor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C2DE04E25AA443500D70A58 /* RXEAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RXEAppDelegate.h; sourceTree = "<group>"; };
 		2C2DE04F25AA443500D70A58 /* RXEAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RXEAppDelegate.m; sourceTree = "<group>"; };
@@ -242,8 +240,6 @@
 		2C2DE0B025AA5D5100D70A58 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2C08835525CCB2B800370B89 /* libicucore.A.tbd */,
-				2C08835425CCABFD00370B89 /* libicucore.tbd */,
 				2CF7BBEE25B2689800F6BB81 /* JavaScriptCore.framework */,
 				2CF7BBC825B15CED00F6BB81 /* SillyLog.xcodeproj */,
 				2CF7BBBA25B1161200F6BB81 /* Carbon.framework */,
@@ -621,6 +617,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Rx Editor/Rx_Editor.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = A7JNPZ3RZ7;
@@ -642,6 +639,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Rx Editor/Rx_Editor.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = A7JNPZ3RZ7;

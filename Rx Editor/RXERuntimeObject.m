@@ -6,13 +6,23 @@
 //  Copyright © 2021 Silly Utility LLC. All rights reserved.
 //
 
+#import <SillyLog/SillyLog.h>
+#import <ScriptingBridge/ScriptingBridge.h>
 #import "RXERuntimeObject.h"
 
 @implementation RXERuntimeObject {
     id _bridgeObj;
 }
 
-@end
+- initWithBridgeObject:(id)bridgeObj
+{
+    if (!(self = [super init]))
+        return self;
+
+    _bridgeObj = bridgeObj;
+
+    return self;
+}
 
 id getObject_Property(id self, SEL _cmd)
 {
@@ -24,14 +34,16 @@ void setObject_Property(id self, SEL _cmd, id obj)
 
 }
 
-NSString *getString_Property(id self, SEL _cmd)
+NSString *getString_Property(RXERuntimeObject *self, SEL _cmd)
 {
-    return @"";
+    SLYTraceCall(@"%@ %@ %@", self, self->_bridgeObj, NSStringFromSelector(_cmd));
+    return [self->_bridgeObj performSelector:_cmd];
 }
 
-void setString_Property(id self, SEL _cmd, NSString *str)
+void setString_Property(RXERuntimeObject *self, SEL _cmd, NSString *str)
 {
-
+    SLYTraceCall(@"%@ %@ %@", self, self->_bridgeObj, NSStringFromSelector(_cmd));
+    [self->_bridgeObj performSelector:_cmd withObject:str];
 }
 
 int getInt_Property(id self, SEL _cmd)
@@ -43,3 +55,5 @@ void setInt_Property_i(id self, SEL _cmd, int i)
 {
 
 }
+
+@end

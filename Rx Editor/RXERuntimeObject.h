@@ -11,8 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface RXERuntimeObject : NSObject
-
-@end
+- initWithBridgeObject:(id)bridgeObj;
 
 id getObject_Property(id self, SEL _cmd);
 void setObject_Property(id self, SEL _cmd, id obj);
@@ -22,5 +21,7 @@ void setString_Property(id self, SEL _cmd, NSString *str);
 
 int getInt_Property(id self, SEL _cmd);
 void setInt_Property(id self, SEL _cmd, int i);
+
+@end
 
 NS_ASSUME_NONNULL_END

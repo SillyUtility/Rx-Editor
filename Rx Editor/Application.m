@@ -19,6 +19,7 @@
 #import "RXEScriptTypes.h"
 
 #import "RXERuntimeController.h"
+#import "RXERuntimeObject.h"
 #import "Application.h"
 
 @implementation Application {
@@ -76,8 +77,8 @@
         context:JSContext.currentContext
     ];
 
-    // TODO: replace self with new instance of constructed AppName class
-    self = AppClass.new;
+    self = [[AppClass alloc] initWithBridgeObject:_app];
+    SLYTrace(@"%@.version = %@", self, [self valueForKey:@"version"]);
 
     return self;
 }

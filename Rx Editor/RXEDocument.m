@@ -35,6 +35,15 @@
     _runtimeController = [[RXERuntimeController alloc] init];
     _runtimeController.JSContext.name = @"RXEDocument Context";
 
+//    NSAppleScript *scrpt = [[NSAppleScript alloc] initWithSource:
+//        @"tell application \"Finder\"\n"
+//            @"\tproperties\n"
+//        @"end tell\n"
+//    ];
+//    NSDictionary *error;
+//    NSAppleEventDescriptor *aed = [scrpt executeAndReturnError:&error];
+//    NSLog(@"script did %@ %@", aed, error);
+
     return self;
 }
 

@@ -125,7 +125,12 @@ void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
     IMP getImp, setImp;
     const char *propName, *propVar,
         *getName, *setName, *getType,
-        *setType;
+        *setType, *className, *protoName;
+
+    proto = RXEGetExportProtocolForClass(class);
+
+    className = class_getName(class);
+    protoName = protocol_getName(proto);
 
     propName = property.name.UTF8String;
     propVar = [NSString stringWithFormat:@"_%@", property.name].UTF8String;
@@ -139,15 +144,18 @@ void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
         { "V", propVar },
     };
     success = class_addProperty(class, propName, pattrs, 2);
+    SLYTrace(@"add prop %s to %s? %@", propName, className, @(success));
 
-    proto = RXEGetExportProtocolForClass(class);
     protocol_addProperty(proto, propName, pattrs, 2, YES, YES);
+    SLYTrace(@"add prop %s to %s? %@", propName, protoName, @(success));
 
     getSel = sel_registerName(getName);
     getImp = (IMP)getString_Property;
     success = class_addMethod(class, getSel, getImp, getType);
+    SLYTrace(@"add meth %s to %s? %@", getName, className, @(success));
 
     setSel = sel_registerName(setName);
     setImp = (IMP)setString_Property;
     success = class_addMethod(class, setSel, setImp, setType);
+    SLYTrace(@"add meth %s to %s? %@", setName, className, @(success));
 }

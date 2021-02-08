@@ -59,5 +59,9 @@
 			</dict>
 		</dict>
 	</array>
+	<key>NSAppleScriptEnabled</key>
+	<string>YES</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>I&apos;m a script editor.</string>
 </dict>
 </plist>
