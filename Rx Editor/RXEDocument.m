@@ -14,6 +14,7 @@
 #import "RXEDocument.h"
 #import "RXESDefParser.h"
 #import "RXERuntimeController.h"
+#import "RXEUtilities.h"
 
 #import "Application.h"
 
@@ -43,6 +44,9 @@
 //    NSDictionary *error;
 //    NSAppleEventDescriptor *aed = [scrpt executeAndReturnError:&error];
 //    NSLog(@"script did %@ %@", aed, error);
+
+    SLYInfo(@"describe \n%@", RXEDescribeClass(NSClassFromString(@"Application")));
+    SLYInfo(@"describe \n%@", RXEDescribeProtocol(NSProtocolFromString(@"ApplicationExports")));
 
     return self;
 }

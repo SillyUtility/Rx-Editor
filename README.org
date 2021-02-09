@@ -45,3 +45,10 @@ Rx Editor is a script editor with a interactive interpreter.
 - AppKit/NSWindowScripting.h
 - AppleScriptKit/ASKPluginObject.h
 - AppleScriptObjC/AppleScriptObjC.h
+
+* Documentation
+
+- [[https://developer.apple.com/library/archive/documentation/Miscellaneous/Reference/EntitlementKeyReference/Chapters/EnablingAppSandbox.html#//apple_ref/doc/uid/TP40011195-CH4-SW25][Enabling Scripting of Other Apps]]
+- [[https://developer.apple.com/documentation/bundleresources/information_property_list/nsappleeventsusagedescription?language=objc][NSAppleEventsUsageDescription]]
+- [[https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtTypeEncodings.html][ObjC Type Encodings]]
+- [[https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html#//apple_ref/doc/uid/TP40008048-CH101-SW1][Property Declarations & Encodings]]

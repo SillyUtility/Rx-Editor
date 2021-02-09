@@ -159,3 +159,130 @@ void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
     success = class_addMethod(class, setSel, setImp, setType);
     SLYTrace(@"add meth %s to %s? %@", setName, className, @(success));
 }
+
+NSString *RXEDescribeClass(Class class)
+{
+    NSMutableString *description;
+    Class superclass;
+    const char *name, *supername;
+    Protocol * __unsafe_unretained _Nonnull * _Nullable protolist;
+    Ivar _Nonnull * _Nullable ivarlist;
+    objc_property_t _Nonnull * _Nullable proplist;
+    Method _Nonnull * _Nullable methodlist;
+    unsigned int i, outc;
+
+    description = NSMutableString.string;
+    name = class_getName(class);
+    superclass = class_getSuperclass(class);
+    supername = class_getName(superclass);
+
+    [description appendFormat:@"%s extends %s\n", name, supername];
+
+    protolist = class_copyProtocolList(class, &outc);
+    for (i = 0; i < outc; i++)
+        [description appendFormat:@"\tconforms to %s\n", protocol_getName(protolist[i])];
+
+    ivarlist = class_copyIvarList(class, &outc);
+    for (i = 0; i < outc; i++)
+        [description appendFormat:@"\tivar %@\n", RXEDescribeIvar(ivarlist[i])];
+
+    proplist = class_copyPropertyList(class, &outc);
+    for (i = 0; i < outc; i++)
+        [description appendFormat:@"\tprop %@\n", RXEDescribeProperty(proplist[i])];
+
+    methodlist = class_copyMethodList(class, &outc);
+    for (i = 0; i < outc; i++)
+        [description appendFormat:@"\tmeth %@\n", RXEDescribeMethod(methodlist[i])];
+
+    return description;
+}
+
+NSString *RXEDescribeProtocol(Protocol *proto)
+{
+    NSMutableString *description;
+    const char *name;
+    Protocol * __unsafe_unretained _Nonnull * _Nullable protolist;
+    objc_property_t _Nonnull * _Nullable proplist;
+    struct objc_method_description * _Nullable methodlist;
+    unsigned int i, outc;
+
+    description = NSMutableString.string;
+    name = protocol_getName(proto);
+
+    [description appendFormat:@"%s\n", name];
+
+    protolist = protocol_copyProtocolList(proto, &outc);
+    for (i = 0; i < outc; i++)
+        [description appendFormat:@"\tconforms to %s\n", protocol_getName(protolist[i])];
+
+    proplist = protocol_copyPropertyList2(proto, &outc, YES, YES);
+    for (i = 0; i < outc; i++)
+        [description appendFormat:@"\tr prop %@\n", RXEDescribeProperty(proplist[i])];
+
+    proplist = protocol_copyPropertyList2(proto, &outc, NO, YES);
+    for (i = 0; i < outc; i++)
+        [description appendFormat:@"\to prop %@\n", RXEDescribeProperty(proplist[i])];
+
+    methodlist = protocol_copyMethodDescriptionList(proto, YES, YES, &outc);
+    for (i = 0; i < outc; i++)
+        [description appendFormat:@"\tr meth %s %s\n",
+            sel_getName(methodlist[i].name),
+            methodlist[i].types
+        ];
+
+    methodlist = protocol_copyMethodDescriptionList(proto, NO, YES, &outc);
+    for (i = 0; i < outc; i++)
+        [description appendFormat:@"\to meth %s %s\n",
+            sel_getName(methodlist[i].name),
+            methodlist[i].types
+        ];
+
+    return description;
+}
+
+NSString *RXEDescribeProperty(objc_property_t prop)
+{
+    const char *name, *attrs;
+
+    name = property_getName(prop);
+    attrs = property_getAttributes(prop);
+
+    return [NSString stringWithFormat:@"%s %s",
+        name,
+        attrs
+    ];
+}
+
+NSString *RXEDescribeMethod(Method meth)
+{
+    SEL sel;
+    IMP imp;
+    const char *name, *sig;
+
+    sel = method_getName(meth);
+    imp = method_getImplementation(meth);
+    name = sel_getName(sel);
+    sig = method_getTypeEncoding(meth);
+
+    return [NSString stringWithFormat:@"%s %s %p",
+        name,
+        sig,
+        (void *)imp
+    ];
+}
+
+NSString *RXEDescribeIvar(Ivar ivar)
+{
+    const char *name, *type;
+    ptrdiff_t offset;
+
+    name = ivar_getName(ivar);
+    type = ivar_getTypeEncoding(ivar);
+    offset = ivar_getOffset(ivar);
+
+    return [NSString stringWithFormat:@"%s %s %td",
+        name,
+        type,
+        offset
+    ];
+}

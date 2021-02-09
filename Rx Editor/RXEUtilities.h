@@ -26,4 +26,10 @@ Protocol *RXEGetExportProtocolForClass(Class class);
 
 void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property);
 
+NSString *RXEDescribeClass(Class class);
+NSString *RXEDescribeProtocol(Protocol *proto);
+NSString *RXEDescribeProperty(objc_property_t prop);
+NSString *RXEDescribeMethod(Method meth);
+NSString *RXEDescribeIvar(Ivar ivar);
+
 NS_ASSUME_NONNULL_END
