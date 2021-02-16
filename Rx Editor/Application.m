@@ -20,6 +20,7 @@
 
 #import "RXERuntimeController.h"
 #import "RXERuntimeObject.h"
+#import "RXEUtilities.h"
 #import "Application.h"
 
 @implementation Application {
@@ -78,7 +79,14 @@
     ];
 
     self = [[AppClass alloc] initWithBridgeObject:_app];
-    SLYTrace(@"%@.version = %@", self, [self valueForKey:@"version"]);
+
+    SLYInfo(@"describe AppClass \n%@", RXEDescribeClass(AppClass));
+    SLYInfo(@"describe AppClass export protocol \n%@",
+        RXEDescribeProtocol(RXEGetExportProtocolForClass(AppClass)));
+
+    SLYInfo(@"describe AppClass \n%@", RXEDescribeClass(RXERuntimeObject.class));
+    SLYInfo(@"describe AppClass export protocol \n%@",
+        RXEDescribeProtocol(RXEGetExportProtocolForClass(RXERuntimeObject.class)));
 
     return self;
 }

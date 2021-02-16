@@ -24,6 +24,13 @@
     return self;
 }
 
+#ifdef DEBUG
+- (NSString *)address
+{
+    return [NSString stringWithFormat:@"%p", self];
+}
+#endif
+
 id getObject_Property(id self, SEL _cmd)
 {
     return nil;
@@ -37,13 +44,21 @@ void setObject_Property(id self, SEL _cmd, id obj)
 NSString *getString_Property(RXERuntimeObject *self, SEL _cmd)
 {
     SLYTraceCall(@"%@ %@ %@", self, self->_bridgeObj, NSStringFromSelector(_cmd));
+#   pragma clang diagnostic push
+#   pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    // TODO: verify this doesn't leak
     return [self->_bridgeObj performSelector:_cmd];
+#   pragma clang diagnostic pop
 }
 
 void setString_Property(RXERuntimeObject *self, SEL _cmd, NSString *str)
 {
     SLYTraceCall(@"%@ %@ %@", self, self->_bridgeObj, NSStringFromSelector(_cmd));
+#   pragma clang diagnostic push
+#   pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    // TODO: verify this doesn't leak
     [self->_bridgeObj performSelector:_cmd withObject:str];
+#   pragma clang diagnostic pop
 }
 
 int getInt_Property(id self, SEL _cmd)

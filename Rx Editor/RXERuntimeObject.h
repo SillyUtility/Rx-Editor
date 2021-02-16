@@ -7,11 +7,22 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <JavaScriptCore/JavaScriptCore.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface RXERuntimeObject : NSObject
+@protocol RXERuntimeObjectExports <JSExport>
+#ifdef DEBUG
+@property (readonly) NSString *address;
+#endif
+@end
+
+@interface RXERuntimeObject : NSObject <RXERuntimeObjectExports>
 - initWithBridgeObject:(id)bridgeObj;
+
+#ifdef DEBUG
+@property (readonly) NSString *address;
+#endif
 
 id getObject_Property(id self, SEL _cmd);
 void setObject_Property(id self, SEL _cmd, id obj);
