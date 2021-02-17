@@ -156,14 +156,14 @@ static uint32_t method_list_index
 #endif
 
 static int rxe_method_list_search(
-    const method_list_t *mlist, const method_t *m)
+    const method_list_t *mlist, SEL sel)
 {
     uint32_t i, count;
 
     count = method_list_count(mlist);
 
     for (i = 0; i < count; i++)
-        if (method_list_nth(mlist, i)->name == m->name)
+        if (method_list_nth(mlist, i)->name == sel)
             return i;
 
     return -1;
@@ -171,7 +171,7 @@ static int rxe_method_list_search(
 
 static uint32_t rxe_protocol_getExtendedTypeIndexForMethod(
     protocol_t *proto,
-    const method_t *m,
+    SEL sel,
     BOOL required,
     BOOL instance)
 {
@@ -179,25 +179,25 @@ static uint32_t rxe_protocol_getExtendedTypeIndexForMethod(
     uint32_t b = 0;
 
     if (required && instance) {
-        b = rxe_method_list_search(proto->instanceMethods, m);
+        b = rxe_method_list_search(proto->instanceMethods, sel);
         return a + b;
     }
     a += method_list_count(proto->instanceMethods);
 
     if (required && !instance) {
-        b = rxe_method_list_search(proto->classMethods, m);
+        b = rxe_method_list_search(proto->classMethods, sel);
         return a + b;
     }
     a += method_list_count(proto->classMethods);
 
     if (!required && instance) {
-        b = rxe_method_list_search(proto->optionalInstanceMethods, m);
+        b = rxe_method_list_search(proto->optionalInstanceMethods, sel);
         return a + b;
     }
     a += method_list_count(proto->optionalInstanceMethods);
 
     if (!required && !instance) {
-        b = rxe_method_list_search(proto->optionalClassMethods, m);
+        b = rxe_method_list_search(proto->optionalClassMethods, sel);
         return a + b;
     }
     a += method_list_count(proto->optionalClassMethods);
@@ -217,15 +217,11 @@ void rxe_protocol_addExtendedTypesForMethod(
     Protocol *proto, SEL sel, const char *extTypes)
 {
     protocol_t *p;
-    method_t *m;
-    struct objc_method_description m_desc;
     uint32_t m_index, m_count;
     BOOL required = YES, instance = YES;
 
     p = newprotocol(proto);
-    m_desc = protocol_getMethodDescription(proto, sel, required, instance);
-    m = newmethod(&m_desc);
-    m_index = rxe_protocol_getExtendedTypeIndexForMethod(p, m, required, instance);
+    m_index = rxe_protocol_getExtendedTypeIndexForMethod(p, sel, required, instance);
     m_count = rxe_protocol_method_count(p);
     if (p->_extendedMethodTypes) {
         if (m_index > m_count)
@@ -396,6 +392,16 @@ NSString *RXEGetterExtendedTypesForProperty(RXEScriptProperty *prop)
     ];
 }
 
+IMP RXEGetterImplementationForPropertyType(NSString *type)
+{
+    if ([type isEqualToString:@"text"])
+        return (IMP)getString_Property;
+    if ([type isEqualToString:@"boolean"])
+        return (IMP)getBool_Property;
+
+    return (IMP)getObject_Property;
+}
+
 //{ "T", "@\"NSString\""  },
 //{ "R", "" },
 //{ "G", getName },
@@ -468,7 +474,7 @@ void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
     Protocol *proto;
     SEL getSel, setSel;
     IMP getImp, setImp;
-    const char *propName, *propVar,
+    const char *propName,/* *propVar, */
         *getName, *getTypes, *getExtTypes,
         *setName, *setTypes, *setExtTypes,
         *className, *protoName;
@@ -484,7 +490,8 @@ void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
     protoName = protocol_getName(proto);
 
     propName = strdup(RXEPropertyNameFromString(property.name).UTF8String);
-    propVar = rxe_make_var_name(propName);
+    // FIXME: off by one
+    //propVar = rxe_make_var_name(propName);
 
     getName = strdup(propName);
     getTypes = strdup(RXEGetterTypesForProperty(property).UTF8String);
@@ -501,7 +508,7 @@ void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
     SLYTrace(@"add prop %s to %s? %@", propName, protoName, @(success));
 
     getSel = sel_registerName(getName);
-    getImp = (IMP)getString_Property;
+    getImp = RXEGetterImplementationForPropertyType(property.type);
     success = class_addMethod(class, getSel, getImp, getTypes);
     SLYTrace(@"add meth %s to %s? %@", getName, className, @(success));
 

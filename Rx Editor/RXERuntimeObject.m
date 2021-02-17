@@ -71,4 +71,26 @@ void setInt_Property_i(id self, SEL _cmd, int i)
 
 }
 
+BOOL getBool_Property(RXERuntimeObject *self, SEL _cmd)
+{
+    SLYTraceCall(@"%@ %@ %@", self, self->_bridgeObj, NSStringFromSelector(_cmd));
+    NSMethodSignature *sig;
+    NSInvocation *inv;
+    BOOL ret;
+
+    sig = [self methodSignatureForSelector:_cmd];
+    inv = [NSInvocation invocationWithMethodSignature:sig];
+    inv.selector = _cmd;
+    inv.target = self->_bridgeObj;
+    [inv invoke];
+    [inv getReturnValue:&ret];
+
+    return ret;
+}
+
+void setBoll_Property(RXERuntimeObject *self, SEL _cmd, BOOL b)
+{
+    SLYTraceCall(@"%@ %@ %@", self, self->_bridgeObj, NSStringFromSelector(_cmd));
+}
+
 @end

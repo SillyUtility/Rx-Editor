@@ -33,6 +33,9 @@ void setString_Property(id self, SEL _cmd, NSString *str);
 int getInt_Property(id self, SEL _cmd);
 void setInt_Property(id self, SEL _cmd, int i);
 
+BOOL getBool_Property(id self, SEL _cmd);
+void setBoll_Property(id self, SEL _cmd, BOOL b);
+
 @end
 
 NS_ASSUME_NONNULL_END
