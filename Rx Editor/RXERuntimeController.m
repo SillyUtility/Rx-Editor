@@ -110,14 +110,8 @@
 {
     if ([class.name isEqualToString:@"application"]) {
         SLYTrace(@"construct the application class");
-        RXEScriptProperty *prop = [[RXEScriptProperty alloc] initWithAttributes:@{
-            @"name": @"version",
-            @"code": @"vers",
-            @"type": @"text",
-            @"access": @"r",
-            @"description": @"the version of the Finder",
-        }];
-        RXERuntimeClassExportProperty(appClass, prop);
+        for (RXEScriptProperty *prop in class.properties)
+            RXERuntimeClassExportProperty(appClass, prop);
     }
 }
 

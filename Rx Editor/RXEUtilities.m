@@ -19,8 +19,14 @@
 
 #ifdef DEBUG
 const char *_protocol_getMethodTypeEncoding(
-    Protocol *p, SEL sel, BOOL isRequiredMethod, BOOL isInstanceMethod);
+    Protocol *p, SEL sel, BOOL required, BOOL instance);
 #endif
+
+/*
+    License: APSL
+
+    objc derivative
+*/
 
 typedef struct method_t {
     SEL name;
@@ -207,6 +213,72 @@ static uint32_t rxe_protocol_method_count(protocol_t *proto)
         + method_list_count(proto->optionalClassMethods);
 }
 
+void rxe_protocol_addExtendedTypesForMethod(
+    Protocol *proto, SEL sel, const char *extTypes)
+{
+    protocol_t *p;
+    method_t *m;
+    struct objc_method_description m_desc;
+    uint32_t m_index, m_count;
+    BOOL required = YES, instance = YES;
+
+    p = newprotocol(proto);
+    m_desc = protocol_getMethodDescription(proto, sel, required, instance);
+    m = newmethod(&m_desc);
+    m_index = rxe_protocol_getExtendedTypeIndexForMethod(p, m, required, instance);
+    m_count = rxe_protocol_method_count(p);
+    if (p->_extendedMethodTypes) {
+        if (m_index > m_count)
+            p->_extendedMethodTypes = realloc(
+                p->_extendedMethodTypes, m_index * sizeof(char *));
+    } else {
+        p->_extendedMethodTypes = calloc(m_count, sizeof(char *));
+    }
+
+    p->_extendedMethodTypes[m_index] = strdup(extTypes);
+}
+
+/*
+    License: BSD 2-Clause
+
+    JavaScriptCore derivative
+*/
+
+static const char *rxe_make_var_name(const char *name)
+{
+    size_t nameLength;
+    char *buffer;
+
+    nameLength = strlen(name);
+    buffer = calloc(nameLength + 2, sizeof(char));
+    buffer[0] = '_';
+    buffer[1] = *name;
+    memcpy(buffer + 1, name + 1, nameLength - 1);
+    buffer[nameLength + 1] = 0;
+
+    return buffer;
+}
+
+// "set" Name ":\0"  => nameLength + 5.
+static const char *rxe_make_setter_name(const char* name)
+{
+    size_t nameLength;
+    char *buffer;
+
+    nameLength = strlen(name);
+    buffer = calloc(nameLength + 5, sizeof(char));
+    buffer[0] = 's';
+    buffer[1] = 'e';
+    buffer[2] = 't';
+    buffer[3] = toupper(*name);
+    memcpy(buffer + 4, name + 1, nameLength - 1);
+    buffer[nameLength + 3] = ':';
+    buffer[nameLength + 4] = 0;
+
+    return buffer;
+}
+
+
 @implementation RXEUtilities
 
 @end
@@ -260,7 +332,21 @@ NSString *RXEClassNameFromString(NSString *str)
 
 NSString *RXEPropertyNameFromString(NSString *str)
 {
-    NSString *name;
+    NSMutableString *name;
+    NSArray<NSString *> *words;
+    NSCharacterSet *wsSet;
+    NSUInteger i;
+
+    name = NSMutableString.string;
+    wsSet = NSCharacterSet.whitespaceAndNewlineCharacterSet;
+    words = [str componentsSeparatedByCharactersInSet:wsSet];
+
+    for (i = 0; i < words.count; i++)
+        if (i == 0)
+            [name appendString:words[i]];
+        else
+            [name appendString:[words[i] capitalizedString]];
+
     return name;
 }
 
@@ -269,6 +355,25 @@ NSString *RXEMethodNameFromString(NSString *str)
     NSString *name;
     return name;
 }
+
+const char *RXEEncodedTypeForScriptType(NSString *type)
+{
+    if ([type isEqualToString:@"text"])
+        return @encode(NSString *);
+    if ([type isEqualToString:@"boolean"])
+        return @encode(BOOL);
+
+    return @encode(id);
+}
+
+NSString *RXEGetterTypesForProperty(RXEScriptProperty *prop)
+{
+    return [NSString stringWithFormat:
+        @"%s16@0:8",
+        RXEEncodedTypeForScriptType(prop.type)
+    ];
+}
+
 
 Protocol *RXEExportProtocolForClassName(NSString *className)
 {
@@ -307,31 +412,6 @@ Protocol *RXEGetExportProtocolForClass(Class class)
     return ExportProtocol;
 }
 
-void rxe_protocol_addExtendedTypesForMethod(
-    Protocol *proto, SEL sel, const char *extTypes)
-{
-    protocol_t *p;
-    method_t *m;
-    struct objc_method_description m_desc;
-    uint32_t m_index, m_count;
-    BOOL required = YES, instance = YES;
-
-    p = newprotocol(proto);
-    m_desc = protocol_getMethodDescription(proto, sel, required, instance);
-    m = newmethod(&m_desc);
-    m_index = rxe_protocol_getExtendedTypeIndexForMethod(p, m, required, instance);
-    m_count = rxe_protocol_method_count(p);
-    if (p->_extendedMethodTypes) {
-        if (m_index > m_count)
-            p->_extendedMethodTypes = realloc(
-                p->_extendedMethodTypes, m_index * sizeof(char *));
-    } else {
-        p->_extendedMethodTypes = calloc(m_count, sizeof(char *));
-    }
-
-    p->_extendedMethodTypes[m_index] = strdup(extTypes);
-}
-
 void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
 {
     BOOL success;
@@ -339,8 +419,8 @@ void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
     SEL getSel;//, setSel;
     IMP getImp;//, setImp;
     const char *propName, *propVar,
-        *getName, *setName, *getType,
-        *setType, *getExtType, *setExtName,
+        *getName, *setName, *getTypes,
+        *setTypes, *getExtTypes, *setExtTypes,
         *className, *protoName;
 
     proto = RXEGetExportProtocolForClass(class);
@@ -348,14 +428,14 @@ void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
     className = class_getName(class);
     protoName = protocol_getName(proto);
 
-    propName = property.name.UTF8String;
-    propVar = [NSString stringWithFormat:@"_%@", property.name].UTF8String;
+    propName = RXEPropertyNameFromString(property.name).UTF8String;
+    propVar = rxe_make_var_name(propName);
     getName = strdup(propName);
-    setName = [NSString stringWithFormat:@"set%@:", property.name.capitalizedString].UTF8String;
-    getType = "@16@0:8";
-    setType = "v@:@";
-    getExtType = "@\"NSString\"16@0:8";
-    setExtName = "";
+    setName = rxe_make_setter_name(propName);
+    getTypes = "@16@0:8";
+    setTypes = "v@:@";
+    getExtTypes = "@\"NSString\"16@0:8";
+    setExtTypes = "";
 
     const objc_property_attribute_t pattrs[] = {
         { "T", "@\"NSString\"" /*@encode(NSString *)*/ },
@@ -371,13 +451,13 @@ void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
 
     getSel = sel_registerName(getName);
     getImp = (IMP)getString_Property;
-    success = class_addMethod(class, getSel, getImp, getType);
+    success = class_addMethod(class, getSel, getImp, getTypes);
     SLYTrace(@"add meth %s to %s? %@", getName, className, @(success));
 
-    protocol_addMethodDescription(proto, getSel, getType, YES, YES);
+    protocol_addMethodDescription(proto, getSel, getTypes, YES, YES);
     SLYTrace(@"add meth %s to %s", getName, protoName);
 
-    rxe_protocol_addExtendedTypesForMethod(proto, getSel, getExtType);
+    rxe_protocol_addExtendedTypesForMethod(proto, getSel, getExtTypes);
 
 //    setSel = sel_registerName(setName);
 //    setImp = (IMP)setString_Property;
