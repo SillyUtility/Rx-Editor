@@ -252,8 +252,7 @@ static const char *rxe_make_var_name(const char *name)
     nameLength = strlen(name);
     buffer = calloc(nameLength + 2, sizeof(char));
     buffer[0] = '_';
-    buffer[1] = *name;
-    memcpy(buffer + 1, name + 1, nameLength - 1);
+    memcpy(buffer + 1, name, nameLength - 1);
     buffer[nameLength + 1] = 0;
 
     return buffer;
@@ -366,14 +365,63 @@ const char *RXEEncodedTypeForScriptType(NSString *type)
     return @encode(id);
 }
 
+const char *RXEEncodedExtendedTypeForScriptType(NSString *type)
+{
+    NSString *c;
+
+    if ([type isEqualToString:@"text"])
+        c = NSStringFromClass(NSString.class);
+    // else if ()
+
+    // TODO: other @ types
+
+    if (c)
+        return [NSString stringWithFormat:@"\"%@\"", c].UTF8String;
+
+    return "";
+}
+
 NSString *RXEGetterTypesForProperty(RXEScriptProperty *prop)
 {
-    return [NSString stringWithFormat:
-        @"%s16@0:8",
+    return [NSString stringWithFormat:@"%s16@0:8",
         RXEEncodedTypeForScriptType(prop.type)
     ];
 }
 
+NSString *RXEGetterExtendedTypesForProperty(RXEScriptProperty *prop)
+{
+    return [NSString stringWithFormat:@"%s%s16@0:8",
+        RXEEncodedTypeForScriptType(prop.type),
+        RXEEncodedExtendedTypeForScriptType(prop.type)
+    ];
+}
+
+//{ "T", "@\"NSString\""  },
+//{ "R", "" },
+//{ "G", getName },
+//{ "S", setName },
+//{ "V", propVar },
+objc_property_attribute_t *RXEPropertyAttributesForProperty(
+    RXEScriptProperty *prop, unsigned int *outc)
+{
+    objc_property_attribute_t *pa;
+
+    if (prop.isReadOnly) {
+        pa = calloc((*outc = 2), sizeof(objc_property_t));
+        pa[1].name = "R";
+        pa[1].value = "";
+    } else {
+        pa = calloc((*outc = 1), sizeof(objc_property_t));
+    }
+
+    pa[0].name = "T";
+    pa[0].value = [NSString stringWithFormat:@"%s%s",
+        RXEEncodedTypeForScriptType(prop.type),
+        RXEEncodedExtendedTypeForScriptType(prop.type)
+    ].UTF8String;
+
+    return pa;
+}
 
 Protocol *RXEExportProtocolForClassName(NSString *className)
 {
@@ -397,7 +445,9 @@ Protocol *RXEGetExportProtocolForClass(Class class)
     Protocol * __unsafe_unretained _Nonnull *protoList;
     unsigned int outc;
 
-    exportProtocolName = [NSString stringWithFormat:@"%sExports", class_getName(class)].UTF8String;
+    exportProtocolName = [NSString stringWithFormat:@"%sExports",
+        class_getName(class)
+    ].UTF8String;
     //ExportProtocol = objc_getProtocol(exportProtocolName);
 
     protoList = class_copyProtocolList(class, &outc);
@@ -416,12 +466,17 @@ void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
 {
     BOOL success;
     Protocol *proto;
-    SEL getSel;//, setSel;
-    IMP getImp;//, setImp;
+    SEL getSel, setSel;
+    IMP getImp, setImp;
     const char *propName, *propVar,
-        *getName, *setName, *getTypes,
-        *setTypes, *getExtTypes, *setExtTypes,
+        *getName, *getTypes, *getExtTypes,
+        *setName, *setTypes, *setExtTypes,
         *className, *protoName;
+    objc_property_attribute_t *pattrs;
+    unsigned int outc;
+
+    if (![property.type isEqualToString:@"text"] && ![property.type isEqualToString:@"boolean"])
+        return; // skip all but text & boolean for now
 
     proto = RXEGetExportProtocolForClass(class);
 
@@ -430,23 +485,19 @@ void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
 
     propName = RXEPropertyNameFromString(property.name).UTF8String;
     propVar = rxe_make_var_name(propName);
-    getName = strdup(propName);
-    setName = rxe_make_setter_name(propName);
-    getTypes = "@16@0:8";
-    setTypes = "v@:@";
-    getExtTypes = "@\"NSString\"16@0:8";
-    setExtTypes = "";
 
-    const objc_property_attribute_t pattrs[] = {
-        { "T", "@\"NSString\"" /*@encode(NSString *)*/ },
-        { "R", "" },
-        //{ "G", getName },
-        //{ "V", propVar },
-    };
-    success = class_addProperty(class, propName, pattrs, 2);
+    getName = strdup(propName);
+    getTypes = RXEGetterTypesForProperty(property).UTF8String;
+    getExtTypes = RXEGetterExtendedTypesForProperty(property).UTF8String;
+
+    pattrs = RXEPropertyAttributesForProperty(property, &outc);
+
+    success = class_addProperty(class, propName,
+        (const objc_property_attribute_t *)pattrs, outc);
     SLYTrace(@"add prop %s to %s? %@", propName, className, @(success));
 
-    protocol_addProperty(proto, propName, pattrs, 2, YES, YES);
+    protocol_addProperty(proto, propName,
+        (const objc_property_attribute_t *)pattrs, outc, YES, YES);
     SLYTrace(@"add prop %s to %s? %@", propName, protoName, @(success));
 
     getSel = sel_registerName(getName);
@@ -459,15 +510,25 @@ void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
 
     rxe_protocol_addExtendedTypesForMethod(proto, getSel, getExtTypes);
 
-//    setSel = sel_registerName(setName);
-//    setImp = (IMP)setString_Property;
-//    success = class_addMethod(class, setSel, setImp, setType);
-//    SLYTrace(@"add meth %s to %s? %@", setName, className, @(success));
-//
-//    protocol_addMethodDescription(proto, setSel, setType, YES, YES);
-//    SLYTrace(@"add meth %s to %s", setName, protoName);
-//
-//    rxe_protocol_addExtendedTypesForMethod(proto, setSel, setExtType);
+    if (property.isReadOnly)
+        return;
+
+    if (!property.isReadOnly)
+        return; // skip
+
+    setName = rxe_make_setter_name(propName);
+    setTypes = "v@:@";
+    setExtTypes = "";
+
+    setSel = sel_registerName(setName);
+    setImp = (IMP)setString_Property;
+    success = class_addMethod(class, setSel, setImp, setTypes);
+    SLYTrace(@"add meth %s to %s? %@", setName, className, @(success));
+
+    protocol_addMethodDescription(proto, setSel, setTypes, YES, YES);
+    SLYTrace(@"add meth %s to %s", setName, protoName);
+
+    rxe_protocol_addExtendedTypesForMethod(proto, setSel, setExtTypes);
 }
 
 NSString *RXEDescribeClass(Class class)

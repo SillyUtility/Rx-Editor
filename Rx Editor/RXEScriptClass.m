@@ -234,6 +234,11 @@
     [_docs addObject:doc];
 }
 
+- (BOOL)isReadOnly
+{
+    return [self.access isEqualToString:@"r"];
+}
+
 @end
 
 @implementation RXEScriptContents
