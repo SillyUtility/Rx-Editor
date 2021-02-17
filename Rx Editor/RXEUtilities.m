@@ -250,10 +250,10 @@ static const char *rxe_make_var_name(const char *name)
     char *buffer;
 
     nameLength = strlen(name);
-    buffer = calloc(nameLength + 2, sizeof(char));
+    buffer = calloc(nameLength + 1, sizeof(char));
     buffer[0] = '_';
-    memcpy(buffer + 1, name, nameLength - 1);
-    buffer[nameLength + 1] = 0;
+    memcpy(buffer + 1, name, nameLength);
+    buffer[nameLength] = 0;
 
     return buffer;
 }
@@ -358,11 +358,11 @@ NSString *RXEMethodNameFromString(NSString *str)
 const char *RXEEncodedTypeForScriptType(NSString *type)
 {
     if ([type isEqualToString:@"text"])
-        return @encode(NSString *);
+        return strdup(@encode(NSString *));
     if ([type isEqualToString:@"boolean"])
-        return @encode(BOOL);
+        return strdup(@encode(BOOL));
 
-    return @encode(id);
+    return strdup(@encode(id));
 }
 
 const char *RXEEncodedExtendedTypeForScriptType(NSString *type)
@@ -378,7 +378,7 @@ const char *RXEEncodedExtendedTypeForScriptType(NSString *type)
     if (c)
         return [NSString stringWithFormat:@"\"%@\"", c].UTF8String;
 
-    return "";
+    return strdup("");
 }
 
 NSString *RXEGetterTypesForProperty(RXEScriptProperty *prop)
@@ -406,19 +406,19 @@ objc_property_attribute_t *RXEPropertyAttributesForProperty(
 {
     objc_property_attribute_t *pa;
 
-    if (prop.isReadOnly) {
-        pa = calloc((*outc = 2), sizeof(objc_property_t));
-        pa[1].name = "R";
-        pa[1].value = "";
+    if (YES /*prop.isReadOnly*/) {
+        pa = calloc((*outc = 2), sizeof(objc_property_attribute_t));
+        pa[1].name = strdup("R");
+        pa[1].value = strdup("");
     } else {
-        pa = calloc((*outc = 1), sizeof(objc_property_t));
+        pa = calloc((*outc = 1), sizeof(objc_property_attribute_t));
     }
 
-    pa[0].name = "T";
-    pa[0].value = [NSString stringWithFormat:@"%s%s",
+    pa[0].name = strdup("T");
+    pa[0].value = strdup([NSString stringWithFormat:@"%s%s",
         RXEEncodedTypeForScriptType(prop.type),
         RXEEncodedExtendedTypeForScriptType(prop.type)
-    ].UTF8String;
+    ].UTF8String);
 
     return pa;
 }
@@ -483,12 +483,12 @@ void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
     className = class_getName(class);
     protoName = protocol_getName(proto);
 
-    propName = RXEPropertyNameFromString(property.name).UTF8String;
+    propName = strdup(RXEPropertyNameFromString(property.name).UTF8String);
     propVar = rxe_make_var_name(propName);
 
     getName = strdup(propName);
-    getTypes = RXEGetterTypesForProperty(property).UTF8String;
-    getExtTypes = RXEGetterExtendedTypesForProperty(property).UTF8String;
+    getTypes = strdup(RXEGetterTypesForProperty(property).UTF8String);
+    getExtTypes = strdup(RXEGetterExtendedTypesForProperty(property).UTF8String);
 
     pattrs = RXEPropertyAttributesForProperty(property, &outc);
 
