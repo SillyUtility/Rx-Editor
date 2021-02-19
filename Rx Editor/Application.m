@@ -78,15 +78,17 @@
         context:JSContext.currentContext
     ];
 
-    self = [[AppClass alloc] initWithBridgeObject:_app];
-
     SLYInfo(@"describe AppClass \n%@", RXEDescribeClass(AppClass));
     SLYInfo(@"describe AppClass export protocol \n%@",
-        RXEDescribeProtocol(RXEGetExportProtocolForClass(AppClass)));
+    RXEDescribeProtocol(RXEGetExportProtocolForClass(AppClass)));
 
-    SLYInfo(@"describe AppClass \n%@", RXEDescribeClass(RXERuntimeObject.class));
-    SLYInfo(@"describe AppClass export protocol \n%@",
-        RXEDescribeProtocol(RXEGetExportProtocolForClass(RXERuntimeObject.class)));
+    SLYInfo(@"describe RXERuntimeObject \n%@", RXEDescribeClass(RXERuntimeObject.class));
+    SLYInfo(@"describe RXERuntimeObject export protocol \n%@",
+    RXEDescribeProtocol(RXEGetExportProtocolForClass(RXERuntimeObject.class)));
+
+    SLYTrace(@"@@ Application %p", self);
+    self = [[AppClass alloc] initWithBridgeObject:_app];
+    SLYTrace(@"@@ AppClass %p", self);
 
     return self;
 }

@@ -25,6 +25,11 @@
 }
 
 #ifdef DEBUG
+- (void)dealloc
+{
+    SLYTraceCall(@"Dealloc runtime obj: %p of type %@", self, self.className);
+}
+
 - (NSString *)address
 {
     return [NSString stringWithFormat:@"%p", self];

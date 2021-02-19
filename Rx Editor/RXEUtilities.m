@@ -10,6 +10,7 @@
 #import <SillyLog/SillyLog.h>
 
 #import "RXEUtilities.h"
+#import "RXEObjCRuntime.h"
 #import "RXERuntimeObject.h"
 #import "RXEScriptableApp.h"
 #import "RXEScriptSuite.h"
@@ -22,217 +23,7 @@ const char *_protocol_getMethodTypeEncoding(
     Protocol *p, SEL sel, BOOL required, BOOL instance);
 #endif
 
-/*
-    License: APSL
 
-    objc derivative
-*/
-
-typedef struct method_t {
-    SEL name;
-    const char *types;
-    IMP imp;
-} method_t;
-
-typedef struct method_list_t {
-    uint32_t entsize_NEVER_USE;  // high bits used for fixup markers
-    uint32_t count;
-    method_t first;
-} method_list_t;
-
-typedef struct ivar_t {
-    // *offset is 64-bit by accident even though other
-    // fields restrict total instance size to 32-bit.
-    uintptr_t *offset;
-    const char *name;
-    const char *type;
-    // alignment is sometimes -1; use ivar_alignment() instead
-    uint32_t alignment  __attribute__((deprecated));
-    uint32_t size;
-} ivar_t;
-
-typedef struct ivar_list_t {
-    uint32_t entsize;
-    uint32_t count;
-    ivar_t first;
-} ivar_list_t;
-
-typedef struct objc_property {
-    const char *name;
-    const char *attributes;
-} property_t;
-
-typedef struct property_list_t {
-    uint32_t entsize;
-    uint32_t count;
-    property_t first;
-} property_list_t;
-
-typedef uintptr_t protocol_ref_t;  // protocol_t *, but unremapped
-
-typedef struct protocol_t {
-    id isa;
-    const char *name;
-    struct protocol_list_t *protocols;
-    method_list_t *instanceMethods;
-    method_list_t *classMethods;
-    method_list_t *optionalInstanceMethods;
-    method_list_t *optionalClassMethods;
-    property_list_t *instanceProperties;
-    uint32_t size;   // sizeof(protocol_t)
-    uint32_t flags;
-    const char **_extendedMethodTypes;
-    const char *_demangledName;
-    property_list_t *_classProperties;
-} protocol_t;
-
-typedef struct protocol_list_t {
-    // count is 64-bit by accident.
-    uintptr_t count;
-    protocol_ref_t list[0]; // variable-size
-} protocol_list_t;
-
-#define newcls(cls) ((class_t *)cls)
-#define newmethod(meth) ((method_t *)meth)
-#define newivar(ivar) ((ivar_t *)ivar)
-#define newcategory(cat) ((category_t *)cat)
-#define newprotocol(p) ((__bridge protocol_t *)p)
-#define newproperty(p) ((property_t *)p)
-
-static const uint32_t method_flag_mask = 0xffff0003;
-
-// low bit used by dyld shared cache
-static uint32_t method_list_entsize(const method_list_t *mlist)
-{
-    return mlist->entsize_NEVER_USE & ~method_flag_mask;
-}
-
-#if 0 /* unused functions */
-static const uint32_t small_method_list_flag = 0x80000000;
-
-static BOOL method_is_small(const method_t *m)
-{
-    return ((uintptr_t)m & 1) == 1;
-}
-
-static uint32_t method_list_flags(const method_list_t *mlist)
-{
-    return mlist->entsize_NEVER_USE & method_flag_mask;
-}
-
-static uint32_t method_list_is_small(const method_list_t *mlist)
-{
-    return method_list_flags(mlist) & small_method_list_flag;
-}
-
-static size_t method_list_size(const method_list_t *mlist)
-{
-    return sizeof(method_list_t)
-        + (mlist->count - 1) * method_list_entsize(mlist);
-}
-#endif
-
-static method_t *method_list_nth(const method_list_t *mlist, uint32_t i)
-{
-    assert(i < mlist->count);
-    return (method_t *)(i * method_list_entsize(mlist)
-        + (char *)&mlist->first);
-}
-
-static uint32_t method_list_count(const method_list_t *mlist)
-{
-    return mlist ? mlist->count : 0;
-}
-
-#if 0 /* unused functions */
-static uint32_t method_list_index
-    (const method_list_t *mlist, const method_t *m)
-{
-
-    uint32 entsize = method_list_entsize(mlist);
-    return mlist ?
-        (uint32_t)(((uintptr_t)m - (uintptr_t)mlist) / entsize) : 0;
-}
-#endif
-
-static int rxe_method_list_search(
-    const method_list_t *mlist, SEL sel)
-{
-    uint32_t i, count;
-
-    count = method_list_count(mlist);
-
-    for (i = 0; i < count; i++)
-        if (method_list_nth(mlist, i)->name == sel)
-            return i;
-
-    return -1;
-}
-
-static uint32_t rxe_protocol_getExtendedTypeIndexForMethod(
-    protocol_t *proto,
-    SEL sel,
-    BOOL required,
-    BOOL instance)
-{
-    uint32_t a = 0;
-    uint32_t b = 0;
-
-    if (required && instance) {
-        b = rxe_method_list_search(proto->instanceMethods, sel);
-        return a + b;
-    }
-    a += method_list_count(proto->instanceMethods);
-
-    if (required && !instance) {
-        b = rxe_method_list_search(proto->classMethods, sel);
-        return a + b;
-    }
-    a += method_list_count(proto->classMethods);
-
-    if (!required && instance) {
-        b = rxe_method_list_search(proto->optionalInstanceMethods, sel);
-        return a + b;
-    }
-    a += method_list_count(proto->optionalInstanceMethods);
-
-    if (!required && !instance) {
-        b = rxe_method_list_search(proto->optionalClassMethods, sel);
-        return a + b;
-    }
-    a += method_list_count(proto->optionalClassMethods);
-
-    return a + b;
-}
-
-static uint32_t rxe_protocol_method_count(protocol_t *proto)
-{
-    return method_list_count(proto->instanceMethods)
-        + method_list_count(proto->classMethods)
-        + method_list_count(proto->optionalInstanceMethods)
-        + method_list_count(proto->optionalClassMethods);
-}
-
-void rxe_protocol_addExtendedTypesForMethod(
-    Protocol *proto, SEL sel, const char *extTypes)
-{
-    protocol_t *p;
-    uint32_t m_index, m_count;
-    BOOL required = YES, instance = YES;
-
-    p = newprotocol(proto);
-    m_index = rxe_protocol_getExtendedTypeIndexForMethod(p, sel, required, instance);
-    m_count = rxe_protocol_method_count(p);
-    if (p->_extendedMethodTypes) {
-        if (m_index > m_count)
-            p->_extendedMethodTypes = realloc(
-                p->_extendedMethodTypes, m_index * sizeof(char *));
-    } else {
-        p->_extendedMethodTypes = calloc(m_count, sizeof(char *));
-    }
-
-    p->_extendedMethodTypes[m_index] = strdup(extTypes);
-}
 
 /*
     License: BSD 2-Clause
@@ -412,7 +203,7 @@ objc_property_attribute_t *RXEPropertyAttributesForProperty(
 {
     objc_property_attribute_t *pa;
 
-    if (YES /*prop.isReadOnly*/) {
+    if ((YES) /*prop.isReadOnly*/) {
         pa = calloc((*outc = 2), sizeof(objc_property_attribute_t));
         pa[1].name = strdup("R");
         pa[1].value = strdup("");
@@ -502,20 +293,27 @@ void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
     success = class_addProperty(class, propName,
         (const objc_property_attribute_t *)pattrs, outc);
     SLYTrace(@"add prop %s to %s? %@", propName, className, @(success));
+    SLYTrace(@"\tattrs %s", copyPropertyAttributeString(pattrs, outc));
 
     protocol_addProperty(proto, propName,
         (const objc_property_attribute_t *)pattrs, outc, YES, YES);
     SLYTrace(@"add prop %s to %s? %@", propName, protoName, @(success));
+    SLYTrace(@"\tattrs %s", copyPropertyAttributeString(pattrs, outc));
 
     getSel = sel_registerName(getName);
     getImp = RXEGetterImplementationForPropertyType(property.type);
     success = class_addMethod(class, getSel, getImp, getTypes);
     SLYTrace(@"add meth %s to %s? %@", getName, className, @(success));
+    SLYTrace(@"\ttypes %s", getTypes);
 
     protocol_addMethodDescription(proto, getSel, getTypes, YES, YES);
     SLYTrace(@"add meth %s to %s", getName, protoName);
+    SLYTrace(@"\ttypes %s", getTypes);
+
+    rxe_protocol_unfix(proto);
 
     rxe_protocol_addExtendedTypesForMethod(proto, getSel, getExtTypes);
+    SLYTrace(@"\text types %s", getExtTypes);
 
     if (property.isReadOnly)
         return;
@@ -534,6 +332,8 @@ void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
 
     protocol_addMethodDescription(proto, setSel, setTypes, YES, YES);
     SLYTrace(@"add meth %s to %s", setName, protoName);
+
+    rxe_protocol_unfix(proto);
 
     rxe_protocol_addExtendedTypesForMethod(proto, setSel, setExtTypes);
 }
