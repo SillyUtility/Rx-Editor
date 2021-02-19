@@ -30,7 +30,6 @@
 //
 
 #import <objc/runtime.h>
-#import <Foundation/Foundation.h>
 
 typedef struct method_t {
     SEL name;

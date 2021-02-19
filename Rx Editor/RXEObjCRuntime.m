@@ -35,7 +35,11 @@
 //  Copyright © 2021 Silly Utility LLC. All rights reserved.
 //
 
-#import <SillyLog/SillyLog.h>
+#import <assert.h>
+#import <stdlib.h>
+#import <string.h>
+#import <stdio.h>
+
 #import "RXEObjCRuntime.h"
 
 static const uint32_t method_flag_mask = 0xffff0003;
