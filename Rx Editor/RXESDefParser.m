@@ -131,7 +131,10 @@ NSString * const RXESDefEnumeratorKey = @"enumerator";
     } else if ([elementName isEqualToString:RXESDefParameterKey]) {
         [_stack push:[[RXEScriptParameter alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefClassKey]) {
-        [_stack push:[[RXEScriptClass alloc] initWithAttributes:attributes]];
+        RXEScriptClass *class = [[RXEScriptClass alloc] initWithAttributes:attributes];
+        class.app = self.scriptableApp;
+        class.parent = _stack.lastObject;
+        [_stack push:class];
     } else if ([elementName isEqualToString:RXESDefContentsKey]) {
         [_stack push:[[RXEScriptContents alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefElementKey]) {

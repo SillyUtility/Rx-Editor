@@ -8,26 +8,39 @@
 
 #import "RXERuntimeSymbol.h"
 
-@implementation RXERuntimeSymbol
+@implementation RXERuntimeSymbol {
+    Class _class;
+    Protocol *_protocol;
+}
 
 - initWithClass:(Class)class
 {
-    return nil;
+    if (!(self = [super init]))
+        return self;
+
+    _class = class;
+
+    return self;
 }
 
 - initWithProtocol:(Protocol *)proto
 {
-    return nil;
+    if (!(self = [super init]))
+        return self;
+
+    _protocol = proto;
+
+    return self;
 }
 
 - (BOOL)isClass
 {
-    return NO;
+    return !!_class;
 }
 
 - (BOOL)isProtocol
 {
-    return NO;
+    return !!_protocol;
 }
 
 - (BOOL)isRealized
@@ -37,12 +50,12 @@
 
 - (Class)symbolClass
 {
-    return nil;
+    return _class;
 }
 
 - (Protocol *)symbolProtocol
 {
-    return nil;
+    return _protocol;
 }
 
 @end

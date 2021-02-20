@@ -24,6 +24,8 @@ NSString *RXEMethodNameFromString(NSString *str);
 Protocol *RXEExportProtocolForClassName(NSString *className);
 Protocol *RXEGetExportProtocolForClass(Class class);
 
+Class RXERuntimeMakeClass(NSString *name);
+
 void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property);
 
 NSString *RXEDescribeClass(Class class);

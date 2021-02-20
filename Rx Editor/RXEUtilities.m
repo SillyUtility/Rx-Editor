@@ -31,6 +31,7 @@ const char *_protocol_getMethodTypeEncoding(
     JavaScriptCore derivative
 */
 
+#if 0
 static const char *rxe_make_var_name(const char *name)
 {
     size_t nameLength;
@@ -44,6 +45,7 @@ static const char *rxe_make_var_name(const char *name)
 
     return buffer;
 }
+#endif
 
 // "set" Name ":\0"  => nameLength + 5.
 static const char *rxe_make_setter_name(const char* name)
@@ -257,6 +259,25 @@ Protocol *RXEGetExportProtocolForClass(Class class)
     }
 
     return ExportProtocol;
+}
+
+Class RXERuntimeMakeClass(NSString *name)
+{
+    Class NewClass;
+    Protocol *ExportProtocol;
+    const char *className;
+
+    className = name.UTF8String;
+    NewClass = objc_allocateClassPair(
+        RXERuntimeObject.class,
+        className,
+        0
+    );
+
+    ExportProtocol = RXEExportProtocolForClassName(name);
+    class_addProtocol(NewClass, ExportProtocol);
+
+    return NewClass;
 }
 
 void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)

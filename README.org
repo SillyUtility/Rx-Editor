@@ -55,20 +55,43 @@ Rx Editor is a script editor with a interactive interpreter.
 
 * Types
 
-| Objective-C type | JavaScript type                     | AppleScript type |
-|------------------+-------------------------------------+------------------|
-| nil              | undefined                           |                  |
-| NSNull           | null                                |                  |
-| NSString         | string                              | text             |
-| NSNumber         | number, boolean                     | integer          |
-| NSDictionary     | Object object                       |                  |
-| NSArray          | Array object                        |                  |
-| NSDate           | Date object                         | date             |
-| NSBlock (1)      | Function object (1)                 |                  |
-| id (2)           | Wrapper object (2)                  |                  |
-| Class (3)        | Constructor object (3)              |                  |
-|------------------+-------------------------------------+------------------|
-| CGPoint          | { x: #, y: # }                      | point            |
-| NSRange          | { location: #, length: # }          |                  |
-| CGRect           | { x: #, y: #, width: #, height: # } | rectangle        |
-| CGSize           | { width: #, height: # }             |                  |
+| Objective-C type | JavaScript type                     | AppleScript type               |
+|------------------+-------------------------------------+--------------------------------|
+| nil              | undefined                           |                                |
+| NSNull           | null                                |                                |
+| NSString         | string                              | text                           |
+| NSNumber         | number, boolean                     | integer, real, number, boolean |
+| NSDictionary     | Object object                       | record                         |
+| NSArray          | Array object                        | list                           |
+| NSDate           | Date object                         | date                           |
+| NSBlock (1)      | Function object (1)                 |                                |
+| id (2)           | Wrapper object (2)                  | any                            |
+| Class (3)        | Constructor object (3)              |                                |
+|------------------+-------------------------------------+--------------------------------|
+| CGPoint          | { x: #, y: # }                      | point                          |
+| NSRange          | { location: #, length: # }          |                                |
+| CGRect           | { x: #, y: #, width: #, height: # } | rectangle                      |
+| CGSize           | { width: #, height: # }             |                                |
+
+
+* AppleScript types
+
+- any
+- text
+- integer
+- real
+- number
+- boolean
+- specifier
+- location specifier
+- record
+- date
+- file
+- point
+- rectangle
+- type
+- missing value
+- or the name of a class, enumeration, record-type, or value-type
+  defined elsewhere in the sdef.
+- To specify a complex type such as "list of integer" or "number or
+  text", use a type element as described below.

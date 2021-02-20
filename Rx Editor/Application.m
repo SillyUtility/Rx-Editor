@@ -74,8 +74,7 @@
     SLYTrace(@"currentContext %@", JSContext.currentContext);
     AppClass = [RXERuntimeController
         exportScriptableApp:_scriptableApp
-        appInstance:self
-        context:JSContext.currentContext
+        inContext:JSContext.currentContext
     ];
 
     SLYInfo(@"describe AppClass \n%@", RXEDescribeClass(AppClass));

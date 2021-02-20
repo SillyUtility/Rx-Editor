@@ -18,11 +18,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly) JSContext *JSContext;
 
-- (void)exportFundamentalClasses;
-
+#if 0
 + (Class)exportScriptableApp:(RXEScriptableApp *)sapp
     appInstance:(Application *)app
     context:(JSContext *)ctx;
+#endif
+
++ (Class)exportScriptableApp:(RXEScriptableApp *)sapp
+    inContext:(JSContext *)ctx;
 
 @end
 

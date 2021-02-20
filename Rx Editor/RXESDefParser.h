@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 - initWithData:(NSData *)xmlData;
 - (BOOL)parse;
 
+@property (weak) RXEScriptableApp *scriptableApp;
 @property NSArray<RXEScriptSuite *> *suites;
 
 @end

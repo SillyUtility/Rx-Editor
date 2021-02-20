@@ -26,6 +26,7 @@
     
     data = (__bridge NSData *)scdata;
     parser = [[RXESDefParser alloc] initWithData:data];
+    parser.scriptableApp = self;
     [parser parse];
 
     _suites = parser.suites;

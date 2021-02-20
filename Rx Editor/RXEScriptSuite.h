@@ -13,9 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 @class RXEScriptClass, RXEScriptClassExt, RXEScriptCommand,
     RXEScriptEnumeration, RXEScriptEvent, RXEScriptRecordType,
     RXEScriptValueType, RXEScriptCocoaImp, RXEScriptAccessGroup,
-    RXEScriptDocumentation;
+    RXEScriptDocumentation, RXEScriptableApp;
 
 @interface RXEScriptBaseObject : NSObject
+@property (weak) RXEScriptableApp *app;
+@property (weak) id parent;
 @end
 
 @interface RXEScriptSuite : RXEScriptBaseObject

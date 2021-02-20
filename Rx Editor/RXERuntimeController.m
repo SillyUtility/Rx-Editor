@@ -10,6 +10,7 @@
 #import <objc/runtime.h>
 #import <SillyLog/SillyLog.h>
 #import "RXERuntimeController.h"
+#import "RXERuntimeSymbol.h"
 #import "RXERuntimeObject.h"
 #import "RXEScriptableApp.h"
 #import "RXEScriptSuite.h"
@@ -72,12 +73,16 @@ static NSMapTable *RXERuntimeControllerContextTable()
 + (void)associateJSContext:(JSContext *)ctx
     withRuntimeController:(RXERuntimeController *)rt
 {
-    NSMapInsert(ctxTable(), (__bridge void *)ctx, (__bridge void *)rt);
+    NSMapInsert(ctxTable(),
+        (__bridge void *)ctx,
+        (__bridge void *)rt
+    );
 }
 
 + (RXERuntimeController *)runtimeControllerForJSContext:(JSContext *)ctx
 {
-    return (__bridge RXERuntimeController *)NSMapGet(ctxTable(), (__bridge void *)ctx);
+    return (__bridge RXERuntimeController *)NSMapGet(ctxTable(),
+        (__bridge void *)ctx);
 }
 
 - (JSContext *)JSContext
@@ -112,7 +117,12 @@ static NSMapTable *RXERuntimeControllerContextTable()
 
 - (void)registerClass:(Class)class name:(NSString *)name
 {
-
+    RXERuntimeSymbol *symbol;
+    symbol = [[RXERuntimeSymbol alloc] initWithClass:class];
+    NSMapInsert(self.symbolTable,
+        (__bridge const void * _Nullable)(name),
+        (__bridge const void * _Nullable)(class)
+    );
 }
 
 - (void)registerProtocol:(Protocol *)proto name:(NSString *)name
@@ -120,11 +130,25 @@ static NSMapTable *RXERuntimeControllerContextTable()
 
 }
 
+- (Class)classNamed:(NSString *)name
+{
+    return (__bridge Class)NSMapGet(self.symbolTable,
+        (__bridge void *)name);
+}
+
+- (Protocol *)protocolNamed:(NSString *)name
+{
+    return (__bridge Protocol *)NSMapGet(self.symbolTable,
+        (__bridge void *)name);
+}
+
 - (void)exportFundamentalClasses
 {
+    [self registerClass:Application.class name:@"Application"];
     _context[@"Application"] = Application.class;
 }
 
+#if 0
 + (Class)exportScriptableApp:(RXEScriptableApp *)sapp
     appInstance:(Application *)app
     context:(JSContext *)ctx
@@ -132,9 +156,6 @@ static NSMapTable *RXERuntimeControllerContextTable()
     Class AppClass;
 
     SLYTraceCall(@"_scriptableApp %@", sapp);
-
-    RXERuntimeController *rt = [self runtimeControllerForJSContext:ctx];
-    SLYTrace(@"rt %p, ctx %p", rt, ctx);
 
     AppClass = [self exportAppClass:sapp appInstance:app context:ctx];
 
@@ -195,6 +216,118 @@ static NSMapTable *RXERuntimeControllerContextTable()
         for (RXEScriptProperty *prop in class.properties)
             RXERuntimeClassExportProperty(appClass, prop);
     }
+}
+#endif
+
++ (Class)exportScriptableApp:(RXEScriptableApp *)sapp
+    inContext:(JSContext *)ctx
+{
+    RXERuntimeController *rt;
+    rt = [self runtimeControllerForJSContext:ctx];
+    return [rt exportScriptableApp:sapp];
+}
+
+- (Class)exportScriptableApp:(RXEScriptableApp *)sapp
+{
+    for (id suite in sapp.suites)
+        [self exportSuite:suite];
+
+    // TODO: export symbols to js ctx
+    // for each symbol key that is a class
+    //     _context[symbolKey] = class;
+
+    return [self classNamed:sapp.appClassName];
+}
+
+- (void)exportSuite:(RXEScriptSuite *)suite
+{
+    // TODO: suite.cocoaImp
+
+    for (RXEScriptAccessGroup *accessGroup in suite.accessGroups)
+        SLYTrace(@"accessGroup %@", accessGroup);
+
+    for (RXEScriptClass *class in suite.classes)
+        [self exportClass:class];
+
+    for (RXEScriptClassExt *classExt in suite.classExts)
+        [self exportClassExtention:classExt];
+
+    for (RXEScriptCommand *command in suite.commands)
+        [self exportCommand:command];
+
+    for (RXEScriptEnumeration *enumeration in suite.enumerations)
+        [self exportEnumeration:enumeration];
+
+    for (RXEScriptEvent *event in suite.events)
+        [self exportEvent:event];
+
+    for (RXEScriptRecordType *recordType in suite.recordTypes)
+        [self exportRecordType:recordType];
+
+    for (RXEScriptValueType *valueType in suite.valueTypes)
+        [self exportValueType:valueType];
+
+    for (RXEScriptDocumentation *doc in suite.docs)
+        SLYTrace(@"doc %@", doc);
+}
+
+- (void)exportClass:(RXEScriptClass *)class
+{
+    Class cls;
+    NSString *className;
+
+    if ([class.name isEqualToString:@"application"]) {
+        className = class.app.appClassName;
+        cls = [self classNamed:className];
+    } else {
+        className = class.className; // FIXME: wrong class name
+        cls = [self classNamed:className];
+    }
+
+    if (!cls) {
+        cls = RXERuntimeMakeClass(className);
+        [self registerClass:cls name:className];
+        [self registerProtocol:nil /* export proto */ name:nil /* className + Exports */];
+    }
+
+    for (RXEScriptProperty *prop in class.properties)
+        RXERuntimeClassExportProperty(cls, prop);
+
+    for (RXEScriptElement *element in class.elements)
+        SLYTrace(@"element %@", element);
+
+    for (RXEScriptClassCommand *method in class.classCommands)
+        SLYTrace(@"method %@", method);
+}
+
+- (void)exportClassExtention:(RXEScriptClassExt *)classExt
+{
+
+}
+
+- (void)exportCommand:(RXEScriptCommand *)command
+{
+
+}
+
+- (void)exportEnumeration:(RXEScriptEnumeration *)enumeration
+{
+
+}
+
+- (void)exportEvent:(RXEScriptEvent *)event
+{
+
+}
+
+- (void)exportRecordType:(RXEScriptRecordType *)recordType
+{
+
+}
+
+- (void)exportValueType:(RXEScriptValueType *)valueType
+{
+
 }
 
 @end
