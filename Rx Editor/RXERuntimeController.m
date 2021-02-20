@@ -129,9 +129,12 @@ static NSMapTable *RXERuntimeControllerContextTable()
     appInstance:(Application *)app
     context:(JSContext *)ctx
 {
-    SLYTrace(@"_scriptableApp %@", sapp);
-
     Class AppClass;
+
+    SLYTraceCall(@"_scriptableApp %@", sapp);
+
+    RXERuntimeController *rt = [self runtimeControllerForJSContext:ctx];
+    SLYTrace(@"rt %p, ctx %p", rt, ctx);
 
     AppClass = [self exportAppClass:sapp appInstance:app context:ctx];
 

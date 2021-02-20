@@ -36,6 +36,9 @@
     _runtimeController = [[RXERuntimeController alloc] init];
     _runtimeController.JSContext.name = @"RXEDocument Context";
 
+    SLYTrace(@"rt %p, ctx %p",
+        _runtimeController, _runtimeController.JSContext);
+
 //    NSAppleScript *scrpt = [[NSAppleScript alloc] initWithSource:
 //        @"tell application \"Finder\"\n"
 //            @"\tproperties\n"
