@@ -19,8 +19,39 @@
 #import "RXEUtilities.h"
 #import "Application.h"
 
+// map js context instances to runtime controller instances
+static NSMapTable<JSContext *, RXERuntimeController *> *contextTable;
+
+static void RXERuntimeControllerInitContextTable()
+{
+    NSPointerFunctionsOptions keyOptions, valueOptions;
+
+    keyOptions = NSPointerFunctionsOpaqueMemory;
+    keyOptions |= NSPointerFunctionsOpaquePersonality;
+
+    valueOptions = NSPointerFunctionsWeakMemory;
+    valueOptions |= NSPointerFunctionsObjectPersonality;
+
+    assert(!contextTable);
+    contextTable = [[NSMapTable<JSContext *, RXERuntimeController *> alloc]
+        initWithKeyOptions:keyOptions
+        valueOptions:valueOptions
+        capacity:0
+    ];
+}
+
+static NSMapTable *RXERuntimeControllerContextTable()
+{
+    if (!contextTable)
+        RXERuntimeControllerInitContextTable();
+    return contextTable;
+}
+
+#define ctxTable() RXERuntimeControllerContextTable()
+
 @implementation RXERuntimeController {
     JSContext *_context;
+    NSMapTable *_symbolTable;
 }
 
 - init
@@ -31,14 +62,62 @@
         return self;
 
     _context = [[JSContext alloc] init];
+    [self.class associateJSContext:_context withRuntimeController:self];;
+    _symbolTable = [self symbolTable];
     [self exportFundamentalClasses];
 
     return self;
 }
 
++ (void)associateJSContext:(JSContext *)ctx
+    withRuntimeController:(RXERuntimeController *)rt
+{
+    NSMapInsert(ctxTable(), (__bridge void *)ctx, (__bridge void *)rt);
+}
+
++ (RXERuntimeController *)runtimeControllerForJSContext:(JSContext *)ctx
+{
+    return (__bridge RXERuntimeController *)NSMapGet(ctxTable(), (__bridge void *)ctx);
+}
+
 - (JSContext *)JSContext
 {
     return _context;
+}
+
+- (NSMapTable *)symbolTable
+{
+    NSPointerFunctionsOptions keyOptions, valueOptions;
+
+    if (_symbolTable)
+        return _symbolTable;
+
+    keyOptions = NSPointerFunctionsOpaqueMemory;
+    keyOptions |= NSPointerFunctionsOpaquePersonality;
+
+    valueOptions = NSPointerFunctionsWeakMemory;
+    valueOptions |= NSPointerFunctionsObjectPersonality;
+
+    return _symbolTable = [[NSMapTable<NSString *, id> alloc]
+        initWithKeyOptions:keyOptions
+        valueOptions:valueOptions
+        capacity:0
+    ];
+}
+
+- (void)registerSymbol:(id)symbol name:(NSString *)name
+{
+
+}
+
+- (void)registerClass:(Class)class name:(NSString *)name
+{
+
+}
+
+- (void)registerProtocol:(Protocol *)proto name:(NSString *)name
+{
+
 }
 
 - (void)exportFundamentalClasses
