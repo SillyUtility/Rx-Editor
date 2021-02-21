@@ -144,6 +144,11 @@ NSString *RXEMethodNameFromString(NSString *str)
     return name;
 }
 
+NSString *RXEExportsProtocolNameFromClassName(NSString *className)
+{
+    return [className stringByAppendingString:@"Exports"];
+}
+
 const char *RXEEncodedTypeForScriptType(NSString *type)
 {
     if ([type isEqualToString:@"text"])
@@ -222,45 +227,6 @@ objc_property_attribute_t *RXEPropertyAttributesForProperty(
     return pa;
 }
 
-Protocol *RXEExportProtocolForClassName(NSString *className)
-{
-    Protocol *ExportProtocol;
-    Protocol *JSExportProtocol;
-    const char *exportProtocolName;
-
-    exportProtocolName = [className stringByAppendingString:@"Exports"].UTF8String;
-    ExportProtocol = objc_allocateProtocol(exportProtocolName);
-
-    JSExportProtocol = objc_getProtocol("JSExport");
-    protocol_addProtocol(ExportProtocol, JSExportProtocol);
-
-    return ExportProtocol;
-}
-
-Protocol *RXEGetExportProtocolForClass(Class class)
-{
-    Protocol *ExportProtocol;
-    const char *exportProtocolName;
-    Protocol * __unsafe_unretained _Nonnull *protoList;
-    unsigned int outc;
-
-    exportProtocolName = [NSString stringWithFormat:@"%sExports",
-        class_getName(class)
-    ].UTF8String;
-    //ExportProtocol = objc_getProtocol(exportProtocolName);
-
-    protoList = class_copyProtocolList(class, &outc);
-    for (unsigned int i = 0; i < outc; i++) {
-        const char *protoName = protocol_getName(protoList[i]);
-        if (strcmp(protoName, exportProtocolName) == 0) {
-            ExportProtocol = protoList[i];
-            break;
-        }
-    }
-
-    return ExportProtocol;
-}
-
 Class RXERuntimeMakeClass(NSString *name)
 {
     Class NewClass;
@@ -274,10 +240,54 @@ Class RXERuntimeMakeClass(NSString *name)
         0
     );
 
-    ExportProtocol = RXEExportProtocolForClassName(name);
+    ExportProtocol = RXERuntimeMakeExportsProtocol(name);
     class_addProtocol(NewClass, ExportProtocol);
 
     return NewClass;
+}
+
+Protocol *RXERuntimeMakeExportsProtocol(NSString *className)
+{
+    Protocol *ExportsProtocol;
+    Protocol *JSExportProtocol;
+    const char *protocolName;
+
+    protocolName = RXEExportsProtocolNameFromClassName(className).UTF8String;
+    ExportsProtocol = objc_allocateProtocol(protocolName);
+
+    JSExportProtocol = objc_getProtocol("JSExport");
+    protocol_addProtocol(ExportsProtocol, JSExportProtocol);
+
+    return ExportsProtocol;
+}
+
+Protocol *RXEClassFindExportsProtocol(Class class)
+{
+    Protocol *ExportsProtocol;
+    const char *protocolName;
+    Protocol * __unsafe_unretained _Nonnull *protoList;
+    unsigned int outc;
+
+    protocolName = [NSString stringWithFormat:@"%sExports",
+        class_getName(class)
+    ].UTF8String;
+
+    /* NOTE: objc_getProtocol will fail to find protocols that are
+     * under construction */
+
+    // ExportsProtocol = objc_getProtocol(protocolName);
+
+    // perform a linear search on the class' protocol list
+    protoList = class_copyProtocolList(class, &outc);
+    for (unsigned int i = 0; i < outc; i++) {
+        const char *name = protocol_getName(protoList[i]);
+        if (strcmp(name, protocolName) == 0) {
+            ExportsProtocol = protoList[i];
+            break;
+        }
+    }
+
+    return ExportsProtocol;
 }
 
 void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
@@ -296,7 +306,7 @@ void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
     if (![property.type isEqualToString:@"text"] && ![property.type isEqualToString:@"boolean"])
         return; // skip all but text & boolean for now
 
-    proto = RXEGetExportProtocolForClass(class);
+    proto = RXEClassFindExportsProtocol(class);
 
     className = class_getName(class);
     protoName = protocol_getName(proto);

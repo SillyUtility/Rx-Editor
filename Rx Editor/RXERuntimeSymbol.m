@@ -6,6 +6,9 @@
 //  Copyright © 2021 Silly Utility LLC. All rights reserved.
 //
 
+#import <objc/runtime.h>
+#import <JavaScriptCore/JavaScriptCore.h>
+
 #import "RXERuntimeSymbol.h"
 
 @implementation RXERuntimeSymbol {
@@ -13,9 +16,20 @@
     Protocol *_protocol;
 }
 
-- initWithClass:(Class)class
+- init
 {
     if (!(self = [super init]))
+        return self;
+
+    _isRealized = NO;
+    _isExported = NO;
+
+    return self;
+}
+
+- initWithClass:(Class)class
+{
+    if (!(self = [self init]))
         return self;
 
     _class = class;
@@ -25,7 +39,7 @@
 
 - initWithProtocol:(Protocol *)proto
 {
-    if (!(self = [super init]))
+    if (!(self = [self init]))
         return self;
 
     _protocol = proto;
@@ -43,9 +57,14 @@
     return !!_protocol;
 }
 
-- (BOOL)isRealized
+- (NSString *)name
 {
-    return NO;
+    if (self.isClass)
+        return @(class_getName(self.symbolClass));
+    if (self.isProtocol)
+        return @(protocol_getName(self.symbolProtocol));
+
+    return @"";
 }
 
 - (Class)symbolClass
@@ -56,6 +75,33 @@
 - (Protocol *)symbolProtocol
 {
     return _protocol;
+}
+
+- (void)registerSymbolWithObjCRuntime
+{
+    if (_isRealized)
+        return;
+
+    if (self.isClass) {
+        objc_registerClassPair(self.symbolClass);
+        _isRealized = YES;
+        return;
+    }
+
+    if (self.isProtocol) {
+        objc_registerProtocol(self.symbolProtocol);
+        _isRealized = YES;
+        return;
+    }
+}
+
+- (void)exportToJSContext:(JSContext *)ctx
+{
+    if (_isExported)
+        return;
+
+    ctx[self.name] = self.symbolClass;
+    _isExported = YES;
 }
 
 @end

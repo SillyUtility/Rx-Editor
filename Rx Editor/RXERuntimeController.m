@@ -9,6 +9,7 @@
 #import <JavaScriptCore/JavaScriptCore.h>
 #import <objc/runtime.h>
 #import <SillyLog/SillyLog.h>
+
 #import "RXERuntimeController.h"
 #import "RXERuntimeSymbol.h"
 #import "RXERuntimeObject.h"
@@ -73,16 +74,12 @@ static NSMapTable *RXERuntimeControllerContextTable()
 + (void)associateJSContext:(JSContext *)ctx
     withRuntimeController:(RXERuntimeController *)rt
 {
-    NSMapInsert(ctxTable(),
-        (__bridge void *)ctx,
-        (__bridge void *)rt
-    );
+    [ctxTable() setObject:rt forKey:ctx];
 }
 
 + (RXERuntimeController *)runtimeControllerForJSContext:(JSContext *)ctx
 {
-    return (__bridge RXERuntimeController *)NSMapGet(ctxTable(),
-        (__bridge void *)ctx);
+    return [ctxTable() objectForKey:ctx];
 }
 
 - (JSContext *)JSContext
@@ -97,8 +94,7 @@ static NSMapTable *RXERuntimeControllerContextTable()
     if (_symbolTable)
         return _symbolTable;
 
-    keyOptions = NSPointerFunctionsOpaqueMemory;
-    keyOptions |= NSPointerFunctionsOpaquePersonality;
+    keyOptions = NSPointerFunctionsObjectPersonality;
 
     valueOptions = NSPointerFunctionsWeakMemory;
     valueOptions |= NSPointerFunctionsObjectPersonality;
@@ -112,112 +108,74 @@ static NSMapTable *RXERuntimeControllerContextTable()
 
 - (void)registerSymbol:(id)symbol name:(NSString *)name
 {
-
+    [self.symbolTable setObject:symbol forKey:name];
 }
 
-- (void)registerClass:(Class)class name:(NSString *)name
+- (RXERuntimeSymbol *)registerClass:(Class)class name:(NSString *)name
 {
     RXERuntimeSymbol *symbol;
     symbol = [[RXERuntimeSymbol alloc] initWithClass:class];
-    NSMapInsert(self.symbolTable,
-        (__bridge const void * _Nullable)(name),
-        (__bridge const void * _Nullable)(class)
-    );
+    [self registerSymbol:symbol name:name];
+    return symbol;
 }
 
-- (void)registerProtocol:(Protocol *)proto name:(NSString *)name
+- (RXERuntimeSymbol *)registerProtocol:(Protocol *)proto name:(NSString *)name
 {
+    RXERuntimeSymbol *symbol;
+    symbol = [[RXERuntimeSymbol alloc] initWithProtocol:proto];
+    [self registerSymbol:symbol name:name];
+    return symbol;
+}
 
+- (id)symbolNamed:(NSString *)name
+{
+    return [self.symbolTable objectForKey:name];
 }
 
 - (Class)classNamed:(NSString *)name
 {
-    return (__bridge Class)NSMapGet(self.symbolTable,
-        (__bridge void *)name);
+    RXERuntimeSymbol *symbol;
+    symbol = [self symbolNamed:name];
+    if (!symbol)
+        return nil;
+    return symbol.symbolClass;
 }
 
 - (Protocol *)protocolNamed:(NSString *)name
 {
-    return (__bridge Protocol *)NSMapGet(self.symbolTable,
-        (__bridge void *)name);
+    RXERuntimeSymbol *symbol;
+    symbol = [self symbolNamed:name];
+    if (!symbol)
+        return nil;
+    return symbol.symbolProtocol;
 }
 
 - (void)exportFundamentalClasses
 {
-    [self registerClass:Application.class name:@"Application"];
-    _context[@"Application"] = Application.class;
+    [[self registerClass:Application.class name:@"Application"]
+        exportToJSContext:_context];
 }
 
-#if 0
-+ (Class)exportScriptableApp:(RXEScriptableApp *)sapp
-    appInstance:(Application *)app
-    context:(JSContext *)ctx
+- (void)realizeSymbols
 {
-    Class AppClass;
+    NSEnumerator *enumerator;
+    RXERuntimeSymbol *symbol;
 
-    SLYTraceCall(@"_scriptableApp %@", sapp);
-
-    AppClass = [self exportAppClass:sapp appInstance:app context:ctx];
-
-    for (id suite in sapp.suites)
-        [self exportSuite:suite appClass:AppClass context:ctx];
-
-    // TODO: register classes & protocols
-    objc_registerClassPair(AppClass);
-    objc_registerProtocol(RXEGetExportProtocolForClass(AppClass));
-
-    ctx[sapp.appClassName] = AppClass;
-
-    return AppClass;
+    enumerator = self.symbolTable.objectEnumerator;
+    while ((symbol = enumerator.nextObject))
+        [symbol registerSymbolWithObjCRuntime];
 }
 
-+ (Class)exportAppClass:(RXEScriptableApp *)sapp
-    appInstance:(Application *)app
-    context:(JSContext *)ctx
+- (void)exportSymbolsToJS
 {
-    Class AppClass;
-    Protocol *ExportProtocol;
-    NSString *className;
-    const char *appClassName;
+    NSEnumerator *enumerator;
+    RXERuntimeSymbol *symbol;
 
-    className = sapp.appClassName;
-    appClassName = className.UTF8String;
-    AppClass = objc_allocateClassPair(
-        RXERuntimeObject.class,
-        appClassName,
-        0
-    );
-
-    ExportProtocol = RXEExportProtocolForClassName(className);
-    class_addProtocol(AppClass, ExportProtocol);
-
-    return AppClass;
+    enumerator = self.symbolTable.objectEnumerator;
+    while ((symbol = enumerator.nextObject))
+        if (symbol.isClass)
+            [symbol exportToJSContext:_context];
 }
-
-+ (void)exportSuite:(RXEScriptSuite *)suite
-    appClass:(Class)appClass
-    context:(JSContext *)ctx
-{
-    for (id class in suite.classes)
-        [self exportClass:class appClass:appClass ctx:ctx];
-}
-
-+ (void)exportCommand
-{
-
-}
-
-+ (void)exportClass:(RXEScriptClass *)class
-    appClass:(Class)appClass
-    ctx:(JSContext *)ctx
-{
-    if ([class.name isEqualToString:@"application"]) {
-        SLYTrace(@"construct the application class");
-        for (RXEScriptProperty *prop in class.properties)
-            RXERuntimeClassExportProperty(appClass, prop);
-    }
-}
-#endif
 
 + (Class)exportScriptableApp:(RXEScriptableApp *)sapp
     inContext:(JSContext *)ctx
@@ -232,9 +190,8 @@ static NSMapTable *RXERuntimeControllerContextTable()
     for (id suite in sapp.suites)
         [self exportSuite:suite];
 
-    // TODO: export symbols to js ctx
-    // for each symbol key that is a class
-    //     _context[symbolKey] = class;
+    [self realizeSymbols];
+    [self exportSymbolsToJS];
 
     return [self classNamed:sapp.appClassName];
 }
@@ -274,20 +231,25 @@ static NSMapTable *RXERuntimeControllerContextTable()
 - (void)exportClass:(RXEScriptClass *)class
 {
     Class cls;
+    Protocol *protocol;
     NSString *className;
+    NSString *protoName;
 
     if ([class.name isEqualToString:@"application"]) {
         className = class.app.appClassName;
         cls = [self classNamed:className];
     } else {
-        className = class.className; // FIXME: wrong class name
+        className = class.exportName;
         cls = [self classNamed:className];
     }
 
     if (!cls) {
         cls = RXERuntimeMakeClass(className);
         [self registerClass:cls name:className];
-        [self registerProtocol:nil /* export proto */ name:nil /* className + Exports */];
+
+        protoName = RXEExportsProtocolNameFromClassName(className);
+        protocol = RXEClassFindExportsProtocol(cls);
+        [self registerProtocol:protocol name:protoName];
     }
 
     for (RXEScriptProperty *prop in class.properties)

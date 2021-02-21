@@ -79,11 +79,11 @@
 
     SLYInfo(@"describe AppClass \n%@", RXEDescribeClass(AppClass));
     SLYInfo(@"describe AppClass export protocol \n%@",
-    RXEDescribeProtocol(RXEGetExportProtocolForClass(AppClass)));
+    RXEDescribeProtocol(RXEClassFindExportsProtocol(AppClass)));
 
     SLYInfo(@"describe RXERuntimeObject \n%@", RXEDescribeClass(RXERuntimeObject.class));
     SLYInfo(@"describe RXERuntimeObject export protocol \n%@",
-    RXEDescribeProtocol(RXEGetExportProtocolForClass(RXERuntimeObject.class)));
+    RXEDescribeProtocol(RXEClassFindExportsProtocol(RXERuntimeObject.class)));
 
     SLYTrace(@"@@ Application %p", self);
     self = [[AppClass alloc] initWithBridgeObject:_app];

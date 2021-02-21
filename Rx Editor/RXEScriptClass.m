@@ -7,6 +7,7 @@
 //
 
 #import "RXEScriptClass.h"
+#import "RXEUtilities.h"
 
 @implementation RXEScriptClassContent {
     RXEScriptCocoaImp *_cocoaImp;
@@ -110,6 +111,11 @@
 - (void)addType:(RXEScriptType *)type
 {
     [_types addObject:type];
+}
+
+- (NSString *)exportName
+{
+    return RXEClassNameFromString(self.name);
 }
 
 - (NSString *)description

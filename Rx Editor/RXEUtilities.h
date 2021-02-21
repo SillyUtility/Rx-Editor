@@ -21,10 +21,12 @@ NSString *RXEClassNameFromString(NSString *str);
 NSString *RXEPropertyNameFromString(NSString *str);
 NSString *RXEMethodNameFromString(NSString *str);
 
-Protocol *RXEExportProtocolForClassName(NSString *className);
-Protocol *RXEGetExportProtocolForClass(Class class);
+NSString *RXEExportsProtocolNameFromClassName(NSString *className);
 
 Class RXERuntimeMakeClass(NSString *name);
+Protocol *RXERuntimeMakeExportsProtocol(NSString *className);
+
+Protocol *RXEClassFindExportsProtocol(Class class);
 
 void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property);
 

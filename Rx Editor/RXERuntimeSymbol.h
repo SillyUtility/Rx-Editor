@@ -10,6 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class JSContext;
+
 @interface RXERuntimeSymbol : NSObject
 
 - initWithClass:(Class)class;
@@ -17,10 +19,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly) BOOL isClass;
 @property (readonly) BOOL isProtocol;
+
 @property (readonly) BOOL isRealized;
+@property (readonly) BOOL isExported;
+
+@property (readonly) NSString *name;
 
 @property (readonly) Class symbolClass;
 @property (readonly) Protocol *symbolProtocol;
+
+- (void)registerSymbolWithObjCRuntime;
+- (void)exportToJSContext:(JSContext *)ctx;
 
 @end
 
