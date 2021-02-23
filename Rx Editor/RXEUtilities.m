@@ -161,6 +161,16 @@ const char *RXEEncodedTypeForScriptType(NSString *type)
         return strdup(@encode(long long));
     if ([type isEqualToString:@"real"])
         return strdup(@encode(double));
+    if ([type isEqualToString:@"number"])
+        return strdup(@encode(NSNumber *));
+    if ([type isEqualToString:@"type"])
+        return strdup(@encode(NSNumber *));
+    if ([type isEqualToString:@"record"])
+        return strdup(@encode(NSDictionary *));
+    if ([type isEqualToString:@"list"])
+        return strdup(@encode(NSArray *));
+    if ([type isEqualToString:@"date"])
+        return strdup(@encode(NSDate *));
 
     return strdup(@encode(id));
 }
@@ -173,6 +183,16 @@ const char *RXEEncodedExtendedTypeForScriptType(NSString *type)
         c = NSStringFromClass(NSString.class);
     else if ([type isEqualToString:@"boolean"])
         c = NSStringFromClass(NSNumber.class);
+    else if ([type isEqualToString:@"number"])
+        c = NSStringFromClass(NSNumber.class);
+    else if ([type isEqualToString:@"type"])
+        c = NSStringFromClass(NSNumber.class);
+    else if ([type isEqualToString:@"record"])
+        c = NSStringFromClass(NSDictionary.class);
+    else if ([type isEqualToString:@"list"])
+        c = NSStringFromClass(NSArray.class);
+    else if ([type isEqualToString:@"date"])
+        c = NSStringFromClass(NSDate.class);
 
     // TODO: other @ types
 
@@ -203,6 +223,16 @@ IMP RXEGetterImplementationForPropertyType(NSString *type)
         return (IMP)getString_Property;
     if ([type isEqualToString:@"boolean"])
         return (IMP)getBoxedBool_Property;
+    if ([type isEqualToString:@"number"])
+        return (IMP)getBoxedNumber_Property;
+    if ([type isEqualToString:@"type"])
+        return (IMP)getBoxedOSType_Property;
+    if ([type isEqualToString:@"record"])
+        return (IMP)getDictionary_Property;
+    if ([type isEqualToString:@"list"])
+        return (IMP)getArray_Property;
+    if ([type isEqualToString:@"date"])
+        return (IMP)getDate_Property;
 
     return (IMP)getObject_Property;
 }

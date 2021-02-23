@@ -39,6 +39,21 @@ void setBoll_Property(id self, SEL _cmd, BOOL b);
 NSNumber *getBoxedBool_Property(id self, SEL _cmd);
 void setBoxedBool_Property(id self, SEL _cmd, NSNumber *b);
 
+NSNumber *getBoxedNumber_Property(id self, SEL _cmd);
+void setBoxedNumber_Property(id self, SEL _cmd, NSNumber *n);
+
+NSNumber *getBoxedOSType_Property(id self, SEL _cmd);
+void setBoxedOSType_Property(id self, SEL _cmd, NSNumber *type);
+
+NSDictionary *getDictionary_Property(id self, SEL _cmd);
+void setDictionary_Property(id self, SEL _cmd, NSDictionary *dict);
+
+NSArray *getArray_Property(id self, SEL _cmd);
+void setArray_Property(id self, SEL _cmd, NSArray *array);
+
+NSDate *getDate_Property(id self, SEL _cmd);
+void setDate_Property(id self, SEL _cmd, NSDate *date);
+
 @end
 
 NS_ASSUME_NONNULL_END
