@@ -149,6 +149,32 @@ NSString *RXEExportsProtocolNameFromClassName(NSString *className)
     return [className stringByAppendingString:@"Exports"];
 }
 
+BOOL RXEBuiltInScriptType(NSString *type)
+{
+    if ([type isEqualToString:@"text"])
+        return YES;
+    if ([type isEqualToString:@"boolean"])
+        return YES;
+    if ([type isEqualToString:@"integer"])
+        return YES;
+    if ([type isEqualToString:@"double integer"])
+        return YES;
+    if ([type isEqualToString:@"real"])
+        return YES;
+    if ([type isEqualToString:@"number"])
+        return YES;
+    if ([type isEqualToString:@"type"])
+        return YES;
+    if ([type isEqualToString:@"record"])
+        return YES;
+    if ([type isEqualToString:@"list"])
+        return YES;
+    if ([type isEqualToString:@"date"])
+        return YES;
+
+    return NO;
+}
+
 const char *RXEEncodedTypeForScriptType(NSString *type)
 {
     if ([type isEqualToString:@"text"])
@@ -223,6 +249,12 @@ IMP RXEGetterImplementationForPropertyType(NSString *type)
         return (IMP)getString_Property;
     if ([type isEqualToString:@"boolean"])
         return (IMP)getBoxedBool_Property;
+    if ([type isEqualToString:@"integer"])
+        return (IMP)getLong_Property;
+    if ([type isEqualToString:@"double integer"])
+        return (IMP)getLongLong_Property;
+    if ([type isEqualToString:@"real"])
+        return (IMP)getDouble_Property;
     if ([type isEqualToString:@"number"])
         return (IMP)getBoxedNumber_Property;
     if ([type isEqualToString:@"type"])
@@ -340,8 +372,8 @@ void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
     objc_property_attribute_t *pattrs;
     unsigned int outc;
 
-    if (![property.type isEqualToString:@"text"] && ![property.type isEqualToString:@"boolean"])
-        return; // skip all but text & boolean for now
+    if (!RXEBuiltInScriptType(property.type))
+        return; // skip non-built-in types for now
 
     proto = RXEClassFindExportsProtocol(class);
 

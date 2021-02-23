@@ -33,6 +33,15 @@ void setString_Property(id self, SEL _cmd, NSString *str);
 int getInt_Property(id self, SEL _cmd);
 void setInt_Property(id self, SEL _cmd, int i);
 
+long getLong_Property(id self, SEL _cmd);
+void setLong_Property(id self, SEL _cmd, long l);
+
+long long getLongLong_Property(id self, SEL _cmd);
+void setLongLong_Property(id self, SEL _cmd, long long ll);
+
+double getDouble_Property(id self, SEL _cmd);
+void setDouble_Property(id self, SEL _cmd, double d);
+
 BOOL getBool_Property(id self, SEL _cmd);
 void setBoll_Property(id self, SEL _cmd, BOOL b);
 

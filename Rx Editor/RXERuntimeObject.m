@@ -77,6 +77,36 @@ void setInt_Property_i(RXERuntimeObject *self, SEL _cmd, int i)
 
 }
 
+long getLong_Property(RXERuntimeObject *self, SEL _cmd)
+{
+    return 0;
+}
+
+void setLong_Property(RXERuntimeObject *self, SEL _cmd, long l)
+{
+
+}
+
+long long getLongLong_Property(RXERuntimeObject *self, SEL _cmd)
+{
+    return 0;
+}
+
+void setLongLong_Property(RXERuntimeObject *self, SEL _cmd, long long ll)
+{
+
+}
+
+double getDouble_Property(RXERuntimeObject *self, SEL _cmd)
+{
+    return 0.0;
+}
+
+void setDouble_Property(RXERuntimeObject *self, SEL _cmd, double d)
+{
+
+}
+
 BOOL getBool_Property(RXERuntimeObject *self, SEL _cmd)
 {
     NSMethodSignature *sig;
