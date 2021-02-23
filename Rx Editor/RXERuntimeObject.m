@@ -79,10 +79,11 @@ void setInt_Property_i(id self, SEL _cmd, int i)
 
 BOOL getBool_Property(RXERuntimeObject *self, SEL _cmd)
 {
-    SLYTraceCall(@"%@ %@ %@", self, self->_bridgeObj, NSStringFromSelector(_cmd));
     NSMethodSignature *sig;
     NSInvocation *inv;
     BOOL ret;
+
+    SLYTraceCall(@"%@ %@ %@", self, self->_bridgeObj, NSStringFromSelector(_cmd));
 
     sig = [self methodSignatureForSelector:_cmd];
     inv = [NSInvocation invocationWithMethodSignature:sig];
@@ -95,6 +96,29 @@ BOOL getBool_Property(RXERuntimeObject *self, SEL _cmd)
 }
 
 void setBoll_Property(RXERuntimeObject *self, SEL _cmd, BOOL b)
+{
+    SLYTraceCall(@"%@ %@ %@", self, self->_bridgeObj, NSStringFromSelector(_cmd));
+}
+
+NSNumber *getBoxedBool_Property(RXERuntimeObject *self, SEL _cmd)
+{
+    NSMethodSignature *sig;
+    NSInvocation *inv;
+    BOOL ret;
+
+    SLYTraceCall(@"%@ %@ %@", self, self->_bridgeObj, NSStringFromSelector(_cmd));
+
+    sig = [self methodSignatureForSelector:_cmd];
+    inv = [NSInvocation invocationWithMethodSignature:sig];
+    inv.selector = _cmd;
+    inv.target = self->_bridgeObj;
+    [inv invoke];
+    [inv getReturnValue:&ret];
+
+    return [NSNumber numberWithBool:ret];
+}
+
+void setBoxedBool_Property(RXERuntimeObject *self, SEL _cmd, NSNumber *b)
 {
     SLYTraceCall(@"%@ %@ %@", self, self->_bridgeObj, NSStringFromSelector(_cmd));
 }

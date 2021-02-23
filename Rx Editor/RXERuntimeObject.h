@@ -36,6 +36,9 @@ void setInt_Property(id self, SEL _cmd, int i);
 BOOL getBool_Property(id self, SEL _cmd);
 void setBoll_Property(id self, SEL _cmd, BOOL b);
 
+NSNumber *getBoxedBool_Property(id self, SEL _cmd);
+void setBoxedBool_Property(id self, SEL _cmd, NSNumber *b);
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -154,7 +154,13 @@ const char *RXEEncodedTypeForScriptType(NSString *type)
     if ([type isEqualToString:@"text"])
         return strdup(@encode(NSString *));
     if ([type isEqualToString:@"boolean"])
-        return strdup(@encode(BOOL));
+        return strdup(@encode(NSNumber *));
+    if ([type isEqualToString:@"integer"])
+        return strdup(@encode(long));
+    if ([type isEqualToString:@"double integer"])
+        return strdup(@encode(long long));
+    if ([type isEqualToString:@"real"])
+        return strdup(@encode(double));
 
     return strdup(@encode(id));
 }
@@ -165,7 +171,8 @@ const char *RXEEncodedExtendedTypeForScriptType(NSString *type)
 
     if ([type isEqualToString:@"text"])
         c = NSStringFromClass(NSString.class);
-    // else if ()
+    else if ([type isEqualToString:@"boolean"])
+        c = NSStringFromClass(NSNumber.class);
 
     // TODO: other @ types
 
@@ -195,7 +202,7 @@ IMP RXEGetterImplementationForPropertyType(NSString *type)
     if ([type isEqualToString:@"text"])
         return (IMP)getString_Property;
     if ([type isEqualToString:@"boolean"])
-        return (IMP)getBool_Property;
+        return (IMP)getBoxedBool_Property;
 
     return (IMP)getObject_Property;
 }

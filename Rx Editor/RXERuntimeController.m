@@ -191,7 +191,7 @@ static NSMapTable *RXERuntimeControllerContextTable()
         [self exportSuite:suite];
 
     [self realizeSymbols];
-    [self exportSymbolsToJS];
+    //[self exportSymbolsToJS];
 
     return [self classNamed:sapp.appClassName];
 }
