@@ -7,6 +7,8 @@
 //
 
 #import "RXEScriptClass.h"
+#import "RXEScriptableApp.h"
+#import "RXEScriptSuite.h"
 #import "RXEUtilities.h"
 
 @implementation RXEScriptClassContent {
@@ -115,7 +117,10 @@
 
 - (NSString *)exportName
 {
-    return RXEClassNameFromString(self.name);
+    return [NSString stringWithFormat:@"%@%@",
+        self.app.appClassName,
+        RXEClassNameFromString(self.name)
+    ];
 }
 
 - (NSString *)description
