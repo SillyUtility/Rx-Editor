@@ -58,7 +58,7 @@ Rx Editor is a script editor with a interactive interpreter.
 | Objective-C type  | JavaScript type                     | AppleScript type               |
 |-------------------+-------------------------------------+--------------------------------|
 | nil               | undefined                           | null                           |
-| NSNull            | null                                | missing value?                 |
+| NSNull            | null                                | missing value                  |
 | NSString          | string                              | text                           |
 | long              | number                              | integer                        |
 | long long         | number                              | double integer                 |
@@ -81,24 +81,31 @@ Rx Editor is a script editor with a interactive interpreter.
 
 * AppleScript types
 
-- any
-- text
-- integer
-- real
-- number
-- boolean
-- specifier, reference
-- location specifier
-- record
-- date
-- file, alias
-- point
-- rectangle
-- type
-- missing value
+- [ ] any
+- [X] text
+- [X] integer
+- [X] real
+- [X] number
+- [X] boolean
+- [ ] specifier, reference
+- [ ] location specifier
+- [X] record
+- [X] date
+- [ ] file, alias
+- [ ] point
+- [ ] rectangle
+- [X] type
+- [ ] missing value
 - or the name of a class, enumeration, record-type, or value-type
-  defined elsewhere in the sdef.
+  defined elsewhere in the sdef
 - To specify a complex type such as "list of integer" or "number or
-  text", use a type element as described below.
+  text", use a type element ~<type type="integer" list="yes"/>~, or
+
+#+begin_src xml
+  <property name="frequency">
+    <type type="number"/>
+    <type type="text"/>
+  </property>
+#+end_src
 
 What is a specifier? Is an unevaluated path to an object.

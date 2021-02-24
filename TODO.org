@@ -1,0 +1,8 @@
+#+TITLE: Rx Editor Tasks
+#+DATE: 2021-02-23
+#+STARTUP: showall
+
+* TODO point type
+* TODO rectangle type
+* TODO file & alias type
+* TODO a class defined elsewhere in the sdef
