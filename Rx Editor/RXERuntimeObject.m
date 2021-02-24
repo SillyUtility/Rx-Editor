@@ -253,4 +253,60 @@ void setDate_Property(RXERuntimeObject *self, SEL _cmd, NSDate *date)
 #   pragma clang diagnostic pop
 }
 
+CGPoint getPoint_Property(RXERuntimeObject *self, SEL _cmd)
+{
+    NSMethodSignature *sig;
+    NSInvocation *inv;
+    CGPoint ret;
+
+    SLYTraceCall(@"%@ %@ %@", self, self->_bridgeObj, NSStringFromSelector(_cmd));
+
+// TODO: alloc room for return value
+//    NSUInteger length = [[myInvocation methodSignature] methodReturnLength];
+//    buffer = (void *)malloc(length);
+//    [invocation getReturnValue:buffer];
+
+    sig = [self methodSignatureForSelector:_cmd];
+    inv = [NSInvocation invocationWithMethodSignature:sig];
+    inv.selector = _cmd;
+    inv.target = self->_bridgeObj;
+    [inv invoke];
+    [inv getReturnValue:&ret];
+
+    return ret;
+}
+
+void setPoint_Property(RXERuntimeObject *self, SEL _cmd, CGPoint p)
+{
+
+}
+
+CGRect getRectangle_Property(RXERuntimeObject *self, SEL _cmd)
+{
+    NSMethodSignature *sig;
+    NSInvocation *inv;
+    CGRect ret;
+
+    SLYTraceCall(@"%@ %@ %@", self, self->_bridgeObj, NSStringFromSelector(_cmd));
+
+// TODO: alloc room for return value
+//    NSUInteger length = [[myInvocation methodSignature] methodReturnLength];
+//    buffer = (void *)malloc(length);
+//    [invocation getReturnValue:buffer];
+
+    sig = [self methodSignatureForSelector:_cmd];
+    inv = [NSInvocation invocationWithMethodSignature:sig];
+    inv.selector = _cmd;
+    inv.target = self->_bridgeObj;
+    [inv invoke];
+    [inv getReturnValue:&ret];
+
+    return ret;
+}
+
+void setRectangle_Property(RXERuntimeObject *self, SEL _cmd, CGRect r)
+{
+
+}
+
 @end

@@ -63,6 +63,12 @@ void setArray_Property(id self, SEL _cmd, NSArray *array);
 NSDate *getDate_Property(id self, SEL _cmd);
 void setDate_Property(id self, SEL _cmd, NSDate *date);
 
+CGPoint getPoint_Property(id self, SEL _cmd);
+void setPoint_Property(id self, SEL _cmd, CGPoint p);
+
+CGRect getRectangle_Property(id self, SEL _cmd);
+void setRectangle_Property(id self, SEL _cmd, CGRect r);
+
 @end
 
 NS_ASSUME_NONNULL_END
