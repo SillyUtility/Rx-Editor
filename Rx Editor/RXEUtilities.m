@@ -171,6 +171,22 @@ BOOL RXEBuiltInScriptType(NSString *type)
         return YES;
     if ([type isEqualToString:@"date"])
         return YES;
+    if ([type isEqualToString:@"point"])
+        return YES;
+    if ([type isEqualToString:@"rectangle"])
+        return YES;
+
+    return NO;
+}
+
+BOOL RXESkipScriptType_To_Be_Removed(NSString *type)
+{
+    if ([type isEqualToString:@"any"])
+        return YES;
+    if ([type isEqualToString:@"specifier"])
+        return YES;
+    if ([type isEqualToString:@"location specifier"])
+        return YES;
 
     return NO;
 }
@@ -197,6 +213,10 @@ const char *RXEEncodedTypeForScriptType(NSString *type)
         return strdup(@encode(NSArray *));
     if ([type isEqualToString:@"date"])
         return strdup(@encode(NSDate *));
+    if ([type isEqualToString:@"point"])
+        return strdup(@encode(CGPoint));
+    if ([type isEqualToString:@"rectangle"])
+        strdup(@encode(CGRect));
 
     return strdup(@encode(id));
 }
@@ -219,6 +239,10 @@ const char *RXEEncodedExtendedTypeForScriptType(NSString *type)
         c = NSStringFromClass(NSArray.class);
     else if ([type isEqualToString:@"date"])
         c = NSStringFromClass(NSDate.class);
+//    else if ([type isEqualToString:@"point"])
+//        return strdup(@encode(CGPoint));
+//    else if ([type isEqualToString:@"rectangle"])
+//        strdup(@encode(CGRect));
 
     // TODO: other @ types
 
@@ -374,6 +398,9 @@ void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
 
     if (!RXEBuiltInScriptType(property.type))
         return; // skip non-built-in types for now
+
+    // if (RXESkipScriptType_To_Be_Removed(property.type))
+    //     return;
 
     proto = RXEClassFindExportsProtocol(class);
 

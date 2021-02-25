@@ -69,6 +69,9 @@ void setPoint_Property(id self, SEL _cmd, CGPoint p);
 CGRect getRectangle_Property(id self, SEL _cmd);
 void setRectangle_Property(id self, SEL _cmd, CGRect r);
 
+id getWrappedObject_Property(id self, SEL _cmd);
+void setWrappedObject_Property(id self, SEL _cmd, id obj);
+
 @end
 
 NS_ASSUME_NONNULL_END

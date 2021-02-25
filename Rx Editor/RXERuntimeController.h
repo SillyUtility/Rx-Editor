@@ -10,7 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class RXEScriptableApp, Application, JSContext;
+@class RXEScriptableApp, Application, JSContext,
+    RXERuntimeClassDescription;
 
 @interface RXERuntimeController : NSObject
 
@@ -19,6 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) JSContext *JSContext;
 
 + (Class)exportScriptableApp:(RXEScriptableApp *)sapp
+    inContext:(JSContext *)ctx;
+
++ (RXERuntimeClassDescription *)classDescriptionForClass:(Class)class
     inContext:(JSContext *)ctx;
 
 @end

@@ -12,6 +12,7 @@
 
 #import "RXERuntimeController.h"
 #import "RXERuntimeSymbol.h"
+#import "RXERuntimeTypes.h"
 #import "RXERuntimeObject.h"
 #import "RXEScriptableApp.h"
 #import "RXEScriptSuite.h"
@@ -54,6 +55,7 @@ static NSMapTable *RXERuntimeControllerContextTable()
 @implementation RXERuntimeController {
     JSContext *_context;
     NSMapTable *_symbolTable;
+    NSMapTable *_classTable;
 }
 
 - init
@@ -290,6 +292,13 @@ static NSMapTable *RXERuntimeControllerContextTable()
 - (void)exportValueType:(RXEScriptValueType *)valueType
 {
 
+}
+
+
++ (RXERuntimeClassDescription *)classDescriptionForClass:(Class)class
+    inContext:(JSContext *)ctx
+{
+    return nil;
 }
 
 @end

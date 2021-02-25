@@ -10,6 +10,8 @@
 #import <ScriptingBridge/ScriptingBridge.h>
 
 #import "RXERuntimeObject.h"
+#import "RXERuntimeController.h"
+#import "RXERuntimeTypes.h"
 
 @implementation RXERuntimeObject {
     id _bridgeObj;
@@ -258,15 +260,14 @@ CGPoint getPoint_Property(RXERuntimeObject *self, SEL _cmd)
     NSMethodSignature *sig;
     NSInvocation *inv;
     CGPoint ret;
+    //size_t size;
 
     SLYTraceCall(@"%@ %@ %@", self, self->_bridgeObj, NSStringFromSelector(_cmd));
 
-// TODO: alloc room for return value
-//    NSUInteger length = [[myInvocation methodSignature] methodReturnLength];
-//    buffer = (void *)malloc(length);
-//    [invocation getReturnValue:buffer];
-
     sig = [self methodSignatureForSelector:_cmd];
+    // size = [sig methodReturnLength];
+    // ret = calloc(1, size);
+
     inv = [NSInvocation invocationWithMethodSignature:sig];
     inv.selector = _cmd;
     inv.target = self->_bridgeObj;
@@ -286,15 +287,14 @@ CGRect getRectangle_Property(RXERuntimeObject *self, SEL _cmd)
     NSMethodSignature *sig;
     NSInvocation *inv;
     CGRect ret;
-
+    //size_t size;
+    
     SLYTraceCall(@"%@ %@ %@", self, self->_bridgeObj, NSStringFromSelector(_cmd));
 
-// TODO: alloc room for return value
-//    NSUInteger length = [[myInvocation methodSignature] methodReturnLength];
-//    buffer = (void *)malloc(length);
-//    [invocation getReturnValue:buffer];
-
     sig = [self methodSignatureForSelector:_cmd];
+    // size = [sig methodReturnLength];
+    // ret = calloc(1, size);
+
     inv = [NSInvocation invocationWithMethodSignature:sig];
     inv.selector = _cmd;
     inv.target = self->_bridgeObj;
@@ -305,6 +305,36 @@ CGRect getRectangle_Property(RXERuntimeObject *self, SEL _cmd)
 }
 
 void setRectangle_Property(RXERuntimeObject *self, SEL _cmd, CGRect r)
+{
+
+}
+
+id getWrappedObject_Property(RXERuntimeObject *self, SEL _cmd)
+{
+    id bridgeObj;
+    RXERuntimeClassDescription *wrapperClassDesription;
+    Class wrapperClass;
+
+    SLYTraceCall(@"%@ %@ %@", self, self->_bridgeObj, NSStringFromSelector(_cmd));
+
+#   pragma clang diagnostic push
+#   pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    // TODO: verify this doesn't leak
+    bridgeObj = [self->_bridgeObj performSelector:_cmd];
+#   pragma clang diagnostic pop
+
+    // TODO: wrapper cache?
+
+    wrapperClassDesription = [RXERuntimeController
+        classDescriptionForClass:self.class
+        inContext:JSContext.currentContext
+    ];
+    wrapperClass = [wrapperClassDesription returnClassForSelector:_cmd];
+
+    return [[wrapperClass alloc] initWithBridgeObject:bridgeObj];
+}
+
+void setWrappedObject_Property(RXERuntimeObject *self, SEL _cmd, id obj)
 {
 
 }

@@ -26,6 +26,8 @@
 		2C7A306025B0D18F0045BEBB /* RxEditor.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 2C7A305F25B0D18F0045BEBB /* RxEditor.sdef */; };
 		2CAB534225DDDB150057BD91 /* RXEObjCRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAB534125DDDB150057BD91 /* RXEObjCRuntime.m */; };
 		2CAB537525E09C0C0057BD91 /* RXERuntimeSymbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAB537425E09C0C0057BD91 /* RXERuntimeSymbol.m */; };
+		2CAB53A725E6BDE20057BD91 /* RXERuntimeDescriptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAB53A625E6BDE20057BD91 /* RXERuntimeDescriptionTests.m */; };
+		2CAB53AA25E72C360057BD91 /* RXERuntimeTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CAB53A925E72C360057BD91 /* RXERuntimeTypes.m */; };
 		2CF7BBBB25B1161200F6BB81 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF7BBBA25B1161200F6BB81 /* Carbon.framework */; };
 		2CF7BBC125B1193000F6BB81 /* RXESDefParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF7BBC025B1193000F6BB81 /* RXESDefParser.m */; };
 		2CF7BBD425B1682500F6BB81 /* SillyLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CF7BBCD25B15CED00F6BB81 /* SillyLog.framework */; };
@@ -112,6 +114,9 @@
 		2CAB534125DDDB150057BD91 /* RXEObjCRuntime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RXEObjCRuntime.m; sourceTree = "<group>"; };
 		2CAB537325E09C0C0057BD91 /* RXERuntimeSymbol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RXERuntimeSymbol.h; sourceTree = "<group>"; };
 		2CAB537425E09C0C0057BD91 /* RXERuntimeSymbol.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RXERuntimeSymbol.m; sourceTree = "<group>"; };
+		2CAB53A625E6BDE20057BD91 /* RXERuntimeDescriptionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RXERuntimeDescriptionTests.m; sourceTree = "<group>"; };
+		2CAB53A825E72C360057BD91 /* RXERuntimeTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RXERuntimeTypes.h; sourceTree = "<group>"; };
+		2CAB53A925E72C360057BD91 /* RXERuntimeTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RXERuntimeTypes.m; sourceTree = "<group>"; };
 		2CF7BBBA25B1161200F6BB81 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		2CF7BBBF25B1193000F6BB81 /* RXESDefParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RXESDefParser.h; sourceTree = "<group>"; };
 		2CF7BBC025B1193000F6BB81 /* RXESDefParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RXESDefParser.m; sourceTree = "<group>"; };
@@ -231,6 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				2C2DE06825AA443600D70A58 /* Rx_EditorTests.m */,
+				2CAB53A625E6BDE20057BD91 /* RXERuntimeDescriptionTests.m */,
 				2C2DE06A25AA443600D70A58 /* Info.plist */,
 			);
 			path = "Rx EditorTests";
@@ -292,6 +298,8 @@
 				2C08832E25CA2E2000370B89 /* RXERuntimeController.m */,
 				2CAB537325E09C0C0057BD91 /* RXERuntimeSymbol.h */,
 				2CAB537425E09C0C0057BD91 /* RXERuntimeSymbol.m */,
+				2CAB53A825E72C360057BD91 /* RXERuntimeTypes.h */,
+				2CAB53A925E72C360057BD91 /* RXERuntimeTypes.m */,
 				2C08833325CA734100370B89 /* RXERuntimeObject.h */,
 				2C08833425CA734100370B89 /* RXERuntimeObject.m */,
 				2CF7BBF725B3891200F6BB81 /* Application.h */,
@@ -454,6 +462,7 @@
 				2C08834E25CC8FDC00370B89 /* RXEUtilities.m in Sources */,
 				2C2DE05325AA443500D70A58 /* RXEViewController.m in Sources */,
 				2C2DE05E25AA443600D70A58 /* main.m in Sources */,
+				2CAB53AA25E72C360057BD91 /* RXERuntimeTypes.m in Sources */,
 				2C08833525CA734100370B89 /* RXERuntimeObject.m in Sources */,
 				2C08832F25CA2E2000370B89 /* RXERuntimeController.m in Sources */,
 				2C08832725C8A62F00370B89 /* NSMutableArray+Additions.m in Sources */,
@@ -473,6 +482,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C2DE06925AA443600D70A58 /* Rx_EditorTests.m in Sources */,
+				2CAB53A725E6BDE20057BD91 /* RXERuntimeDescriptionTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
