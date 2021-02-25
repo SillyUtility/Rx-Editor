@@ -10,12 +10,25 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class RXERuntimeMethodDescription;
+
 @interface RXERuntimeClassDescription : NSObject
+
+- initWithClass:(Class)class;
+
+- (void)addMethodDescription:(RXERuntimeMethodDescription *)methDesc;
+
 - (Class)returnClassForSelector:(SEL)sel;
+
 @end
 
 @interface RXERuntimeMethodDescription : NSObject
+
+- initWithSelector:(SEL)sel returnType:(Class)retClass;
+
+@property (readonly) SEL selector;
 @property (readonly) Class returnClass;
+
 @end
 
 NS_ASSUME_NONNULL_END

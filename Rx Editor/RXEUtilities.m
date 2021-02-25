@@ -45,7 +45,7 @@ static const char *rxe_make_var_name(const char *name)
 
     return buffer;
 }
-#endif
+
 
 // "set" Name ":\0"  => nameLength + 5.
 static const char *rxe_make_setter_name(const char* name)
@@ -65,7 +65,7 @@ static const char *rxe_make_setter_name(const char* name)
 
     return buffer;
 }
-
+#endif
 
 @implementation RXEUtilities
 
@@ -149,6 +149,7 @@ NSString *RXEExportsProtocolNameFromClassName(NSString *className)
     return [className stringByAppendingString:@"Exports"];
 }
 
+#if 0
 BOOL RXEBuiltInScriptType(NSString *type)
 {
     if ([type isEqualToString:@"text"])
@@ -319,6 +320,7 @@ objc_property_attribute_t *RXEPropertyAttributesForProperty(
 
     return pa;
 }
+#endif
 
 Class RXERuntimeMakeClass(NSString *name)
 {
@@ -383,6 +385,7 @@ Protocol *RXEClassFindExportsProtocol(Class class)
     return ExportsProtocol;
 }
 
+#if 0
 void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
 {
     BOOL success;
@@ -464,6 +467,7 @@ void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property)
 
     rxe_protocol_addExtendedTypesForMethod(proto, setSel, setExtTypes);
 }
+#endif
 
 NSString *RXEDescribeClass(Class class)
 {

@@ -250,6 +250,14 @@
     return [self.access isEqualToString:@"r"];
 }
 
+- (NSString *)exportTypeName
+{
+    return [NSString stringWithFormat:@"%@%@",
+        self.app.appClassName,
+        RXEClassNameFromString(self.type)
+    ];
+}
+
 @end
 
 @implementation RXEScriptContents

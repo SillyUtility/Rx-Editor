@@ -8,6 +8,7 @@
 
 #import <objc/runtime.h>
 #import <JavaScriptCore/JavaScriptCore.h>
+#import <SillyLog/SillyLog.h>
 
 #import "RXERuntimeSymbol.h"
 
@@ -79,6 +80,8 @@
 
 - (void)registerSymbolWithObjCRuntime
 {
+    SLYTrace(@"REGISTER w/OBJC %@", self.name);
+
     if (_isRealized)
         return;
 

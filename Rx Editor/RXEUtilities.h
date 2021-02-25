@@ -28,7 +28,7 @@ Protocol *RXERuntimeMakeExportsProtocol(NSString *className);
 
 Protocol *RXEClassFindExportsProtocol(Class class);
 
-void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property);
+//void RXERuntimeClassExportProperty(Class class, RXEScriptProperty *property);
 
 NSString *RXEDescribeClass(Class class);
 NSString *RXEDescribeProtocol(Protocol *proto);

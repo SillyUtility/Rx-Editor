@@ -142,7 +142,10 @@ NSString * const RXESDefEnumeratorKey = @"enumerator";
     } else if ([elementName isEqualToString:RXESDefAccessorKey]) {
         [_stack push:[[RXEScriptAccessor alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefPropertyKey]) {
-        [_stack push:[[RXEScriptProperty alloc] initWithAttributes:attributes]];
+        RXEScriptProperty *prop = [[RXEScriptProperty alloc] initWithAttributes:attributes];
+        prop.app = self.scriptableApp;
+        prop.parent = _stack.lastObject;
+        [_stack push:prop];
     } else if ([elementName isEqualToString:RXESDefRespondsToKey]) {
         [_stack push:[[RXEScriptClassCommand alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefClassExtKey]) {

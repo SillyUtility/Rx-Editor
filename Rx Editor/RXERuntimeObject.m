@@ -12,6 +12,7 @@
 #import "RXERuntimeObject.h"
 #import "RXERuntimeController.h"
 #import "RXERuntimeTypes.h"
+#import "RXEUtilities.h"
 
 @implementation RXERuntimeObject {
     id _bridgeObj;
@@ -330,6 +331,7 @@ id getWrappedObject_Property(RXERuntimeObject *self, SEL _cmd)
         inContext:JSContext.currentContext
     ];
     wrapperClass = [wrapperClassDesription returnClassForSelector:_cmd];
+    SLYTrace(@"DESCRIBE wrapperClass \n%@", RXEDescribeClass(wrapperClass));
 
     return [[wrapperClass alloc] initWithBridgeObject:bridgeObj];
 }

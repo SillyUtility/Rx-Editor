@@ -111,6 +111,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addSynonym:(RXEScriptSynonym *)synonym;
 - (void)addDocumentation:(RXEScriptDocumentation *)doc;
 
+@property (readonly) NSString *exportTypeName;
+
 @property (readonly) BOOL isReadOnly;
 
 @end
