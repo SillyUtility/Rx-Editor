@@ -30,6 +30,7 @@
     [parser parse];
 
     _suites = parser.suites;
+    _types = parser.types;
 
     return self;
 }

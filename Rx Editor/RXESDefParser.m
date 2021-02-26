@@ -48,6 +48,7 @@ NSString * const RXESDefEnumeratorKey = @"enumerator";
     NSXMLParser *_parser;
     NSMutableArray *_stack;
     NSMutableArray *_suites;
+    NSMutableDictionary<NSString *, RXEScriptBaseObject *> *_types;
     NSMutableArray<RXEScriptDocumentation *> *_docs;
 }
 
@@ -74,6 +75,7 @@ NSString * const RXESDefEnumeratorKey = @"enumerator";
     _parser.delegate = self;
     _stack = NSMutableArray.array;
     _suites = NSMutableArray.array;
+    _types = [NSMutableDictionary<NSString *, RXEScriptBaseObject *> dictionary];
     _docs = NSMutableArray.array;
 
     return self;
@@ -134,6 +136,7 @@ NSString * const RXESDefEnumeratorKey = @"enumerator";
         RXEScriptClass *class = [[RXEScriptClass alloc] initWithAttributes:attributes];
         class.app = self.scriptableApp;
         class.parent = _stack.lastObject;
+        _types[class.name] = class;
         [_stack push:class];
     } else if ([elementName isEqualToString:RXESDefContentsKey]) {
         [_stack push:[[RXEScriptContents alloc] initWithAttributes:attributes]];
@@ -149,13 +152,28 @@ NSString * const RXESDefEnumeratorKey = @"enumerator";
     } else if ([elementName isEqualToString:RXESDefRespondsToKey]) {
         [_stack push:[[RXEScriptClassCommand alloc] initWithAttributes:attributes]];
     } else if ([elementName isEqualToString:RXESDefClassExtKey]) {
-        [_stack push:[[RXEScriptClassExt alloc] initWithAttributes:attributes]];
+        RXEScriptClassExt *classExt = [[RXEScriptClassExt alloc] initWithAttributes:attributes];
+        classExt.app = self.scriptableApp;
+        classExt.parent = _stack.lastObject;
+        [_stack push:classExt];
     } else if ([elementName isEqualToString:RXESDefValueTypeKey]) {
-        [_stack push:[[RXEScriptValueType alloc] initWithAttributes:attributes]];
+        RXEScriptValueType *valueType = [[RXEScriptValueType alloc] initWithAttributes:attributes];
+        valueType.app = self.scriptableApp;
+        valueType.parent = _stack.lastObject;
+        _types[valueType.name] = valueType;
+        [_stack push:valueType];
     } else if ([elementName isEqualToString:RXESDefRecordTypeKey]) {
-        [_stack push:[[RXEScriptRecordType alloc] initWithAttributes:attributes]];
+        RXEScriptRecordType *recordType = [[RXEScriptRecordType alloc] initWithAttributes:attributes];
+        recordType.app = self.scriptableApp;
+        recordType.parent = _stack.lastObject;
+        _types[recordType.name] = recordType;
+        [_stack push:recordType];
     } else if ([elementName isEqualToString:RXESDefEnumerationKey]) {
-        [_stack push:[[RXEScriptEnumeration alloc] initWithAttributes:attributes]];
+        RXEScriptEnumeration *enumeration = [[RXEScriptEnumeration alloc] initWithAttributes:attributes];
+        enumeration.app = self.scriptableApp;
+        enumeration.parent = _stack.lastObject;
+        _types[enumeration.name] = enumeration;
+        [_stack push:enumeration];
     } else if ([elementName isEqualToString:RXESDefEnumeratorKey]) {
         [_stack push:[[RXEScriptEnumerator alloc] initWithAttributes:attributes]];
     }
