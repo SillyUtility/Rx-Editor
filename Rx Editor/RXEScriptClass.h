@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
     RXEScriptClassCommand, RXEScriptSynonym, RXEScriptAccessor,
     RXEScriptDocumentation, RXEScriptXRef;
 
-@interface RXEScriptClassContent : RXEScriptBaseObject
+@interface RXEScriptClassContent : RXEScriptTypeDefinition
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 
@@ -68,11 +68,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface RXEScriptElement : RXEScriptBaseObject
+@interface RXEScriptElement : RXEScriptTypedObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 
-@property NSString *type;
 @property NSString *access;
 @property NSString *hidden;
 @property NSString *commentary;
@@ -87,14 +86,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface RXEScriptPropBase : RXEScriptBaseObject
+@interface RXEScriptPropBase : RXEScriptTypedObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 
 @property NSString *name;
 @property NSString *code;
 @property NSString *hidden;
-@property NSString *type;
 @property NSString *access;
 @property NSString *inProperties;
 @property NSString *commentary;

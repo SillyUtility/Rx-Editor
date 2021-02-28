@@ -341,4 +341,24 @@ void setWrappedObject_Property(RXERuntimeObject *self, SEL _cmd, id obj)
 
 }
 
+id getWrappedEnumerator_Property(id self, SEL _cmd)
+{
+    return nil;
+}
+
+void setWrappedEnumerator_Property(id self, SEL _cmd, id enumerator)
+{
+
+}
+
+id getWrappedRecord_Property(id self, SEL _cmd)
+{
+    return nil;
+}
+
+void setWrappedRecord_Property(id self, SEL _cmd, id record)
+{
+
+}
+
 @end

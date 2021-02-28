@@ -20,6 +20,24 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak) id parent;
 @end
 
+@interface RXEScriptTypeDefinition : RXEScriptBaseObject
+@property (readonly) BOOL isClass;
+@property (readonly) BOOL isEnumeration;
+@property (readonly) BOOL isRecordType;
+@property (readonly) BOOL isValueType;
+@property (readonly) BOOL isComplexType;
+@property (readonly) Class classForType;
+@end
+
+@interface RXEScriptTypedObject : RXEScriptBaseObject
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
+
+@property (readonly) NSString *type;
+@property (readonly) RXEScriptTypeDefinition *typeDefinition;
+
+@end
+
 @interface RXEScriptSuite : RXEScriptBaseObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;

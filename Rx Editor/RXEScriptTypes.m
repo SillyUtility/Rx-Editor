@@ -31,6 +31,11 @@
     [_types addObject:type];
 }
 
+- (BOOL)isComplexType
+{
+    return YES;
+}
+
 @end
 
 @implementation RXEScriptValueType {
@@ -76,6 +81,11 @@
 - (void)addXRef:(RXEScriptXRef *)xref
 {
     [_xrefs addObject:xref];
+}
+
+- (BOOL)isValueType
+{
+    return YES;
 }
 
 @end
@@ -132,6 +142,11 @@
     [_xrefs addObject:xref];
 }
 
+- (BOOL)isRecordType
+{
+    return YES;
+}
+
 @end
 
 @implementation RXEScriptEnumeration {
@@ -177,6 +192,11 @@
 - (void)addXRef:(RXEScriptXRef *)xref
 {
     [_xrefs addObject:xref];
+}
+
+- (BOOL)isEnumeration
+{
+    return YES;
 }
 
 @end

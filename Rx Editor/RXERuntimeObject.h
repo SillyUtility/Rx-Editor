@@ -72,6 +72,12 @@ void setRectangle_Property(id self, SEL _cmd, CGRect r);
 id getWrappedObject_Property(id self, SEL _cmd);
 void setWrappedObject_Property(id self, SEL _cmd, id obj);
 
+id getWrappedEnumerator_Property(id self, SEL _cmd);
+void setWrappedEnumerator_Property(id self, SEL _cmd, id enumerator);
+
+id getWrappedRecord_Property(id self, SEL _cmd);
+void setWrappedRecord_Property(id self, SEL _cmd, id record);
+
 @end
 
 NS_ASSUME_NONNULL_END

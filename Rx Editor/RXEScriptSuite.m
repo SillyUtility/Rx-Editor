@@ -9,6 +9,7 @@
 #import <SillyLog/SillyLog.h>
 
 #import "RXEScriptSuite.h"
+#import "RXEScriptableApp.h"
 #import "RXEScriptClass.h"
 #import "RXEScriptCommand.h"
 #import "RXEScriptTypes.h"
@@ -46,6 +47,54 @@
     selName = NSStringFromSelector(sel);
 
     SLYWarn(@"%@ doesn't respond to %@", self, selName);
+}
+
+@end
+
+@implementation RXEScriptTypeDefinition
+
+- (BOOL)isClass
+{
+    return NO;
+}
+
+- (BOOL)isEnumeration
+{
+    return NO;
+}
+
+- (BOOL)isRecordType
+{
+    return NO;
+}
+
+- (BOOL)isValueType
+{
+    return NO;
+}
+
+- (BOOL)isComplexType
+{
+    return NO;
+}
+
+@end
+
+@implementation RXEScriptTypedObject
+
+- initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
+{
+    if (!(self = [super init]))
+        return self;
+
+    _type = attributes[@"type"];
+
+    return self;
+}
+
+- (RXEScriptTypeDefinition *)typeDefinition
+{
+    return [self.app scriptingDefinitionForScriptingType:self.type];
 }
 
 @end

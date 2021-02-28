@@ -47,8 +47,8 @@ NSString * const RXESDefEnumeratorKey = @"enumerator";
 @implementation RXESDefParser {
     NSXMLParser *_parser;
     NSMutableArray *_stack;
-    NSMutableArray *_suites;
-    NSMutableDictionary<NSString *, RXEScriptBaseObject *> *_types;
+    NSMutableArray<RXEScriptSuite *> *_suites;
+    NSMutableDictionary<NSString *, RXEScriptTypeDefinition *> *_types;
     NSMutableArray<RXEScriptDocumentation *> *_docs;
 }
 
@@ -75,7 +75,7 @@ NSString * const RXESDefEnumeratorKey = @"enumerator";
     _parser.delegate = self;
     _stack = NSMutableArray.array;
     _suites = NSMutableArray.array;
-    _types = [NSMutableDictionary<NSString *, RXEScriptBaseObject *> dictionary];
+    _types = [NSMutableDictionary<NSString *, RXEScriptTypeDefinition *> dictionary];
     _docs = NSMutableArray.array;
 
     return self;

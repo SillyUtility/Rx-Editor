@@ -40,4 +40,9 @@
     return RXEClassNameFromString(self.appName);
 }
 
+- (RXEScriptTypeDefinition *)scriptingDefinitionForScriptingType:(NSString *)scriptingType
+{
+    return self.types[scriptingType];
+}
+
 @end

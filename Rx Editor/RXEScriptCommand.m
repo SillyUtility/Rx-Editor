@@ -108,10 +108,9 @@
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
 {
-    if (!(self = [super init]))
+    if (!(self = [super initWithAttributes:attributes]))
         return self;
 
-    _type = attributes[@"type"];
     _optional = attributes[@"optional"];
     _requiresAccess = attributes[@"requires-access"];
     _commentary = attributes[@"description"];
@@ -142,13 +141,12 @@
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes
 {
-    if (!(self = [super init]))
+    if (!(self = [super initWithAttributes:attributes]))
         return self;
 
     _name = attributes[@"name"];
     _code = attributes[@"code"];
     _hidden = attributes[@"hidden"];
-    _type = attributes[@"type"];
     _optional = attributes[@"optional"];
     _requiresAccess = attributes[@"requires-access"];
     _commentary = attributes[@"description"];

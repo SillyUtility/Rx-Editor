@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak) RXEScriptableApp *scriptableApp;
 @property NSArray<RXEScriptSuite *> *suites;
-@property NSDictionary<NSString *, RXEScriptBaseObject *> *types;
+@property NSDictionary<NSString *, RXEScriptTypeDefinition *> *types;
 
 @end
 

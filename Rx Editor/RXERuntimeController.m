@@ -55,6 +55,7 @@ static NSMapTable *RXERuntimeControllerContextTable()
 
 @implementation RXERuntimeController {
     JSContext *_context;
+    NSMutableDictionary<NSString *, RXEScriptableApp *> *_scriptableApps;
     NSMapTable<NSString *, id> *_symbolTable;
     NSMapTable<Class, RXERuntimeClassDescription *> *_classTable;
 }
@@ -68,11 +69,17 @@ static NSMapTable *RXERuntimeControllerContextTable()
 
     _context = [[JSContext alloc] init];
     [self.class associateJSContext:_context withRuntimeController:self];;
+    _scriptableApps = NSMutableDictionary.dictionary;
     _symbolTable = self.symbolTable;
     _classTable = self.classTable;
     [self exportFundamentalClasses];
 
     return self;
+}
+
+- (void)addScriptableApp:(RXEScriptableApp *)sapp forClassName:(NSString *)className
+{
+    _scriptableApps[className] = sapp;
 }
 
 + (void)associateJSContext:(JSContext *)ctx
@@ -224,6 +231,8 @@ static NSMapTable *RXERuntimeControllerContextTable()
 
 - (Class)exportScriptableApp:(RXEScriptableApp *)sapp
 {
+    [self addScriptableApp:sapp forClassName:sapp.appClassName];
+
     for (id suite in sapp.suites)
         [self exportSuite:suite];
 
@@ -543,6 +552,9 @@ objc_property_attribute_t *RXEPropertyAttributesForProperty(
     if (RXESkipScriptType_To_Be_Removed(property.type))
          return;
 
+    if (property.typeDefinition.isEnumeration)
+        return;
+
     proto = RXEClassFindExportsProtocol(class);
 
     className = class_getName(class);
@@ -569,11 +581,11 @@ objc_property_attribute_t *RXEPropertyAttributesForProperty(
     if (!RXEBuiltInScriptType(property.type))
         [self addSelector:getSel propertyType:property.exportTypeName toClass:class];
 
-    SLYTrace(@"add prop %s to %s? %@", propName, className, @(success));
+    SLYTrace(@"add prop %s to %s", propName, className);
     SLYTrace(@"\tattrs %s", copyPropertyAttributeString(pattrs, outc));
-    SLYTrace(@"add prop %s to %s? %@", propName, protoName, @(success));
+    SLYTrace(@"add prop %s to %s", propName, protoName);
     SLYTrace(@"\tattrs %s", copyPropertyAttributeString(pattrs, outc));
-    SLYTrace(@"add meth %s to %s? %@", getName, className, @(success));
+    SLYTrace(@"add meth %s to %s", getName, className);
     SLYTrace(@"\ttypes %s", getTypes);
     SLYTrace(@"add meth %s to %s", getName, protoName);
     SLYTrace(@"\ttypes %s", getTypes);

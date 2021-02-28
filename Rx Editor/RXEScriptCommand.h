@@ -55,11 +55,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface RXEScriptEvent : RXEScriptVerb
 @end
 
-@interface RXEScriptDirectParameter : RXEScriptBaseObject
+@interface RXEScriptDirectParameter : RXEScriptTypedObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 
-@property (readonly) NSString *type;
 @property (readonly) NSString *optional;
 @property (readonly) NSString *requiresAccess;
 @property (readonly) NSString *commentary;
@@ -72,14 +71,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface RXEScriptParameter : RXEScriptBaseObject
+@interface RXEScriptParameter : RXEScriptTypedObject
 
 - initWithAttributes:(NSDictionary<NSString *, NSString *> *)attributes;
 
 @property (readonly) NSString *name;
 @property (readonly) NSString *code;
 @property (readonly) NSString *hidden;
-@property (readonly) NSString *type;
 @property (readonly) NSString *optional;
 @property (readonly) NSString *requiresAccess;
 @property (readonly) NSString *commentary;
