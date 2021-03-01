@@ -79,7 +79,7 @@ Rx Editor is a script editor with a interactive interpreter.
 | CGSize            | { width: #, height: # }             |                                |
 
 
-* AppleScript types
+* TODO AppleScript types
 
 - [ ] any
 - [X] text
@@ -92,8 +92,8 @@ Rx Editor is a script editor with a interactive interpreter.
 - [X] record
 - [X] date
 - [ ] file, alias
-- [ ] point
-- [ ] rectangle
+- [X] point
+- [X] rectangle
 - [X] type
 - [ ] missing value
 - or the name of a class, enumeration, record-type, or value-type

@@ -16,6 +16,8 @@
 
 @implementation RXERuntimeObject {
     id _bridgeObj;
+    // TODO: invocation cache
+    // TODO: wrapper cache
 }
 
 - initWithBridgeObject:(id)bridgeObj
