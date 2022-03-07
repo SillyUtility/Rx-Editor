@@ -2,18 +2,32 @@
 #+DATE: 2021-01-14
 #+STARTUP: showall
 
-* About
+Rx Editor is a script editor with a interactive interpreter ([[https://wiki.c2.com/?ReadEvalPrintLoop][REPL]]). Rx
+is also a dialect of AppleScript expressed in JavaScript that should
+be easier and more familiar (to whom?).
 
-Rx Editor is a script editor with a interactive interpreter.
+AppleScript drives me crazy. It isn't interactive like /every/ other
+scripting language. It is too verbose (and that's coming from someone
+that loves ObjC). Worst of all, it isn't discoverable.
+
+At some point Apple attempted to fix AppleScript by providing
+JavaScript bindings. Unfortunately, the JS bindings don't make
+scripting much better. The Apple provided JS bindings suffer from all
+the afflictions of AppleScript, but with a vaguely JS syntax.
+
+Rx Editor is my attempt to make scripting suck less.
 
 * Requirements
 
-- JavaScriptCore requires macOS 10.9
+- JavaScriptCore with the ObjC API requires macOS 10.9
 - XPC requires macOS 10.8
-- NSXMLDocumentXInclude requires macOS 10.12
+- =NSXMLDocumentXInclude= requires macOS 10.12
 - ScriptingBridge requires macOS 10.5
 - OSAKit some requires macOS 10.6, some macOS 10.10
-- stringByApplyingTransform:reverse: requires macOS 10.11
+- =stringByApplyingTransform:reverse:= requires macOS 10.11
+
+The minimum macOS version suppored is therefore macOS 10.12 because of
+the use of =NSXMLDocumentXInclude=.
 
 * Scripting headers
 
