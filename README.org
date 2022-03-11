@@ -2,9 +2,11 @@
 #+DATE: 2021-01-14
 #+STARTUP: showall
 
+[[./assets/icon-sm.png]]
+
 Rx Editor is a script editor with a interactive interpreter ([[https://wiki.c2.com/?ReadEvalPrintLoop][REPL]]). Rx
 is also a dialect of AppleScript expressed in JavaScript that should
-be easier and more familiar (to whom?).
+be easier and more familiar than the Apple JS binding.
 
 AppleScript drives me crazy. It isn't interactive like /every/ other
 scripting language. It is too verbose (and that's coming from someone
@@ -13,7 +15,7 @@ that loves ObjC). Worst of all, it isn't discoverable.
 At some point Apple attempted to fix AppleScript by providing
 JavaScript bindings. Unfortunately, the JS bindings don't make
 scripting much better. The Apple provided JS bindings suffer from all
-the afflictions of AppleScript, but with a vaguely JS syntax.
+the afflictions of AppleScript, but with a vaguely JS feel.
 
 Rx Editor is my attempt to make scripting suck less.
 
@@ -26,10 +28,14 @@ Rx Editor is my attempt to make scripting suck less.
 - OSAKit some requires macOS 10.6, some macOS 10.10
 - =stringByApplyingTransform:reverse:= requires macOS 10.11
 
-The minimum macOS version suppored is therefore macOS 10.12 because of
-the use of =NSXMLDocumentXInclude=.
+The minimum macOS version supported is therefore macOS 10.12 because
+of the use of =NSXMLDocumentXInclude=.
 
-* Scripting headers
+* Development Notes
+
+Mostly reference materials I fing myself needing as I develop Rx.
+
+** Scripting headers
 
 - OSAKit/OSAKit.h
 - ScriptingBridge/ScriptingBridge.h
@@ -60,14 +66,14 @@ the use of =NSXMLDocumentXInclude=.
 - AppleScriptKit/ASKPluginObject.h
 - AppleScriptObjC/AppleScriptObjC.h
 
-* Documentation
+** Apple scripting documentation
 
 - [[https://developer.apple.com/library/archive/documentation/Miscellaneous/Reference/EntitlementKeyReference/Chapters/EnablingAppSandbox.html#//apple_ref/doc/uid/TP40011195-CH4-SW25][Enabling Scripting of Other Apps]]
 - [[https://developer.apple.com/documentation/bundleresources/information_property_list/nsappleeventsusagedescription?language=objc][NSAppleEventsUsageDescription]]
 - [[https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtTypeEncodings.html][ObjC Type Encodings]]
 - [[https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html#//apple_ref/doc/uid/TP40008048-CH101-SW1][Property Declarations & Encodings]]
 
-* Types
+** Scripting type equivalents
 
 | Objective-C type  | JavaScript type                     | AppleScript type               |
 |-------------------+-------------------------------------+--------------------------------|
@@ -93,7 +99,7 @@ the use of =NSXMLDocumentXInclude=.
 | CGSize            | { width: #, height: # }             |                                |
 
 
-* TODO AppleScript types
+** TODO Implemented AppleScript types
 
 - [ ] any
 - [X] text
@@ -122,4 +128,4 @@ the use of =NSXMLDocumentXInclude=.
   </property>
 #+end_src
 
-What is a specifier? Is an unevaluated path to an object.
+What is a specifier? It's an unevaluated path to an object.

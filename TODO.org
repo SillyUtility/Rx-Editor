@@ -2,11 +2,11 @@
 #+DATE: 2021-02-23
 #+STARTUP: showall
 
-* DONE point type
-* DONE rectangle type
-* TODO file & alias type
-* DONE a class defined elsewhere in the sdef
-* TODO enumeration
-* TODO record type
-* TODO value type
-* TODO specifier, location specifier
+- [X] point type
+- [X] rectangle type
+- [ ] file & alias type
+- [X] a class defined elsewhere in the sdef
+- [ ] enumeration
+- [ ] record type
+- [ ] value type
+- [ ] specifier, location specifier
